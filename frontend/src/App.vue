@@ -1,7 +1,19 @@
 <template>
   <v-app>
     <v-main>
-      <ButtonTable :items="items"/>
+      <p>Entrees</p>
+      <ButtonTable :items="entrees"/>
+      <br>
+      <p>Sides</p>
+      <ButtonTable :items="sides"/>
+      <br>
+      <p>Appetizers</p>
+      <ButtonTable :items="appetizers"/>
+      <br>
+      <p>Drinks</p>
+      <ButtonTable :items="drinks"/>
+      <br>
+      
       <MenuItems/>
     </v-main>
   </v-app>
@@ -23,13 +35,16 @@ export default {
 
   data() {
     return {
-      items: [],
-      item_t:"entree"
+      entrees: [],
+      appetizers: [],
+      drinks:[],
+      sides:[],
+      bowls:[],
     }
   },
   methods: {
-    async fetchItems() {
-      const res = await fetch(`http://localhost:8800/items/${this.item_t}`);
+    async fetchItems(foodtype) {
+      const res = await fetch(`http://localhost:8800/items/${foodtype}`);
 
       const data = await res.json();
       return data;
@@ -37,7 +52,10 @@ export default {
   },
   async created() {
 
-    this.items = await this.fetchItems();
+    this.entrees = await this.fetchItems("entree");
+    this.appetizers = await this.fetchItems("appetizer");
+    this.drinks = await this.fetchItems("drink");
+    this.sides = await this.fetchItems("side");
   }
 }
 </script>
