@@ -22,7 +22,8 @@
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
 import ButtonTable from './components/ButtonTable.vue';
-import MenuItems from './components/MenuItems.vue'
+import MenuItems from './components/MenuItems.vue';
+import consts from './consts';
 
 
 export default {
@@ -46,7 +47,7 @@ export default {
     // returns array of items of food type
     async fetchItems(foodtype) {
       // connection from backend folder.. made need to change port if doing on web hosting
-      const res = await fetch(`http://localhost:8800/items/${foodtype}`);
+      const res = await fetch(`${consts.backend_url}/items/${foodtype}`);
 
       const data = await res.json();
       return data;
