@@ -1,9 +1,9 @@
 <template>
     <div class="d-flex flex-wrap">
 
-    <div :key="item.id" v-for="item in items">
-        <ButtonItem :item="item"/>
-    </div>
+        <div :key="item.id" v-for="item in items">
+            <ButtonItem :item="item"/>
+        </div>
         
     </div>
     

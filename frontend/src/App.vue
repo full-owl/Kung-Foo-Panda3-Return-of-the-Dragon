@@ -39,11 +39,13 @@ export default {
       appetizers: [],
       drinks:[],
       sides:[],
-      bowls:[],
+      bowls:[], // need to implement
     }
   },
   methods: {
+    // returns array of items of food type
     async fetchItems(foodtype) {
+      // connection from backend folder.. made need to change port if doing on web hosting
       const res = await fetch(`http://localhost:8800/items/${foodtype}`);
 
       const data = await res.json();
