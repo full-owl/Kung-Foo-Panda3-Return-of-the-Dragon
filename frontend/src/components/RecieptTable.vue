@@ -1,5 +1,5 @@
 <template>
-  <table class="table" >
+  <table class="table">
     <thead class="table-dark">
       <tr>
         <th scope="col">Id</th>
@@ -21,7 +21,7 @@
         <td>{{ "$" + item.price.toFixed(2) }}</td>
       </tr>
     </tbody>
-    <tfoot class="table-dark">
+    <tfoot class="table-dark" v-if="items.length > 0">
       <tr>
         <td colspan="2">Subtotal:</td>
         <td>{{ "$" + subtotal.toFixed(2) }}</td>
@@ -33,16 +33,13 @@
     </tfoot>
   </table>
   <div class="btn-group btn-group-lg container-fluid" role="group">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="cancel-modal">Cancel Order</button>
-    <button type="button" class="btn btn-primary">Checkout</button>
+    <button type="button" class="btn btn-primary" @click="clear">Cancel</button>
+    <button type="button" class="btn btn-primary" @click="checkout">Checkout</button>
   </div>
-  <MyModal id="cancel-modal" title="Are you sure you want to cancel the order?" />
 </template>
 
 <script>
-import MyModal from './MyModal.vue';
 export default {
-  components: { MyModal },
   data() {
     return {
       items: [
@@ -72,6 +69,19 @@ export default {
       let t = this.subtotal * (1 + 0.0825);
       console.log(t);
       return t;
+    }
+  },
+  methods: {
+    clear() {
+      // TODO: confirmation modal
+      this.items = [];
+
+    },
+    checkout() {
+      // TODO: show price/total modal
+      // TODO: add to backend
+      this.items = [];
+
     }
   }
 }
