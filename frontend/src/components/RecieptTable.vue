@@ -1,4 +1,5 @@
 <template>
+  <button type="button" class="btn btn-primary" @click="addToOrder(propOrderType)">Add to Order</button>
   <table class="table">
     <thead class="table-dark">
       <tr>
@@ -47,6 +48,12 @@
 
 <script>
 export default {
+  props: {
+    propOrderType: String,
+    propOrderItems: Array,
+    propOrderPrice: Number
+  },
+
   data() {
     return {
       items: [
@@ -89,6 +96,12 @@ export default {
       // TODO: add to backend
       this.items = [];
 
+    },
+    addToOrder(p1) {
+      this.items.push({
+        name : p1,
+        price: 14.3
+      });
     }
   }
 }
