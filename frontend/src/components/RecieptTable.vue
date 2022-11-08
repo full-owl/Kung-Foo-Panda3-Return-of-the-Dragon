@@ -70,8 +70,8 @@ export default {
         },
         {
           name: "Plate asdf",
-          price: 4.35,
-        }
+          price: 4.35
+        },
       ]
     }
   },
@@ -80,9 +80,7 @@ export default {
       return this.items.map(item => item.price).reduce((prev,curr) => prev + curr,0);
     },
     total: function () {
-      let t = this.subtotal * (1 + 0.0825);
-      console.log(t);
-      return t;
+      return this.subtotal * (1 + 0.0825);
     }
   },
   methods: {
