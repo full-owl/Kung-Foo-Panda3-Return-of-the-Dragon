@@ -1,19 +1,20 @@
 <template>
   <v-app>
     <v-main>
-      <HelloWorld/>
+      <MenuItems/>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
+import MenuItems from './components/MenuItems.vue'
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    MenuItems,
   },
 
   data: () => ({
