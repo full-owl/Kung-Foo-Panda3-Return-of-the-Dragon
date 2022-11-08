@@ -26,10 +26,12 @@ export default {
 </script>
 
 <style scope>
-/**
+
     .btn {
+        /*
         background-color:blueviolet;
         border-color: blueviolet;
+        */
     }
-    **/
+    
 </style>
