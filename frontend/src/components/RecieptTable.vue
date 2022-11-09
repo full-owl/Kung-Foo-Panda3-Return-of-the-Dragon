@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <button type="button" class="btn btn-primary" @click="addToOrder(propOrderType, propOrderItems, propOrderPrice)">Add to Order</button> -->
     <table class="table">
       <thead class="table-dark">
         <tr>

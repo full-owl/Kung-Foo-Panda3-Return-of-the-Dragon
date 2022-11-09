@@ -33,10 +33,7 @@
                     </li>
                 </div>
                 <div>
-                    <!-- <h1>{{OrderType}}</h1>
-                    <li v-for="item in OrderItems" :key="item">
-                    <h1>{{item}}</h1>
-                    </li> -->
+                    <!-- TODO: make selections look better/more intuative -->
                     <p>{{ OrderType }}</p>
                     <ul>
                         <li v-for="part in OrderItems" :key="part">
