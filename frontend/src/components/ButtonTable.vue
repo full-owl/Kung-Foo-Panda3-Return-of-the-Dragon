@@ -2,7 +2,9 @@
     <div class="d-flex flex-wrap">
 
         <div :key="item.id" v-for="item in items">
-            <ButtonItem :item="item"/>
+            <li>
+                <ButtonItem :item="item"/>
+            </li>
         </div>
         
     </div>
@@ -27,11 +29,8 @@ export default {
 
 <style scope>
 
-    .btn {
-        /*
-        background-color:blueviolet;
-        border-color: blueviolet;
-        */
+    li {
+        display: inline;
     }
     
 </style>
