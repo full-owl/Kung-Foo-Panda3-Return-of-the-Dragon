@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-primary" @click="addToOrder(propOrderType)">Add to Order</button>
+  <button type="button" class="btn btn-primary" @click="addToOrder(propOrderType, propOrderItems, propOrderPrice)">Add to Order</button>
   <table class="table">
     <thead class="table-dark">
       <tr>
@@ -97,10 +97,11 @@ export default {
       this.items = [];
 
     },
-    addToOrder(p1) {
+    addToOrder(p1, p2, p3) {
       this.items.push({
         name : p1,
-        price: 14.3
+        parts: p2,
+        price: p3
       });
     }
   }
