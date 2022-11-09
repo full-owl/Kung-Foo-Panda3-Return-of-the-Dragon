@@ -1,48 +1,50 @@
 <template>
-  <button type="button" class="btn btn-primary" @click="addToOrder(propOrderType, propOrderItems, propOrderPrice)">Add to Order</button>
-  <table class="table">
-    <thead class="table-dark">
-      <tr>
-        <th class="w-5" scope="col">Id</th>
-        <th class="w-55" scope="col">Item</th>
-        <th class="w-35" scope="col">Price</th>
-        <th class="w-5" scope="col">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(item,index) in items" :key="item.name">
-        <td>{{ index }}</td>
-        <td>
-          <p>{{item.name}}</p>
-          <ul>
-            <li v-for="part in item.parts" :key="part">
-              {{part}}
-            </li>
-          </ul>
-        </td>
-        <td>{{ "$" + item.price.toFixed(2) }}</td>
-        <td>
-          <!-- TODO: edit button -->
-          <button type="button" class="btn btn-primary" @click="() => items.splice(index,1)">X</button>
-        </td>
-      </tr>
-    </tbody>
-    <tfoot class="table-dark" v-if="items.length > 0">
-      <tr>
-        <td colspan="2">Subtotal:</td>
-        <td>{{ "$" + subtotal.toFixed(2) }}</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td colspan="2">Total:</td>
-        <td>{{ "$" + total.toFixed(2) }}</td>
-        <td></td>
-      </tr>
-    </tfoot>
-  </table>
-  <div class="btn-group btn-group-lg container-fluid" role="group">
-    <button type="button" class="btn btn-primary" @click="clear">Cancel</button>
-    <button type="button" class="btn btn-primary" @click="checkout">Checkout</button>
+  <div>
+    <button type="button" class="btn btn-primary" @click="addToOrder(propOrderType, propOrderItems, propOrderPrice)">Add to Order</button>
+    <table class="table">
+      <thead class="table-dark">
+        <tr>
+          <th class="w-5" scope="col">Id</th>
+          <th class="w-55" scope="col">Item</th>
+          <th class="w-35" scope="col">Price</th>
+          <th class="w-5" scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item,index) in items" :key="item.name">
+          <td>{{ index }}</td>
+          <td>
+            <p>{{item.name}}</p>
+            <ul>
+              <li v-for="part in item.parts" :key="part">
+                {{part}}
+              </li>
+            </ul>
+          </td>
+          <td>{{ "$" + item.price.toFixed(2) }}</td>
+          <td>
+            <!-- TODO: edit button -->
+            <button type="button" class="btn btn-primary" @click="() => items.splice(index,1)">X</button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot class="table-dark" v-if="items.length > 0">
+        <tr>
+          <td colspan="2">Subtotal:</td>
+          <td>{{ "$" + subtotal.toFixed(2) }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="2">Total:</td>
+          <td>{{ "$" + total.toFixed(2) }}</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="btn-group btn-group-lg container-fluid" role="group">
+      <button type="button" class="btn btn-primary" @click="clear">Cancel</button>
+      <button type="button" class="btn btn-primary" @click="checkout">Checkout</button>
+    </div>
   </div>
 </template>
 

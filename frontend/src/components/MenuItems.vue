@@ -1,55 +1,48 @@
 <template>
-    <!-- <p>Entrees</p>
-    <ButtonTable :items="entrees"/>
-    <br>
-    <p>Sides</p>
-    <ButtonTable :items="sides"/>
-    <br>
-    <p>Appetizers</p>
-    <ButtonTable :items="appetizers"/>
-    <br>
-    <p>Drinks</p>
-    <ButtonTable :items="drinks"/>
-    <br> -->
-    <div class="d-flex flex-column">
-        <div>
-            <h2>Type</h2>
-            <li v-for="item in bowls" :key="item.id">
-            <button type="button" class="btn btn-primary" @click="addType(item.name)">{{ item.name }}</button>
-            </li>
-        </div>
-        <div>
-            <h2>Side</h2>
-            <li v-for="item in sides" :key="item.id">
-            <button type="button" class="btn btn-primary" @click="addItem(item.name)">{{ item.name }}</button>
-            </li>
-        </div>
-        <div>
-            <h2>Entree</h2>
-            <li v-for="item in entrees" :key="item.id">
-            <button type="button" class="btn btn-primary" @click="addItem(item.name)">{{ item.name }}</button>
-            </li>
-        </div>
-        <div>
-            <h2>Appetizer</h2>
-            <li v-for="item in appetizers" :key="item.id">
-            <button type="button" class="btn btn-primary" @click="addItem(item.name)">{{ item.name }}</button>
-            </li>
-        </div>
-        <div>
-            <h2>Drinks</h2>
-            <li v-for="item in drinks" :key="item.id">
-            <button type="button" class="btn btn-primary" @click="addItem(item.name)">{{ item.name }}</button>
-            </li>
-        </div>
-        <div>
-            <h1>{{OrderType}}</h1>
-            <li v-for="item in OrderItems" :key="item">
-            <h1>{{item}}</h1>
-            </li>
+  <div class="container-fluid">
+        <div class="row">
+            <div class="col d-flex flex-column">
+                <div>
+                    <h2>Type</h2>
+                    <li v-for="item in bowls" :key="item.id">
+                    <button type="button" class="btn btn-primary" @click="addType(item.name)">{{ item.name }}</button>
+                    </li>
+                </div>
+                <div>
+                    <h2>Side</h2>
+                    <li v-for="item in sides" :key="item.id">
+                    <button type="button" class="btn btn-primary" @click="addItem(item.name)">{{ item.name }}</button>
+                    </li>
+                </div>
+                <div>
+                    <h2>Entree</h2>
+                    <li v-for="item in entrees" :key="item.id">
+                    <button type="button" class="btn btn-primary" @click="addItem(item.name)">{{ item.name }}</button>
+                    </li>
+                </div>
+                <div>
+                    <h2>Appetizer</h2>
+                    <li v-for="item in appetizers" :key="item.id">
+                    <button type="button" class="btn btn-primary" @click="addItem(item.name)">{{ item.name }}</button>
+                    </li>
+                </div>
+                <div>
+                    <h2>Drinks</h2>
+                    <li v-for="item in drinks" :key="item.id">
+                    <button type="button" class="btn btn-primary" @click="addItem(item.name)">{{ item.name }}</button>
+                    </li>
+                </div>
+                <div>
+                    <h1>{{OrderType}}</h1>
+                    <li v-for="item in OrderItems" :key="item">
+                    <h1>{{item}}</h1>
+                    </li>
+                </div>
+                <button type="button" class="btn btn-primary" @click="$refs.recieptTable.addToOrder(propOrderType, propOrderItems, propOrderPrice)">Add to Order</button>
+            </div>
+            <RecieptTable class="col-sm" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
         </div>
     </div>
-    <RecieptTable :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
 </template>
 
 <script>
