@@ -11,7 +11,7 @@
     <p>Drinks</p>
     <ButtonTable :items="drinks"/>
     <br> -->
-    <div class="d-flex flex-wrap">
+    <div class="d-flex flex-column">
         <div>
             <h2>Type</h2>
             <li v-for="item in bowls" :key="item.id">
@@ -39,7 +39,7 @@
         <div>
             <h2>Drinks</h2>
             <li v-for="item in drinks" :key="item.id">
-            <button type="button" class="btn btn-secondary" @click="addItem(item.name)">{{ item.name }}</button>
+            <button type="button" class="btn btn-primary" @click="addItem(item.name)">{{ item.name }}</button>
             </li>
         </div>
         <div>
