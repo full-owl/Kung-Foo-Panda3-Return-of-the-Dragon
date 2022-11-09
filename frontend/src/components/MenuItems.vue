@@ -55,7 +55,7 @@
 <script>
 //import ButtonTable from './ButtonTable.vue';
 import RecieptTable from './RecieptTable.vue';
-import consts from '../consts.js';
+// import consts from '../consts.js';
 
 export default {
     components: {
