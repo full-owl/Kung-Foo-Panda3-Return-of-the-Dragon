@@ -1,5 +1,5 @@
 <template>
-    <p>Entrees</p>
+    <!-- <p>Entrees</p>
     <ButtonTable :items="entrees"/>
     <br>
     <p>Sides</p>
@@ -10,29 +10,29 @@
     <br>
     <p>Drinks</p>
     <ButtonTable :items="drinks"/>
-    <br>
+    <br> -->
     <div class="foodList">
         <div>
             <h2>Type</h2>
-            <li v-for="item in Types" :key="item.name">
+            <li v-for="item in sides" :key="item.id">
             <button type="button" class="btn btn-secondary" @click="addType(item.name)">{{ item.name }}</button>
             </li>
         </div>
         <div>
             <h2>Side</h2>
-            <li v-for="item in Sides" :key="item.name">
+            <li v-for="item in entrees" :key="item.id">
             <button type="button" class="btn btn-secondary" @click="addSide(item.name)">{{ item.name }}</button>
             </li>
         </div>
         <div>
             <h2>Entree</h2>
-            <li v-for="item in Entrees" :key="item.name">
+            <li v-for="item in appetizers" :key="item.id">
             <button type="button" class="btn btn-secondary" @click="addEntree(item.name)">{{ item.name }}</button>
             </li>
         </div>
         <div>
             <h2>Drinks</h2>
-            <li v-for="item in Drinks" :key="item.name">
+            <li v-for="item in drinks" :key="item.id">
             <button type="button" class="btn btn-secondary" @click="addDrink(item.name)">{{ item.name }}</button>
             </li>
         </div>
@@ -47,14 +47,14 @@
 </template>
 
 <script>
-import ButtonTable from './ButtonTable.vue';
+//import ButtonTable from './ButtonTable.vue';
 import RecieptTable from './RecieptTable.vue';
 import consts from '../consts.js';
 
 export default {
     components: {
         RecieptTable,
-        ButtonTable
+        //ButtonTable
     },
     data() {
         return {
@@ -93,11 +93,12 @@ export default {
             this.OrderItems.push(drink);
         },
     },
+    
     async created() {
-    this.entrees = await this.fetchItems("entree");
-    this.appetizers = await this.fetchItems("appetizer");
-    this.drinks = await this.fetchItems("drink");
-    this.sides = await this.fetchItems("side");
+        this.entrees = await this.fetchItems("entree");
+        this.appetizers = await this.fetchItems("appetizer");
+        this.drinks = await this.fetchItems("drink");
+        this.sides = await this.fetchItems("side");
     }
 }
 </script>
