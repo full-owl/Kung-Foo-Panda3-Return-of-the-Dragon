@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button type="button" class="btn btn-primary" @click="addToOrder(propOrderType, propOrderItems, propOrderPrice)">Add to Order</button>
+    <!-- <button type="button" class="btn btn-primary" @click="addToOrder(propOrderType, propOrderItems, propOrderPrice)">Add to Order</button> -->
     <table class="table">
       <thead class="table-dark">
         <tr>
@@ -97,12 +97,16 @@ export default {
       this.items = [];
 
     },
-    addToOrder(p1, p2, p3) {
-      this.items.push({
-        name : p1,
-        parts: p2,
-        price: p3
-      });
+    addToOrder(type,items,price) {
+      // Javascript Woes
+      const newItem = {
+        name : type ? type : "",
+        parts: items ? items : [],
+        price: price ? price : 0.0,
+      };
+      console.log(newItem);
+
+      this.items.push(newItem);
     }
   }
 }

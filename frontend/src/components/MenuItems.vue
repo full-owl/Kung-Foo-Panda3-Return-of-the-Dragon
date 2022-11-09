@@ -38,7 +38,7 @@
                     <h1>{{item}}</h1>
                     </li>
                 </div>
-                <button type="button" class="btn btn-primary" @click="$refs.recieptTable.addToOrder(propOrderType, propOrderItems, propOrderPrice)">Add to Order</button>
+                <button type="button" class="btn btn-primary" @click="$refs.recieptTable.addToOrder(OrderType, OrderItems, OrderPrice)">Add to Order</button>
             </div>
             <RecieptTable class="col-sm" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
         </div>
@@ -62,9 +62,9 @@ export default {
             entrees: [],
             appetizers: [],
             drinks:[],
-            OrderType : "TBA",
+            OrderType : "",
             OrderItems: [],
-            OrderPrice: 5.03
+            OrderPrice: 0.0,
         }
     },
 
@@ -87,8 +87,10 @@ export default {
         },
         
         async fetchCombos() {
-        const res = await fetch(`${consts.backend_url}/combosizes`);
-        const data = await res.json();
+        // const res = await fetch(`${consts.backend_url}/combosizes`);
+        // const data = await res.json();
+        // TODO: don't hardcode
+        const data = [{"foodtype":"combo","name":"bowl","amountneeded":0,"price":"7.50"},{"foodtype":"combo","name":"plate","amountneeded":0,"price":"9.00"},{"foodtype":"combo","name":"bigger plate","amountneeded":0,"price":"10.50"},{"foodtype":"combo","name":"family","amountneeded":0,"price":"32.00"}];
         return data;
         },
 
@@ -99,6 +101,13 @@ export default {
         addItem(item) {
             this.OrderItems.push(item);
         },
+
+        addOrdeToReciept() {
+            $refs.recieptTable.addToOrder(OrderType,OrderItems,OrderPrice);
+            OrderType = "";
+            OrderItems = [];
+            OrderPrice = 0.0;
+        }
     },
     
     async created() {
