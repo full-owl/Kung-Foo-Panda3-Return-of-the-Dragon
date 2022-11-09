@@ -1,4 +1,16 @@
 <template>
+    <p>Entrees</p>
+    <ButtonTable :items="entrees"/>
+    <br>
+    <p>Sides</p>
+    <ButtonTable :items="sides"/>
+    <br>
+    <p>Appetizers</p>
+    <ButtonTable :items="appetizers"/>
+    <br>
+    <p>Drinks</p>
+    <ButtonTable :items="drinks"/>
+    <br>
     <div class="foodList">
         <div>
             <h2>Type</h2>
@@ -31,53 +43,25 @@
             </li>
         </div>
     </div>
-    <RecieptTable :propOrderType="OrderType"/>
+    <RecieptTable :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
 </template>
 
 <script>
-import RecieptTable from './RecieptTable.vue'
+import ButtonTable from './ButtonTable.vue';
+import RecieptTable from './RecieptTable.vue';
+import consts from '../consts.js';
+
 export default {
     components: {
-        RecieptTable
+        RecieptTable,
+        ButtonTable
     },
     data() {
         return {
-            Types: [
-            {
-                name: "Bowl",
-            },
-            {
-                name: "Plate",
-            }
-            ],
-
-            Sides: [
-            {
-                name: "Fried Rice",
-            },
-            {
-                name: "Chow Mein",
-            }
-            ],
-
-            Entrees: [
-            {
-                name: "Orange Chicken",
-            },
-            {
-                name: "Beijing Beef",
-            }
-            ],
-
-            Drinks: [
-            {
-                name: "Coca Cola",
-            },
-            {
-                name: "Sprite",
-            }
-            ],
-
+            sides:[],
+            entrees: [],
+            appetizers: [],
+            drinks:[],
             OrderType : "TBA",
             OrderItems: [],
             OrderPrice: 5.03
@@ -85,6 +69,14 @@ export default {
     },
 
     methods: {
+        async fetchItems(foodtype) {
+        // connection from backend folder.. made need to change port if doing on web hosting
+        const res = await fetch(`${consts.backend_url}/items/${foodtype}`);
+
+        const data = await res.json();
+        return data;
+        },
+
         addType(type) {
             this.OrderType = type;
         },
@@ -100,6 +92,12 @@ export default {
         addDrink(drink) {
             this.OrderItems.push(drink);
         },
+    },
+    async created() {
+    this.entrees = await this.fetchItems("entree");
+    this.appetizers = await this.fetchItems("appetizer");
+    this.drinks = await this.fetchItems("drink");
+    this.sides = await this.fetchItems("side");
     }
 }
 </script>
