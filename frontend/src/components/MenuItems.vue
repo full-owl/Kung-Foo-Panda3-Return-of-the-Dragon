@@ -15,25 +15,25 @@
         <div>
             <h2>Type</h2>
             <li v-for="item in bowls" :key="item.id">
-            <button type="button" class="btn btn-secondary" @click="addType(item.name)">{{ item.name }}</button>
+            <button type="button" class="btn btn-primary" @click="addType(item.name)">{{ item.name }}</button>
             </li>
         </div>
         <div>
             <h2>Side</h2>
             <li v-for="item in sides" :key="item.id">
-            <button type="button" class="btn btn-secondary" @click="addItem(item.name)">{{ item.name }}</button>
+            <button type="button" class="btn btn-primary" @click="addItem(item.name)">{{ item.name }}</button>
             </li>
         </div>
         <div>
             <h2>Entree</h2>
             <li v-for="item in entrees" :key="item.id">
-            <button type="button" class="btn btn-secondary" @click="addItem(item.name)">{{ item.name }}</button>
+            <button type="button" class="btn btn-primary" @click="addItem(item.name)">{{ item.name }}</button>
             </li>
         </div>
         <div>
             <h2>Appetizer</h2>
             <li v-for="item in appetizers" :key="item.id">
-            <button type="button" class="btn btn-secondary" @click="addItem(item.name)">{{ item.name }}</button>
+            <button type="button" class="btn btn-primary" @click="addItem(item.name)">{{ item.name }}</button>
             </li>
         </div>
         <div>
