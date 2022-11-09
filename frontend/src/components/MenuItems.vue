@@ -38,7 +38,7 @@
                     <h1>{{item}}</h1>
                     </li>
                 </div>
-                <button type="button" class="btn btn-primary" @click="$refs.recieptTable.addToOrder(OrderType, OrderItems, OrderPrice)">Add to Order</button>
+                <button type="button" class="btn btn-primary" @click="$refs.recieptTable.addToOrder(OrderType, OrderItems)">Add to Order</button>
             </div>
             <RecieptTable class="col-sm" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
         </div>
@@ -64,7 +64,6 @@ export default {
             drinks:[],
             OrderType : "",
             OrderItems: [],
-            OrderPrice: 0.0,
         }
     },
 
@@ -106,7 +105,6 @@ export default {
             $refs.recieptTable.addToOrder(OrderType,OrderItems,OrderPrice);
             OrderType = "";
             OrderItems = [];
-            OrderPrice = 0.0;
         }
     },
     

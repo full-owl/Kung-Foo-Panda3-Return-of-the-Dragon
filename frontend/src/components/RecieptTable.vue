@@ -97,12 +97,12 @@ export default {
       this.items = [];
 
     },
-    addToOrder(type,items,price) {
+    addToOrder(type,items) {
       // Javascript Woes
       const newItem = {
         name : type ? type : "",
         parts: items ? items : [],
-        price: price ? price : 0.0,
+        price: 15,
       };
       console.log(newItem);
 
