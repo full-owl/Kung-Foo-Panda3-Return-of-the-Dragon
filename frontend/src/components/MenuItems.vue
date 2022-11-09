@@ -33,10 +33,17 @@
                     </li>
                 </div>
                 <div>
-                    <h1>{{OrderType}}</h1>
+                    <!-- <h1>{{OrderType}}</h1>
                     <li v-for="item in OrderItems" :key="item">
                     <h1>{{item}}</h1>
-                    </li>
+                    </li> -->
+                    <p>{{ OrderType }}</p>
+                    <ul>
+                        <li v-for="part in OrderItems" :key="part">
+                            {{part}},
+                        </li>
+                    </ul>
+
                 </div>
                 <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
                 <button type="button" class="btn btn-primary" @click="addOrderToReciept">Add to Order</button>

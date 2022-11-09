@@ -102,7 +102,7 @@ export default {
       const newItem = {
         name : type ? type : "",
         parts: items ? items : [],
-        price: 15,
+        price: 7,
       };
       console.log(newItem);
 
