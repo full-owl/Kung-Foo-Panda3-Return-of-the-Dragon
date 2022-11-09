@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <p>Bowls</p>
+      <!-- <p>Bowls</p>
       <ButtonTable :items="bowls"/>
       <br>
       <p>Entrees</p>
@@ -16,7 +16,7 @@
       <p>Drinks</p>
       <ButtonTable :items="drinks"/>
       <br>
-      
+       -->
       <MenuItems/>
       <br>
 
@@ -26,9 +26,9 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import ButtonTable from './components/ButtonTable.vue';
+//import ButtonTable from './components/ButtonTable.vue';
 import MenuItems from './components/MenuItems.vue';
-import consts from './consts';
+//import consts from './consts';
 
 
 export default {
@@ -36,7 +36,7 @@ export default {
 
   components: {
     MenuItems,
-    ButtonTable
+    //ButtonTable
   },
 
   data() {
@@ -48,7 +48,7 @@ export default {
       bowls:[], // need to implement
     }
   },
-  methods: {
+  /* methods: {
     // returns array of items of food type
     async fetchItems(foodtype) {
       // connection from backend folder.. made need to change port if doing on web hosting
@@ -71,6 +71,6 @@ export default {
     this.drinks = await this.fetchItems("drink");
     this.sides = await this.fetchItems("side");
     this.bowls = await this.fetchCombos();
-  }
+  } */
 }
 </script>
