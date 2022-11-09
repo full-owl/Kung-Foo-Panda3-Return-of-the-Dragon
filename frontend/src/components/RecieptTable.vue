@@ -107,7 +107,7 @@ export default {
       console.log(newItem);
 
       this.items.push(newItem);
-    }
+    },
   }
 }
 </script>

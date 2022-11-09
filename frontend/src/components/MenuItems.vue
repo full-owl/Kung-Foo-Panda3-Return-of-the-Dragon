@@ -38,7 +38,8 @@
                     <h1>{{item}}</h1>
                     </li>
                 </div>
-                <button type="button" class="btn btn-primary" @click="$refs.recieptTable.addToOrder(OrderType, OrderItems)">Add to Order</button>
+                <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
+                <button type="button" class="btn btn-primary" @click="addOrderToReciept">Add to Order</button>
             </div>
             <RecieptTable class="col-sm" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
         </div>
@@ -101,10 +102,14 @@ export default {
             this.OrderItems.push(item);
         },
 
-        addOrdeToReciept() {
-            $refs.recieptTable.addToOrder(OrderType,OrderItems,OrderPrice);
-            OrderType = "";
-            OrderItems = [];
+        addOrderToReciept() {
+            this.$refs.recieptTable.addToOrder(this.OrderType,this.OrderItems);
+            this.clearSelected();
+        },
+
+        clearSelected() {
+            this.OrderType = "";
+            this.OrderItems = [];
         }
     },
     
