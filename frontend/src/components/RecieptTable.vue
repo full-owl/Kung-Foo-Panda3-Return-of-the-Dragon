@@ -111,3 +111,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+    .btn {
+        border-radius: 0%;
+        border-color: aliceblue;
+        color: aliceblue;
+    }
+</style>
