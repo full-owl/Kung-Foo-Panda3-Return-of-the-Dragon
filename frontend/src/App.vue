@@ -1,6 +1,9 @@
 <template>
   <v-app>
     <v-main>
+      <p>Bowls</p>
+      <ButtonTable :items="bowls"/>
+      <br>
       <p>Entrees</p>
       <ButtonTable :items="entrees"/>
       <br>
@@ -15,6 +18,8 @@
       <br>
       
       <MenuItems/>
+      <br>
+
     </v-main>
   </v-app>
 </template>
@@ -51,6 +56,12 @@ export default {
 
       const data = await res.json();
       return data;
+    },
+    async fetchCombos() {
+      const res = await fetch(`${consts.backend_url}/combosizes`);
+
+      const data = await res.json();
+      return data;
     }
   },
   async created() {
@@ -59,6 +70,7 @@ export default {
     this.appetizers = await this.fetchItems("appetizer");
     this.drinks = await this.fetchItems("drink");
     this.sides = await this.fetchItems("side");
+    this.bowls = await this.fetchCombos();
   }
 }
 </script>

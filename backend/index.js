@@ -54,6 +54,18 @@ app.get("/items/:type", async (req, res) => {
     }
 });
 
+app.get("/combosizes", async (req, res) => {
+    try {
+        console.log(req.params);
+        item_type = "combo";
+        const table = await pool.query("SELECT * FROM mealsizes WHERE foodtype=$1;", [item_type]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
 
 // // get a todo
 // app.get("/todos/:id", async(req,res)=> {
