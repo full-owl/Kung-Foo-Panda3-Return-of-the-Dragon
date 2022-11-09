@@ -14,26 +14,32 @@
     <div class="foodList">
         <div>
             <h2>Type</h2>
-            <li v-for="item in sides" :key="item.id">
+            <li v-for="item in bowls" :key="item.id">
             <button type="button" class="btn btn-secondary" @click="addType(item.name)">{{ item.name }}</button>
             </li>
         </div>
         <div>
             <h2>Side</h2>
-            <li v-for="item in entrees" :key="item.id">
-            <button type="button" class="btn btn-secondary" @click="addSide(item.name)">{{ item.name }}</button>
+            <li v-for="item in sides" :key="item.id">
+            <button type="button" class="btn btn-secondary" @click="addItem(item.name)">{{ item.name }}</button>
             </li>
         </div>
         <div>
             <h2>Entree</h2>
+            <li v-for="item in entrees" :key="item.id">
+            <button type="button" class="btn btn-secondary" @click="addItem(item.name)">{{ item.name }}</button>
+            </li>
+        </div>
+        <div>
+            <h2>Appetizer</h2>
             <li v-for="item in appetizers" :key="item.id">
-            <button type="button" class="btn btn-secondary" @click="addEntree(item.name)">{{ item.name }}</button>
+            <button type="button" class="btn btn-secondary" @click="addItem(item.name)">{{ item.name }}</button>
             </li>
         </div>
         <div>
             <h2>Drinks</h2>
             <li v-for="item in drinks" :key="item.id">
-            <button type="button" class="btn btn-secondary" @click="addDrink(item.name)">{{ item.name }}</button>
+            <button type="button" class="btn btn-secondary" @click="addItem(item.name)">{{ item.name }}</button>
             </li>
         </div>
         <div>
@@ -58,6 +64,7 @@ export default {
     },
     data() {
         return {
+            bowls:[],
             sides:[],
             entrees: [],
             appetizers: [],
@@ -72,7 +79,12 @@ export default {
         async fetchItems(foodtype) {
         // connection from backend folder.. made need to change port if doing on web hosting
         const res = await fetch(`${consts.backend_url}/items/${foodtype}`);
-
+        const data = await res.json();
+        return data;
+        },
+        
+        async fetchCombos() {
+        const res = await fetch(`${consts.backend_url}/combosizes`);
         const data = await res.json();
         return data;
         },
@@ -81,16 +93,8 @@ export default {
             this.OrderType = type;
         },
         
-        addSide(side) {
-            this.OrderItems.push(side);
-        },
-
-        addEntree(entree) {
-            this.OrderItems.push(entree);
-        },
-
-        addDrink(drink) {
-            this.OrderItems.push(drink);
+        addItem(item) {
+            this.OrderItems.push(item);
         },
     },
     
@@ -99,6 +103,7 @@ export default {
         this.appetizers = await this.fetchItems("appetizer");
         this.drinks = await this.fetchItems("drink");
         this.sides = await this.fetchItems("side");
+        this.bowls = await this.fetchCombos();
     }
 }
 </script>
