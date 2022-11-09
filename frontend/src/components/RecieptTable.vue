@@ -102,7 +102,7 @@ export default {
       const newItem = {
         name : type ? type : "",
         parts: items ? items : [],
-        price: 7,
+        price: 7, // TODO: get price from backend
       };
       console.log(newItem);
 

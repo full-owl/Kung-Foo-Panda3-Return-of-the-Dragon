@@ -45,8 +45,10 @@
                     </ul>
 
                 </div>
-                <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
-                <button type="button" class="btn btn-primary" @click="addOrderToReciept">Add to Order</button>
+                <div class="btn-group btn-group-lg container-fluid" role="group">
+                    <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
+                    <button type="button" class="btn btn-primary" @click="addOrderToReciept">Add to Order</button>
+                </div>
             </div>
             <RecieptTable class="col-sm" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
         </div>
