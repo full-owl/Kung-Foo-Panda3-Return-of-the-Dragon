@@ -11,7 +11,7 @@
     <p>Drinks</p>
     <ButtonTable :items="drinks"/>
     <br> -->
-    <div class="foodList">
+    <div class="d-flex flex-wrap">
         <div>
             <h2>Type</h2>
             <li v-for="item in bowls" :key="item.id">
@@ -111,10 +111,11 @@ export default {
 <style scoped>
     li {
         display: inline;
-        margin: 10px;
     }
 
-    .foodList {
-        margin-bottom: 10px;
+    .btn {
+        border-radius: 0%;
+        border-color: aliceblue;
+        color: aliceblue;
     }
 </style>
