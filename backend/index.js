@@ -39,7 +39,7 @@ app.listen(port, () => {
 
 
 
-// get all todos
+// get all items of type
 
 app.get("/items/:type", async (req, res) => {
     try {
@@ -67,6 +67,16 @@ app.get("/combosizes", async (req, res) => {
     }
 });
 
+app.get("/prices/:foodtype/:size", async (req, res) => {
+    try {
+        const food_type = req.params["foodtype"];
+        const size = req.params["size"];
+        const item_price = await pool.query("SELECT * FROM mealsizes WHERE foodtype=$1 AND name=$2;", [food_type, size]);
+        res.json(item_price.rows);
+    } catch (error) {
+        console.error(error.message);
+    }
+});
 // // get a todo
 // app.get("/todos/:id", async(req,res)=> {
 //     try {
