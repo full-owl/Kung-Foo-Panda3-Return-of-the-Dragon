@@ -10,17 +10,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item,index) in items" :key="item.name">
+        <tr v-for="(item,index) in items" :key="index">
           <td>{{ index }}</td>
           <td>
-            <p>{{item.name}}</p>
+            <p>{{item.type.name}}</p>
             <ul>
-              <li v-for="part in item.parts" :key="part">
-                {{part}}
+              <li v-for="part in item.mealItems" :key="part">
+                {{part.name}}
               </li>
             </ul>
           </td>
-          <td>{{ "$" + item.price.toFixed(2) }}</td>
+          <td>{{ "$" + item.type.price }}</td>
           <td>
             <!-- TODO: edit button -->
             <button type="button" class="btn btn-primary" @click="() => items.splice(index,1)">X</button>
@@ -57,20 +57,16 @@ export default {
 
   data() {
     return {
-      subtotal:12.95,
       items: [
         {
-          name: "Bowl",
-          parts: [2,1, 0, 1,0], // HEY TODO::::: put idsd not strings have it also be fixed size should be 5
-          price: 8.25,
-          custom_instructions:"None",
-        },
-        {
-          name: "Bowl",
-          parts: [2,1, 0, 1,0], // HEY TODO::::: put idsd not strings have it also be fixed size
-          price: 8.25,
-          custom_instructions:"None",
-        },
+          type: { "foodtype": "combo", "name": "bowl", "amountneeded": 0, "price": "7.50" },
+          mealItems: [
+            { "id": 1, "name": "Chow Mein", "foodtype": "side", "description": "Not Available" },
+            { "id": 7, "name": "The Original Orange Chicken", "foodtype": "entree", "description": "Not Available" },
+            { "id": 22, "name": "Veggie Spring Roll", "foodtype": "appetizer", "description": "Not Available" }
+          ],
+          custom_intructions: "",
+        }
       ]
     }
   },
@@ -97,8 +93,8 @@ export default {
     addToOrder(type,items) {
       // Javascript Woes
       const newItem = {
-        name : type ? type : "",
-        parts: items ? items : [],
+        type: type ? type : "",
+        mealItems: items ? items : [],
         price: 7, // TODO: get price from backend
       };
       console.log(newItem);
