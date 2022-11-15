@@ -67,6 +67,7 @@ app.get("/combosizes", async (req, res) => {
     }
 });
 
+// get price of foodtype and name(size)
 app.get("/prices/:foodtype/:size", async (req, res) => {
     try {
         const food_type = req.params["foodtype"];
@@ -75,6 +76,43 @@ app.get("/prices/:foodtype/:size", async (req, res) => {
         res.json(item_price.rows);
     } catch (error) {
         console.error(error.message);
+    }
+});
+
+app.post("/order", async(req, res) => {
+    try {
+        const d = new Date();
+        const date = (d.getFullYear() + "-"+ (d.getMonth()+1) + "-" +d.getDate());
+
+        const subtotal = req.body["subtotal"];
+        const total = subtotal * 1.0825;
+        const employee = 1;
+        const newOrder = await pool.query("INSERT INTO orders (date, subtotal, total, employeeid) VALUES ($1, $2, $3) RETURNING *", [date, subtotal, total, employee]);
+        console.log("date: "+ date);
+
+        const orderid = newOrder["id"];
+        const orderitems = req.body["items"];
+
+        for (i = 0; i < orderitems.size(); i++) {
+            const item = orderitems[i];
+            console.log("item " + i + " :" + item);
+            const mealtype = item["mealtype"];
+            const m1 = item["parts"][0];
+            const m2 = item["parts"][1];
+            const m3 = item["parts"][2];
+            const s1 = item["parts"][3];
+            const s2 = item["parts"][4];
+            const instruction = item["custom_instructions"];
+
+            const order_item = await pool.query(
+                "INSERT INTO orderitems (orderid, mealtype, menuitem1, menuitem2, menuitem3, side1, side2, custominstructions) VALUES ($1, $2, $3, $4, $5, $6,$7,$8) RETURNING *", 
+                [orderid, mealtype, m1, m2, m3, s1, s2, instruction]);
+        }
+        res.json(newOrder.rows); // sending back
+    } catch (error) {
+        console.error(error.message);
+
+
     }
 });
 // // get a todo

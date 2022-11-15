@@ -57,21 +57,19 @@ export default {
 
   data() {
     return {
+      subtotal:12.95,
       items: [
-        // {
-        //   type: "",// Bowl,Plate, Al la Carte, Appetizer, Drink, Side,  etc
-        //   size: "",// Small, Medium, Large
-        //   parts: [""], // White Rice, etc
-        //   price: 0.00,
-        // }
         {
           name: "Bowl",
-          parts: ["White Rice", "Beef"],
+          parts: [2,1, 0, 1,0], // HEY TODO::::: put idsd not strings have it also be fixed size should be 5
           price: 8.25,
+          custom_instructions:"None",
         },
         {
-          name: "Plate asdf",
-          price: 4.35
+          name: "Bowl",
+          parts: [2,1, 0, 1,0], // HEY TODO::::: put idsd not strings have it also be fixed size
+          price: 8.25,
+          custom_instructions:"None",
         },
       ]
     }
