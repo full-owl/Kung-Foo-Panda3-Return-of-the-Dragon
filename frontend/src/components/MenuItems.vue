@@ -4,11 +4,10 @@
             <div class="col d-flex flex-column">
                 <div>
                     <h2>Type</h2>
-                    <select class="btn btn-primary">
-                        <option v-for="item in bowls" :key="item.id">
-                            {{item.name}}
-                        </option>
-                    </select>
+
+                    <li v-for="item in bowls" :key="item.id">
+                        <button type="button" class="btn btn-primary" :class="{active: item == OrderType}" @click="addType(item)">{{ item.name }}</button>
+                    </li>
                 </div>
                 <div>
                     <h2>Side</h2>
@@ -103,7 +102,11 @@ export default {
         },
 
         addType(type) {
-            this.OrderType = type;
+            if (this.OrderType == type) {
+                this.OrderType = "";
+            } else {
+                this.OrderType = type;
+            }
         },
         
         addItem(item) {
