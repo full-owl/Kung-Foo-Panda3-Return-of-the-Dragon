@@ -1,37 +1,43 @@
 <template>
   <div class="container-fluid">
         <div class="row">
-            <div class="col d-flex flex-column">
+            <div class="col-lg d-flex flex-column align-items-stretch">
                 <div>
                     <h2>Type</h2>
 
-                    <li v-for="item in bowls" :key="item.id">
-                        <button type="button" class="btn btn-primary" :class="{active: item == OrderType}" @click="addType(item)">{{ item.name }}</button>
-                    </li>
+                    <div class="d-flex flex-wrap">
+                        <button v-for="item in bowls" :key="item.id"
+                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
+                    </div>
                 </div>
                 <div>
                     <h2>Side</h2>
-                    <li v-for="item in sides" :key="item.id">
-                    <button type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
-                    </li>
+                    <div class="d-flex flex-wrap">
+                        <button v-for="item in sides" :key="item.id"
+                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
+                    </div>
                 </div>
                 <div>
                     <h2>Entree</h2>
-                    <li v-for="item in entrees" :key="item.id">
-                    <button type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
-                    </li>
+
+                    <div class="d-flex flex-wrap">
+                        <button v-for="item in entrees" :key="item.id"
+                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
+                    </div>
                 </div>
                 <div>
                     <h2>Appetizer</h2>
-                    <li v-for="item in appetizers" :key="item.id">
-                    <button type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
-                    </li>
+                    <div class="d-flex flex-wrap">
+                        <button v-for="item in appetizers" :key="item.id"
+                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
+                    </div>
                 </div>
                 <div>
                     <h2>Drinks</h2>
-                    <li v-for="item in drinks" :key="item.id">
-                    <button type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
-                    </li>
+                    <div class="d-flex flex-wrap">
+                        <button v-for="item in drinks" :key="item.id"
+                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
+                    </div>
                 </div>
                 <div>
                     <!-- TODO: make selections look better/more intuative -->
@@ -140,6 +146,7 @@ export default {
     }
 
     .btn {
+        width: 20%;
         border-radius: 0%;
         border-color: aliceblue;
         color: aliceblue;
