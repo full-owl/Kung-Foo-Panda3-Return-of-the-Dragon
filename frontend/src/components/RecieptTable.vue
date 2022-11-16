@@ -20,7 +20,7 @@
               </li>
             </ul>
           </td>
-          <td>{{ "$" + item.type.price }}</td>
+          <td>{{ "$" + item.price.toFixed(2) }}</td>
           <td>
             <!-- TODO: edit button -->
             <button type="button" class="btn btn-primary" @click="() => items.splice(index,1)">X</button>
@@ -66,6 +66,7 @@ export default {
             { "id": 22, "name": "Veggie Spring Roll", "foodtype": "appetizer", "description": "Not Available" }
           ],
           custom_intructions: "",
+          price: 7.50,
         }
       ]
     }
@@ -75,7 +76,7 @@ export default {
       return this.items.map(item => item.price).reduce((prev,curr) => prev + curr,0);
     },
     total: function () {
-      return this.subtotal * (1 + 0.0825);
+      return this.subtotal * 1.0825;
     }
   },
   methods: {
@@ -92,13 +93,12 @@ export default {
     },
     addToOrder(type,items) {
       // Javascript Woes
+      const price = type.foodtype == "combo" ? parseFloat(type.price) : parseFloat(type.price) * items.size;
       const newItem = {
         type: type ? type : "",
         mealItems: items ? items : [],
-        price: 7, // TODO: get price from backend
+        price: price
       };
-      console.log(newItem);
-
       this.items.push(newItem);
     },
   }
