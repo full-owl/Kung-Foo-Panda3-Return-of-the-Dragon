@@ -4,9 +4,11 @@
             <div class="col d-flex flex-column">
                 <div>
                     <h2>Type</h2>
-                    <li v-for="item in bowls" :key="item.id">
-                    <button type="button" class="btn btn-primary" @click="addType(item)">{{ item.name }}</button>
-                    </li>
+                    <select class="btn btn-primary">
+                        <option v-for="item in bowls" :key="item.id">
+                            {{item.name}}
+                        </option>
+                    </select>
                 </div>
                 <div>
                     <h2>Side</h2>
