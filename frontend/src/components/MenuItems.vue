@@ -1,13 +1,13 @@
 <template>
   <div class="container-fluid">
         <div class="row">
-            <div class="col-lg d-flex flex-column align-items-stretch">
+            <div class="col d-flex flex-column">
                 <div>
                     <h2>Type</h2>
 
                     <div class="d-flex flex-wrap">
                         <button v-for="item in bowls" :key="item.id"
-                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
+                        type="button" class="btn btn-primary" @click="addType(item)">{{ capitalize(item.name) }}</button>
                     </div>
                 </div>
                 <div>
@@ -41,13 +41,12 @@
                 </div>
                 <div>
                     <!-- TODO: make selections look better/more intuative -->
-                    <p>{{ OrderType }}</p>
+                    <p>{{OrderType.name}}</p>
                     <ul>
                         <li v-for="part in OrderItems" :key="part">
-                            {{part}},
+                            {{part.name}}
                         </li>
                     </ul>
-
                 </div>
                 <div class="btn-group btn-group-lg container-fluid" role="group">
                     <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
@@ -127,9 +126,11 @@ export default {
         clearSelected() {
             this.OrderType = "";
             this.OrderItems = [];
+        },
+        capitalize(x) { // why is this not in standard lib???
+            return x.charAt(0).toUpperCase() + x.slice(1);
         }
     },
-    
     async created() {
         this.entrees = await this.fetchItems("entree");
         this.appetizers = await this.fetchItems("appetizer");
@@ -141,10 +142,6 @@ export default {
 </script>
 
 <style scoped>
-    li {
-        display: inline;
-    }
-
     .btn {
         width: 20%;
         border-radius: 0%;
