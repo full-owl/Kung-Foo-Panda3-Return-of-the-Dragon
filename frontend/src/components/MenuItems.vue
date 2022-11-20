@@ -6,14 +6,14 @@
                     <h2>Type</h2>
 
                     <div class="d-flex flex-wrap">
-                        <button v-for="item in bowls" :key="item.id"
+                        <button v-for="item in bowls" :key="item.id" :disabled="isBowlDisabled"
                         type="button" class="btn btn-primary" @click="addType(item)">{{ capitalize(item.name) }}</button>
                     </div>
                 </div>
                 <div>
                     <h2>Side</h2>
                     <div class="d-flex flex-wrap">
-                        <button v-for="item in sides" :key="item.id"
+                        <button v-for="item in sides" :key="item.id" :disabled="isSideDisabled"
                         type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
                     </div>
                 </div>
@@ -21,27 +21,28 @@
                     <h2>Entree</h2>
 
                     <div class="d-flex flex-wrap">
-                        <button v-for="item in entrees" :key="item.id"
+                        <button v-for="item in entrees" :key="item.id" :disabled="isEntreeDisabled"
                         type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
                     </div>
                 </div>
                 <div>
                     <h2>Appetizer</h2>
                     <div class="d-flex flex-wrap">
-                        <button v-for="item in appetizers" :key="item.id"
+                        <button v-for="item in appetizers" :key="item.id" :disabled="isAppDisabled"
                         type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
                     </div>
                 </div>
                 <div>
                     <h2>Drinks</h2>
                     <div class="d-flex flex-wrap">
-                        <button v-for="item in drinks" :key="item.id"
+                        <button v-for="item in drinks" :key="item.id" :disabled="isDrinkDisabled"
                         type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
                     </div>
                 </div>
                 <div class>
                     <!-- TODO: make selections look better/more intuative -->
                     <p>{{OrderType}}</p>
+                    <p>{{ consts.numInCombo[OrderType.name]}}</p>
                     <ul>
                         <li v-for="part in OrderItems" :key="part">
                             {{part}}
@@ -84,7 +85,8 @@ export default {
             isAppDisabled: false,
             isDrinkDisabled: false,
             sideCounter: 0,
-            entreeCounter: 0
+            entreeCounter: 0,
+            consts: consts,
         }
     },
     methods: {
@@ -129,62 +131,33 @@ export default {
         },
         addItem(item) {
             this.OrderItems.push(item);
+            if(item.foodtype == "side") {
+                this.sideCounter += 1;
+                if(consts.numInCombo[this.OrderType.name].side == this.sideCounter ) {
+                    this.isSideDisabled = true;
+                    this.isEntreeDisabled = false;
+                }
+            } else if(item.foodtype == "entree") {
+                this.entreeCounter += 1;
+                if(consts.numInCombo[this.OrderType.name].entree == this.entreeCounter) {
+                    this.isEntreeDisabled = true;
+                    this.isSideDisabled = true;
+                }
+            } else if(item.foodtype == "appitizer") {
+                return;
+            } else if(item.foodtype == "drink") {
+                return;
+            }
         },
         
         addSide(item, id) {
             this.OrderItemNames.push(item);
             this.OrderItems.push(id);
-            this.sideCounter += 1;
-            if (this.OrderType == "family")
-            {
-                if(this.sideCounter == 2)
-                {
-                    this.isSideDisabled = true;
-                    this.isEntreeDisabled = false;
-                }
-            }
-            else
-            {
-                if(this.sideCounter == 1)
-                {
-                    this.isSideDisabled = true;
-                    this.isEntreeDisabled = false;
-                    this.OrderItems.push(0);
-                }
-            }
         },
         
         addEntree(item, id) {
             this.OrderItemNames.push(item);
             this.OrderItems.push(id);
-            this.entreeCounter += 1;
-            if (this.OrderType == "family" || this.OrderType == "bigger plate")
-            {
-                if(this.entreeCounter == 3)
-                {
-                    this.isEntreeDisabled = true;
-                    this.isSideDisabled = true;
-                }
-            }
-            else if (this.OrderType == "plate")
-            {
-                if(this.entreeCounter == 2)
-                {
-                    this.isEntreeDisabled = true;
-                    this.isSideDisabled = true;
-                    this.OrderItems.push(0);
-                }
-            }
-            else
-            {
-                if(this.entreeCounter == 1)
-                {
-                    this.isEntreeDisabled = true;
-                    this.isSideDisabled = true;
-                    this.OrderItems.push(0);
-                    this.OrderItems.push(0);
-                }
-            }
         },
 
         addApp(item, id) {
