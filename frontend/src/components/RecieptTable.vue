@@ -57,17 +57,18 @@ export default {
 
   data() {
     return {
-      subtotal:12.95,
       items: [
         {
           name: "Bowl",
-          parts: [2,1, 0, 1,0], // HEY TODO::::: put idsd not strings have it also be fixed size should be 5
+          partsNames: [],
+          parts: [2, 1, 0, 1, 0], // HEY TODO::::: put idsd not strings have it also be fixed size should be 5
           price: 8.25,
           custom_instructions:"None",
         },
         {
           name: "Bowl",
-          parts: [2,1, 0, 1,0], // HEY TODO::::: put idsd not strings have it also be fixed size
+          partsNames: [],
+          parts: [2, 1, 0, 1, 0], // HEY TODO::::: put idsd not strings have it also be fixed size
           price: 8.25,
           custom_instructions:"None",
         },
@@ -94,12 +95,14 @@ export default {
       this.items = [];
 
     },
-    addToOrder(type,items) {
+    addToOrder(type, items, prices, itemNames) {
       // Javascript Woes
       const newItem = {
         name : type ? type : "",
         parts: items ? items : [],
-        price: 7, // TODO: get price from backend
+        price: Number(prices),
+        partsNames: itemNames ? itemNames : [], // TODO: get price from backend
+        custom_instructions: "None"
       };
       console.log(newItem);
 
