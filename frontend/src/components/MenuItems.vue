@@ -41,11 +41,11 @@
                 </div>
                 <div class>
                     <!-- TODO: make selections look better/more intuative -->
-                    <p>{{OrderType}}</p>
-                    <p>{{ consts.numInCombo[OrderType.name]}}</p>
+                    <p>{{OrderType.name}}</p>
+                    <!-- <p>{{ consts.numInCombo[OrderType.name]}}</p> -->
                     <ul>
                         <li v-for="part in OrderItems" :key="part">
-                            {{part}}
+                            {{part.name}}
                         </li>
                     </ul>
                 </div>
