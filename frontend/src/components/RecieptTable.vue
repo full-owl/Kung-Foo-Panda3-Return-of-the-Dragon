@@ -91,7 +91,7 @@ export default {
       this.items = [];
 
     },
-    addToOrder(type,items) {
+    addToOrder(type, items, prices, itemNames) {
       // Javascript Woes
       // TODO: figure out getting price for al la carte items
       const price = type.foodtype == "combo" ? parseFloat(type.price) : parseFloat(type.price) * items.size;
