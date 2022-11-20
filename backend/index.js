@@ -97,11 +97,11 @@ app.post("/order", async(req, res) => {
             const item = orderitems[i];
             console.log("item " + i + " :" + item);
             const mealtype = item["mealtype"];
-            const m1 = item["parts"][0];
-            const m2 = item["parts"][1];
-            const m3 = item["parts"][2];
-            const s1 = item["parts"][3];
-            const s2 = item["parts"][4];
+            const s1 = item["parts"][0];
+            const s2 = item["parts"][1];
+            const m1 = item["parts"][2];
+            const m2 = item["parts"][3];
+            const m3 = item["parts"][4];
             const instruction = item["custom_instructions"];
 
             const order_item = await pool.query(

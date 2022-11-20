@@ -10,13 +10,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item,index) in items" :key="item.name">
+        <tr v-for="(item,index) in items" :key="index">
           <td>{{ index }}</td>
           <td>
-            <p>{{item.name}}</p>
+            <p>{{item.type.name}}</p>
             <ul>
-              <li v-for="part in item.parts" :key="part">
-                {{part}}
+              <li v-for="part in item.mealItems" :key="part">
+                {{part.name}}
               </li>
             </ul>
           </td>
@@ -57,20 +57,17 @@ export default {
 
   data() {
     return {
-      subtotal:12.95,
       items: [
         {
-          name: "Bowl",
-          parts: [2,1, 0, 1,0], // HEY TODO::::: put idsd not strings have it also be fixed size should be 5
-          price: 8.25,
-          custom_instructions:"None",
-        },
-        {
-          name: "Bowl",
-          parts: [2,1, 0, 1,0], // HEY TODO::::: put idsd not strings have it also be fixed size
-          price: 8.25,
-          custom_instructions:"None",
-        },
+          type: { "foodtype": "combo", "name": "bowl", "amountneeded": 0, "price": "7.50" },
+          mealItems: [
+            { "id": 1, "name": "Chow Mein", "foodtype": "side", "description": "Not Available" },
+            { "id": 7, "name": "The Original Orange Chicken", "foodtype": "entree", "description": "Not Available" },
+            { "id": 22, "name": "Veggie Spring Roll", "foodtype": "appetizer", "description": "Not Available" }
+          ],
+          custom_intructions: "",
+          price: 7.50,
+        }
       ]
     }
   },
@@ -79,7 +76,7 @@ export default {
       return this.items.map(item => item.price).reduce((prev,curr) => prev + curr,0);
     },
     total: function () {
-      return this.subtotal * (1 + 0.0825);
+      return this.subtotal * 1.0825;
     }
   },
   methods: {
@@ -94,15 +91,15 @@ export default {
       this.items = [];
 
     },
-    addToOrder(type,items) {
+    addToOrder(type, items) {
       // Javascript Woes
+      // TODO: figure out getting price for al la carte items
+      const price = type.foodtype == "combo" ? parseFloat(type.price) : parseFloat(type.price) * items.size;
       const newItem = {
-        name : type ? type : "",
-        parts: items ? items : [],
-        price: 7, // TODO: get price from backend
+        type: type ? type : "",
+        mealItems: items ? items : [],
+        price: price
       };
-      console.log(newItem);
-
       this.items.push(newItem);
     },
   }
