@@ -53,6 +53,7 @@
                     <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
                     <button type="button" class="btn btn-primary" @click="addOrderToReciept">Add to Order</button>
                 </div>
+                <choose-size ref="chooseSize" />
             </div>
             <RecieptTable class="col-sm" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
         </div>
@@ -60,14 +61,14 @@
 </template>
 
 <script>
-//import ButtonTable from './ButtonTable.vue';
 import RecieptTable from './RecieptTable.vue';
 import consts from '../consts.js';
+import ChooseSize from './ChooseSize.vue';
 
 export default {
     components: {
         RecieptTable,
-        //ButtonTable
+        ChooseSize,
     },
     data() {
         return {
@@ -131,6 +132,7 @@ export default {
         },
         addItem(item) {
             this.OrderItems.push(item);
+            console.log("sadfasfs");
             if(item.foodtype == "side") {
                 this.sideCounter += 1;
                 if(consts.numInCombo[this.OrderType.name].side == this.sideCounter ) {
@@ -143,35 +145,14 @@ export default {
                     this.isEntreeDisabled = true;
                     this.isSideDisabled = true;
                 }
-            } else if(item.foodtype == "appitizer") {
+            } else if(item.foodtype == "appetizer") {
+                this.$refs.chooseSize.show(item, ["small", "medium", "large"]);
                 return;
             } else if(item.foodtype == "drink") {
                 return;
             }
         },
         
-        addSide(item, id) {
-            this.OrderItemNames.push(item);
-            this.OrderItems.push(id);
-        },
-        
-        addEntree(item, id) {
-            this.OrderItemNames.push(item);
-            this.OrderItems.push(id);
-        },
-
-        addApp(item, id) {
-            this.OrderItemNames.push(item);
-            this.OrderItems.push(id);
-            this.OrderPrice += 2;
-        },
-
-        addDrink(item, id) {
-            this.OrderItemNames.push(item);
-            this.OrderItems.push(id);
-            this.OrderPrice += 2.5;
-        },
-
         addOrderToReciept() {
             this.$refs.recieptTable.addToOrder(this.OrderType, this.OrderItems);
             this.clearSelected();
@@ -181,7 +162,6 @@ export default {
             this.OrderType = "";
             this.OrderItems = [];
             this.OrderPrice = 0;
-            this.OrderItemNames = [];
             this.isBowlDisabled = false;
             this.isEntreeDisabled = false;
             this.isSideDisabled = false;
