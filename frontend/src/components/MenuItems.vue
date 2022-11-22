@@ -162,14 +162,14 @@ export default {
                 return;
             }
         },
+        // TODO: can this be done better than adding an additional fxn
         addAlLaCarteToReciept(type, item) {
-            this.$refs.recieptTable.addToOrder(type, [item]);
+            this.$refs.recieptTable.addToOrder(type, item);
         },
         addOrderToReciept() {
             this.$refs.recieptTable.addToOrder(this.OrderType, this.OrderItems);
             this.clearSelected();
         },
-
         clearSelected() {
             this.OrderType = "";
             this.OrderItems = [];

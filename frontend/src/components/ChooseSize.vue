@@ -1,26 +1,23 @@
 <template>
-  <div class="modal text-center">
-    <v-dialog
-        class="modal-dialog"
-        max-width="500"
-      v-model="dialog"
-    >
-      <v-card class="modal-content" :title="'Choose Size for ' + item.name">
-        <v-card-text>
-          <!-- TODO: style like bootstrap -->
-          <v-btn-toggle v-model="selected" shaped mandatory>
-            <v-btn v-for="size in sizes" :key="size.name">
-              {{ size.name }}
-            </v-btn>
-          </v-btn-toggle>
-        </v-card-text>
-        <v-card-actions>
-          <button type="button" class="btn btn-secondary" @click="dialog = false">Cancel</button>
-          <button type="button" class="btn btn-primary" @click="addOrderToReciept">Add</button>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
+  <!-- TODO: style like bootstrap -->
+  <v-dialog
+      max-width="500"
+    v-model="dialog"
+  >
+    <v-card :title="'Choose Size for ' + item.name">
+      <v-card-text>
+        <v-btn-toggle v-model="selected" shaped mandatory>
+          <v-btn v-for="size in mealsizes[item.foodtype]" :key="size.name">
+            {{ size.name }}
+          </v-btn>
+        </v-btn-toggle>
+      </v-card-text>
+      <v-card-actions>
+        <button type="button" class="btn btn-secondary" @click="dialog = false">Cancel</button>
+        <button type="button" class="btn btn-primary" @click="addOrderToReciept">Add</button>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -33,7 +30,6 @@ export default {
     data() {
         return {
             dialog: false,
-            sizes: [],
             item: {},
             selected: 0,
             mealsizes: {},
@@ -43,6 +39,7 @@ export default {
       // Get sizes from backend
       const res = await fetch(`${consts.backend_url}/mealsizes`);
       const mealsizes = await res.json();
+      // Convert from rows to a Map grouped by foodtype like sides, entrees, etc.
       this.mealsizes = mealsizes.reduce((group,mealsize) => {
         console.log(mealsize);
         if(mealsize.foodtype == 'combo') {
@@ -58,19 +55,19 @@ export default {
     methods: {
         show(item) {
           this.item = item;
-          this.sizes = this.mealsizes[item.foodtype];
           this.dialog = true;
           return this.dialog;
         },
         addOrderToReciept() {
           this.dialog = false;
-          let type = this.sizes[this.selected];
-          this.$emit('addOrder', type, this.item);
+          let type = this.mealsizes[this.item.foodtype][this.selected];
+          this.$emit('addOrder', type, [this.item]);
         }
     }
 }
 </script>
 
+<!-- TODO: figure out how to not duplicate this for every component -->
 <style scoped>
     .btn {
         border-radius: 0%;
