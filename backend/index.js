@@ -67,6 +67,16 @@ app.get("/combosizes", async (req, res) => {
     }
 });
 
+app.get("/mealsizes", async (req,res) => {
+    try {
+        console.log(req.params);
+        const table = await pool.query("SELECT * FROM mealsizes");
+        res.json(table.rows);
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
 // get price of foodtype and name(size)
 app.get("/prices/:foodtype/:size", async (req, res) => {
     try {

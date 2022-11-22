@@ -9,8 +9,8 @@
         <v-card-text>
           <!-- TODO: style like bootstrap -->
           <v-btn-toggle v-model="selected" shaped mandatory>
-            <v-btn v-for="size in sizes" :key="size">
-              {{ size }}
+            <v-btn v-for="size in sizes" :key="size.name">
+              {{ size.name }}
             </v-btn>
           </v-btn-toggle>
         </v-card-text>
@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import consts from '../consts.js';
+
 export default {
     props: {
       receiptTable: Object,
@@ -31,25 +33,38 @@ export default {
     data() {
         return {
             dialog: false,
-            sizes: ["small", "medium", "large"],
+            sizes: [],
             item: {},
             selected: 0,
+            mealsizes: {},
         }
     },
     async created() {
-      // TODO: get sizes from backend
+      // Get sizes from backend
+      const res = await fetch(`${consts.backend_url}/mealsizes`);
+      const mealsizes = await res.json();
+      this.mealsizes = mealsizes.reduce((group,mealsize) => {
+        console.log(mealsize);
+        if(mealsize.foodtype == 'combo') {
+          return group;
+        }
+        if(["small","medium","large"].includes(mealsize.name)) {
+          group[mealsize.foodtype] = group[mealsize.foodtype] ?? [];
+          group[mealsize.foodtype].push(mealsize);
+        }
+        return group;
+      }, {}); 
     },
     methods: {
-        show(item, sizes) {
+        show(item) {
           this.item = item;
-          this.sizes = sizes;
+          this.sizes = this.mealsizes[item.foodtype];
           this.dialog = true;
           return this.dialog;
         },
         addOrderToReciept() {
           this.dialog = false;
-          // let type = types[item.foodtype][{}; // TODO: look up size info
-          let type = null;
+          let type = this.sizes[this.selected];
           this.$emit('addOrder', type, this.item);
         }
     }

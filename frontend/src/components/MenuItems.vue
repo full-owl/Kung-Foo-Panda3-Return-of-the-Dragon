@@ -134,7 +134,7 @@ export default {
             console.log("sadfasfs");
             if(item.foodtype == "side") {
                 if(this.OrderType == "") { // Type not selected
-                    this.$refs.chooseSize.show(item, ["medium", "large"]);
+                    this.$refs.chooseSize.show(item);
                     return;
                 }
                 this.OrderItems.push(item);
@@ -145,7 +145,7 @@ export default {
                 }
             } else if(item.foodtype == "entree") {
                 if(this.OrderType == "") { // Type not selected
-                    this.$refs.chooseSize.show(item, ["small", "medium", "large"]);
+                    this.$refs.chooseSize.show(item);
                     return;
                 }
                 this.OrderItems.push(item);
@@ -155,15 +155,14 @@ export default {
                     this.isSideDisabled = true;
                 }
             } else if(item.foodtype == "appetizer") {
-                this.$refs.chooseSize.show(item, ["small", "large"]);
+                this.$refs.chooseSize.show(item);
                 return;
             } else if(item.foodtype == "drink") {
-                this.$refs.chooseSize.show(item, ["small", "medium", "large"]);
+                this.$refs.chooseSize.show(item);
                 return;
             }
         },
         addAlLaCarteToReciept(type, item) {
-            console.log(type, item);
             this.$refs.recieptTable.addToOrder(type, [item]);
         },
         addOrderToReciept() {
