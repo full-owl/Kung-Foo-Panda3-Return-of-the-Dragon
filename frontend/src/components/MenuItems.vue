@@ -53,7 +53,7 @@
                     <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
                     <button type="button" class="btn btn-primary" @click="addOrderToReciept">Add to Order</button>
                 </div>
-                <choose-size ref="chooseSize" />
+                <choose-size ref="chooseSize" @addOrder="addAlLaCarteToReciept"/>
             </div>
             <RecieptTable class="col-sm" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
         </div>
@@ -131,28 +131,41 @@ export default {
             this.isEntreeDisabled = true;
         },
         addItem(item) {
-            this.OrderItems.push(item);
             console.log("sadfasfs");
             if(item.foodtype == "side") {
+                if(this.OrderType == "") { // Type not selected
+                    this.$refs.chooseSize.show(item, ["medium", "large"]);
+                    return;
+                }
+                this.OrderItems.push(item);
                 this.sideCounter += 1;
                 if(consts.numInCombo[this.OrderType.name].side == this.sideCounter ) {
                     this.isSideDisabled = true;
                     this.isEntreeDisabled = false;
                 }
             } else if(item.foodtype == "entree") {
+                if(this.OrderType == "") { // Type not selected
+                    this.$refs.chooseSize.show(item, ["small", "medium", "large"]);
+                    return;
+                }
+                this.OrderItems.push(item);
                 this.entreeCounter += 1;
                 if(consts.numInCombo[this.OrderType.name].entree == this.entreeCounter) {
                     this.isEntreeDisabled = true;
                     this.isSideDisabled = true;
                 }
             } else if(item.foodtype == "appetizer") {
-                this.$refs.chooseSize.show(item, ["small", "medium", "large"]);
+                this.$refs.chooseSize.show(item, ["small", "large"]);
                 return;
             } else if(item.foodtype == "drink") {
+                this.$refs.chooseSize.show(item, ["small", "medium", "large"]);
                 return;
             }
         },
-        
+        addAlLaCarteToReciept(type, item) {
+            console.log(type, item);
+            this.$refs.recieptTable.addToOrder(type, [item]);
+        },
         addOrderToReciept() {
             this.$refs.recieptTable.addToOrder(this.OrderType, this.OrderItems);
             this.clearSelected();
