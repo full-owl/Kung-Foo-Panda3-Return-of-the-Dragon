@@ -94,7 +94,7 @@ export default {
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify({
           items: this.items,
-          suptotal: this.subtotal,
+          subtotal: this.subtotal,
         }),
       }); 
       // TODO: better error handling

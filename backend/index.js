@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 
 const pool = require("./db.js"); // get db pg commands
+const e = require("express");
 
 const port = 8800;
 
@@ -91,38 +92,104 @@ app.get("/prices/:foodtype/:size", async (req, res) => {
 
 app.post("/order", async(req, res) => {
     try {
+        // orders query
         const d = new Date();
         const date = (d.getFullYear() + "-"+ (d.getMonth()+1) + "-" +d.getDate());
+
+        // console.log(req.body);
+
+        if (req.body["items"].length === 0) {
+            throw new Error("Invalid Order Type");
+        }
+
+        // console.log(req.body["items"]);
+
+        // console.log("ITEMS");
+        // console.log(req.body["items"])
+        // throw "ERROR";
 
         const subtotal = req.body["subtotal"];
         const total = subtotal * 1.0825;
         const employee = 1;
-        const newOrder = await pool.query("INSERT INTO orders (date, subtotal, total, employeeid) VALUES ($1, $2, $3) RETURNING *", [date, subtotal, total, employee]);
-        console.log("date: "+ date);
+        const newOrder = await pool.query("INSERT INTO orders (date, subtotal, total, employeeid) VALUES ($1, $2, $3, $4) RETURNING *", [date, subtotal, total, employee]);
+        
+        // console.log("date: "+ date);
+        // console.log("New order: " + newOrder);
+        
+        const orderid = newOrder.rows[0]["id"];
 
-        const orderid = newOrder["id"];
+        console.log(orderid);
+
         const orderitems = req.body["items"];
 
-        for (i = 0; i < orderitems.size(); i++) {
+        for (i = 0; i < orderitems.length; i++) {
+            // console.log("In Loop");
+            let entree_ids = [];
+            let side_ids = [];
             const item = orderitems[i];
-            console.log("item " + i + " :" + item);
-            const mealtype = item["mealtype"];
-            const s1 = item["parts"][0];
-            const s2 = item["parts"][1];
-            const m1 = item["parts"][2];
-            const m2 = item["parts"][3];
-            const m3 = item["parts"][4];
-            const instruction = item["custom_instructions"];
+            let description = "none"; // custom instructions
+            let foodtype = "";
+            for (j = 0; j < item["mealItems"].length; j++){
+                const mealItem = item["mealItems"][j];
+                console.log("meal item:");
+                console.log(mealItem);
+
+                description = "none";
+             
+                const mealItemId = mealItem["id"];
+                foodtype = mealItem["foodtype"];
+
+                if (foodtype === "side") {
+                    side_ids.push(mealItemId);
+                }
+                else if (foodtype === "entree")  {
+                    entree_ids.push(mealItemId);
+                }
+                else {
+                    description = item["type"]["name"];
+                    entree_ids.push(mealItemId);
+                }
+            }
+
+            // filling rest of side and entree with zeroes
+            // unpack arrays and fill rest with zero if need be
+            if (side_ids.length < 2) { 
+                const adderArray = new Array(2-side_ids.length).fill(0);
+                side_ids = [...side_ids, ...adderArray];
+            }
+
+            if (entree_ids.length < 3) { 
+                const adderArray = new Array(3-entree_ids.length).fill(0);
+                entree_ids = [...entree_ids, ...adderArray];
+            }
+
+            console.log("CHECKING IDS");
+            console.log("Entree Ids: ", entree_ids.toString());
+            console.log("Side Ids: ", side_ids.toString());
+
+
+            let mealtype = item["type"]["foodtype"];
+            if (!mealtype) {
+                mealtype = foodtype;
+                // description = item["type"]["name"];
+            }
+            console.log("MEALTYPE: "+ mealtype);
+            console.log("Description: "+ description);
+            // const s1 = item["parts"][0];
+            // const s2 = item["parts"][1];
+            // const m1 = item["parts"][2];
+            // const m2 = item["parts"][3];
+            // const m3 = item["parts"][4];
+            // const instruction = item["custom_instructions"];
 
             const order_item = await pool.query(
                 "INSERT INTO orderitems (orderid, mealtype, menuitem1, menuitem2, menuitem3, side1, side2, custominstructions) VALUES ($1, $2, $3, $4, $5, $6,$7,$8) RETURNING *", 
-                [orderid, mealtype, m1, m2, m3, s1, s2, instruction]);
+                [orderid, mealtype, entree_ids[0], entree_ids[1], entree_ids[2], side_ids[0], side_ids[1], description]);
         }
         res.json(newOrder.rows); // sending back
     } catch (error) {
         console.error(error.message);
-
-
+        console.log("Error generated");
     }
 });
 // // get a todo
