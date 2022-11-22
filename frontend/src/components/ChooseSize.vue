@@ -46,7 +46,7 @@ export default {
     const mealsizes = await res.json();
     // Convert from rows to a Map grouped by foodtype like sides, entrees, etc.
     this.mealsizes = mealsizes.reduce((group, mealsize) => {
-      console.log(mealsize);
+      // console.log(mealsize);
       if (mealsize.foodtype == "combo") {
         return group;
       }
