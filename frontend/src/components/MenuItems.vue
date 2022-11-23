@@ -53,7 +53,6 @@
                     <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
                     <button type="button" class="btn btn-primary" @click="addOrderToReciept">Add to Order</button>
                 </div>
-                <choose-size ref="chooseSize" @addOrder="addAlLaCarteToReciept"/>
             </div>
             <RecieptTable class="col-sm" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
         </div>
@@ -61,14 +60,14 @@
 </template>
 
 <script>
+//import ButtonTable from './ButtonTable.vue';
 import RecieptTable from './RecieptTable.vue';
 import consts from '../consts.js';
-import ChooseSize from './ChooseSize.vue';
 
 export default {
     components: {
         RecieptTable,
-        ChooseSize,
+        //ButtonTable
     },
     data() {
         return {
@@ -131,49 +130,58 @@ export default {
             this.isEntreeDisabled = true;
         },
         addItem(item) {
-            console.log("sadfasfs");
+            this.OrderItems.push(item);
             if(item.foodtype == "side") {
-                if(this.OrderType == "") { // Type not selected
-                    this.$refs.chooseSize.show(item);
-                    return;
-                }
-                this.OrderItems.push(item);
                 this.sideCounter += 1;
                 if(consts.numInCombo[this.OrderType.name].side == this.sideCounter ) {
                     this.isSideDisabled = true;
                     this.isEntreeDisabled = false;
                 }
             } else if(item.foodtype == "entree") {
-                if(this.OrderType == "") { // Type not selected
-                    this.$refs.chooseSize.show(item);
-                    return;
-                }
-                this.OrderItems.push(item);
                 this.entreeCounter += 1;
                 if(consts.numInCombo[this.OrderType.name].entree == this.entreeCounter) {
                     this.isEntreeDisabled = true;
                     this.isSideDisabled = true;
                 }
-            } else if(item.foodtype == "appetizer") {
-                this.$refs.chooseSize.show(item);
+            } else if(item.foodtype == "appitizer") {
                 return;
             } else if(item.foodtype == "drink") {
-                this.$refs.chooseSize.show(item);
                 return;
             }
         },
-        // TODO: can this be done better than adding an additional fxn
-        addAlLaCarteToReciept(type, item) {
-            this.$refs.recieptTable.addToOrder(type, item);
+        
+        addSide(item, id) {
+            this.OrderItemNames.push(item);
+            this.OrderItems.push(id);
         },
+        
+        addEntree(item, id) {
+            this.OrderItemNames.push(item);
+            this.OrderItems.push(id);
+        },
+
+        addApp(item, id) {
+            this.OrderItemNames.push(item);
+            this.OrderItems.push(id);
+            this.OrderPrice += 2;
+        },
+
+        addDrink(item, id) {
+            this.OrderItemNames.push(item);
+            this.OrderItems.push(id);
+            this.OrderPrice += 2.5;
+        },
+
         addOrderToReciept() {
             this.$refs.recieptTable.addToOrder(this.OrderType, this.OrderItems);
             this.clearSelected();
         },
+
         clearSelected() {
             this.OrderType = "";
             this.OrderItems = [];
             this.OrderPrice = 0;
+            this.OrderItemNames = [];
             this.isBowlDisabled = false;
             this.isEntreeDisabled = false;
             this.isSideDisabled = false;
