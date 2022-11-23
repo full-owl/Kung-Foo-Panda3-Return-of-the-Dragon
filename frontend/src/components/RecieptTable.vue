@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import consts from '../consts.js';
 export default {
   props: {
     propOrderType: String,
@@ -85,9 +86,24 @@ export default {
       this.items = [];
 
     },
-    checkout() {
+    async checkout() {
       // TODO: show price/total modal
       // TODO: add to backend
+      let res = await fetch(`${consts.backend_url}/order`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify({
+          items: this.items,
+          subtotal: this.subtotal,
+        }),
+      }); 
+      // TODO: better error handling
+      if(!res.ok) {
+        console.error(res);
+      }
+      console.log(this.items);
+
+      // clear items
       this.items = [];
 
     },
