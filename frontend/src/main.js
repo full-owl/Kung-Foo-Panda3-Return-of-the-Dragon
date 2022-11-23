@@ -1,14 +1,18 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify'
-import { loadFonts } from './plugins/webfontloader'
-import MenuItems from './components/MenuItems'
-import RecieptTable from './components/RecieptTable'
+// import { loadFonts } from './plugins/webfontloader'
+// import MyModal from './components/MyModal'
+// import MenuItems from './components/MenuItems'
+// import RecieptTable from './components/RecieptTable'
+import router from './router' 
 
-loadFonts()
+// loadFonts()
 
 createApp(App)
   .use(vuetify)
-  .use('MenuItems',MenuItems)
-  .use('RecieptTable', RecieptTable)
+  // .use('MyModal', MyModal)
+  // .use('MenuItems',MenuItems)
+  // .use('RecieptTable', RecieptTable)
+  .use(router)
   .mount('#app')

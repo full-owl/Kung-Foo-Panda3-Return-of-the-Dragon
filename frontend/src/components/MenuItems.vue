@@ -67,8 +67,8 @@ import ChooseSize from './ChooseSize.vue';
 
 export default {
     components: {
-        RecieptTable,
         ChooseSize,
+        RecieptTable,
     },
     data() {
         return {
@@ -166,10 +166,12 @@ export default {
         addAlLaCarteToReciept(type, item) {
             this.$refs.recieptTable.addToOrder(type, item);
         },
+
         addOrderToReciept() {
             this.$refs.recieptTable.addToOrder(this.OrderType, this.OrderItems);
             this.clearSelected();
         },
+
         clearSelected() {
             this.OrderType = "";
             this.OrderItems = [];
