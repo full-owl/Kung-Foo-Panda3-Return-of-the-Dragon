@@ -3,6 +3,7 @@ import Manager from '../views/Manager-Page.vue'
 import Home from '../views/Home-Page.vue'
 import Cashier from '../views/Cashier-Page.vue'
 import Prices from '../views/Prices-Page.vue'
+import UserMenu from '../views/UserMenu-Page.vue'
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
         path: '/prices',
         name: 'Prices',
         component: Prices,
+    },
+    {
+        path: '/usermenu',
+        name: 'UserMenu',
+        component: UserMenu,
     },
 
 ]

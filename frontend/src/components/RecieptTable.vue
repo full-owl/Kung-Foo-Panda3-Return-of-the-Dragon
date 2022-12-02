@@ -23,7 +23,7 @@
           <td>{{ "$" + item.price.toFixed(2) }}</td>
           <td>
             <!-- TODO: edit button -->
-            <button type="button" class="btn btn-primary" @click="() => items.splice(index,1)">X</button>
+            <button type="button" class="btn btn-danger" @click="() => items.splice(index,1)">X</button>
           </td>
         </tr>
       </tbody>
@@ -41,8 +41,8 @@
       </tfoot>
     </table>
     <div class="btn-group btn-group-lg container-fluid" role="group">
-      <button type="button" class="btn btn-primary" @click="clear">Cancel</button>
-      <button type="button" class="btn btn-primary" @click="checkout">Checkout</button>
+      <button type="button" class="btn btn-danger" @click="clear">Cancel</button>
+      <button type="button" class="btn btn-success" @click="checkout">Checkout</button>
     </div>
   </div>
 </template>
