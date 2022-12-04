@@ -1,74 +1,67 @@
 <template>
     <div class="container-fluid">
-          <div class="row">
-              <div class="col d-flex flex-column">
-                  <div>
-                      <h2>Type</h2>
-  
-                      <div class="d-flex flex-wrap">
-                          <button v-for="item in bowls" :key="item.id" :disabled="isBowlDisabled"
-                          type="button" class="btn btn-danger" @click="addType(item)">{{ capitalize(item.name) }}</button>
-                      </div>
-                  </div>
-                  <div>
-                      <h2>Side</h2>
-                      <div class="d-flex flex-wrap">
-                          <button v-for="item in sides" :key="item.id" :disabled="isSideDisabled"
-                          type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}</button>
-                      </div>
-                  </div>
-                  <div>
-                      <h2>Entree</h2>
-  
-                      <div class="d-flex flex-wrap">
-                          <button v-for="item in entrees" :key="item.id" :disabled="isEntreeDisabled"
-                          type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}</button>
-                      </div>
-                  </div>
-                  <div>
-                      <h2>Appetizer</h2>
-                      <div class="d-flex flex-wrap">
-                          <button v-for="item in appetizers" :key="item.id" :disabled="isAppDisabled"
-                          type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}</button>
-                      </div>
-                  </div>
-                  <div>
-                      <h2>Drinks</h2>
-                      <div class="d-flex flex-wrap">
-                          <button v-for="item in drinks" :key="item.id" :disabled="isDrinkDisabled"
-                          type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}</button>
-                      </div>
-                  </div>
-                  <div class>
-                      <!-- TODO: make selections look better/more intuative -->
-                      <p>{{OrderType.name}}</p>
-                      <!-- <p>{{ consts.numInCombo[OrderType.name]}}</p> -->
-                      <ul>
-                          <li v-for="part in OrderItems" :key="part">
-                              {{part.name}}
-                          </li>
-                      </ul>
-                  </div>
+        <div class="row">
+            <div class="col d-flex flex-column">
+                    <h2>Type</h2>
+                    <div class="d-flex flex-wrap">
+                        <button v-for="item in bowls" :key="item.id" :disabled="isBowlDisabled"
+                        type="button" class="btn btn-primary" @click="addType(item)">{{ capitalize(item.name) }}</button>
+                    </div>
+
+                <div>
+                    <h2>Side</h2>
+                    <div class="d-flex flex-wrap">
+                        <button 
+                            v-for="item in sides" :key="item.id" :disabled="isSideDisabled"
+                            type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
+                            <img height="100" width:auto :src="addImg(item.id)"/>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <h2>Entree</h2>
+                    <div class="d-flex flex-wrap">
+                        <button 
+                            v-for="item in entrees" :key="item.id" :disabled="isEntreeDisabled"
+                            type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}
+                            <img height="100" width:auto :src="addImg(item.id)"/>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <h2>Appetizer</h2>
+                    <div class="d-flex flex-wrap">
+                        <button v-for="item in appetizers" :key="item.id" :disabled="isAppDisabled"
+                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
+                    </div>
+                </div>
+                <div>
+                    <h2>Drinks</h2>
+                    <div class="d-flex flex-wrap">
+                        <button v-for="item in drinks" :key="item.id" :disabled="isDrinkDisabled"
+                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
+                    </div>
+                </div>
                   <div class="btn-group btn-group-lg container-fluid" role="group">
-                      <button type="button" class="btn btn-danger" @click="clearSelected">Clear Selected</button>
-                      <button type="button" class="btn btn-danger" @click="addOrderToReciept">Add to Order</button>
+                      <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
+                      <button type="button" class="btn btn-primary" @click="addOrderToReciept">Add to Order</button>
                   </div>
                   <choose-size ref="chooseSize" @addOrder="addAlLaCarteToReciept"/>
               </div>
-              <RecieptTable class="col-sm" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
+              <RecieptTable class="col-sm-2" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
           </div>
       </div>
   </template>
   
   <script>
-  // import RecieptTable from './RecieptTable.vue';
+  import RecieptTable from './RecieptTable.vue';
   import consts from '../consts.js';
-  // import ChooseSize from './ChooseSize.vue';
-  
+  import ChooseSize from './ChooseSize.vue';
   export default {
       components: {
-          // ChooseSize,
-          // RecieptTable,
+          ChooseSize,
+          RecieptTable,
       },
       data() {
           return {
@@ -91,6 +84,9 @@
           }
       },
       methods: {
+            addImg(id){   
+                return require('./img/m-' + id + '.png');
+            },
           async fetchItems(foodtype) {
           // connection from backend folder.. made need to change port if doing on web hosting
           
@@ -103,7 +99,6 @@
           // }
           const res = await fetch(`${consts.backend_url}/items/${foodtype}`);
           const data = await res.json();
-  
           //const data = items[foodtype];
           return data;
           },
@@ -118,7 +113,6 @@
               // {"foodtype":"combo","name":"family","amountneeded":0,"price":32.00}];
           return data;
           },
-  
           addType(type) {
               if (this.OrderType == type) {
                   this.OrderType = "";
@@ -129,81 +123,78 @@
               this.isAppDisabled = true;
               this.isDrinkDisabled = true;
               this.isEntreeDisabled = true;
-          },
-          addItem(item) {
-              console.log("sadfasfs");
-              if(item.foodtype == "side") {
-                  if(this.OrderType == "") { // Type not selected
-                      this.$refs.chooseSize.show(item);
-                      return;
-                  }
-                  this.OrderItems.push(item);
-                  this.sideCounter += 1;
-                  if(consts.numInCombo[this.OrderType.name].side == this.sideCounter ) {
-                      this.isSideDisabled = true;
-                      this.isEntreeDisabled = false;
-                  }
-              } else if(item.foodtype == "entree") {
-                  if(this.OrderType == "") { // Type not selected
-                      this.$refs.chooseSize.show(item);
-                      return;
-                  }
-                  this.OrderItems.push(item);
-                  this.entreeCounter += 1;
-                  if(consts.numInCombo[this.OrderType.name].entree == this.entreeCounter) {
-                      this.isEntreeDisabled = true;
-                      this.isSideDisabled = true;
-                  }
-              } else if(item.foodtype == "appetizer") {
-                  this.$refs.chooseSize.show(item);
-                  return;
-              } else if(item.foodtype == "drink") {
-                  this.$refs.chooseSize.show(item);
-                  return;
-              }
-          },
+        },
+        addItem(item) {
+            console.log("sadfasfs");
+            if(item.foodtype == "side") {
+                if(this.OrderType == "") { // Type not selected
+                    this.$refs.chooseSize.show(item);
+                    return;
+                }
+                this.OrderItems.push(item);
+                this.sideCounter += 1;
+                if(consts.numInCombo[this.OrderType.name].side == this.sideCounter ) {
+                    this.isSideDisabled = true;
+                    this.isEntreeDisabled = false;
+                }
+            } else if(item.foodtype == "entree") {
+                if(this.OrderType == "") { // Type not selected
+                    this.$refs.chooseSize.show(item);
+                    return;
+                }
+                this.OrderItems.push(item);
+                this.entreeCounter += 1;
+                if(consts.numInCombo[this.OrderType.name].entree == this.entreeCounter) {
+                    this.isEntreeDisabled = true;
+                    this.isSideDisabled = true;
+                }
+            } else if(item.foodtype == "appetizer") {
+                this.$refs.chooseSize.show(item);
+                return;
+            } else if(item.foodtype == "drink") {
+                this.$refs.chooseSize.show(item);
+                return;
+            }
+        },
           // TODO: can this be done better than adding an additional fxn
-          addAlLaCarteToReciept(type, item) {
-              this.$refs.recieptTable.addToOrder(type, item);
-          },
+        addAlLaCarteToReciept(type, item) {
+            this.$refs.recieptTable.addToOrder(type, item);
+        },
+        addOrderToReciept() {
+            this.$refs.recieptTable.addToOrder(this.OrderType, this.OrderItems);
+            this.clearSelected();
+        },
+        clearSelected() {
+            this.OrderType = "";
+            this.OrderItems = [];
+            this.OrderPrice = 0;
+            this.isBowlDisabled = false;
+            this.isEntreeDisabled = false;
+            this.isSideDisabled = false;
+            this.isAppDisabled = false;
+            this.isDrinkDisabled = false;
+            this.sideCounter = 0;
+            this.entreeCounter = 0;
+        },
+        capitalize(x) { // why is this not in standard lib???
+            return x.charAt(0).toUpperCase() + x.slice(1);
+        }
+    },
+    async created() {
+        this.entrees = await this.fetchItems("entree");
+        this.appetizers = await this.fetchItems("appetizer");
+        this.drinks = await this.fetchItems("drink");
+        this.sides = await this.fetchItems("side");
+        this.bowls = await this.fetchCombos();
+        }
+}
+</script>
   
-          addOrderToReciept() {
-              this.$refs.recieptTable.addToOrder(this.OrderType, this.OrderItems);
-              this.clearSelected();
-          },
-  
-          clearSelected() {
-              this.OrderType = "";
-              this.OrderItems = [];
-              this.OrderPrice = 0;
-              this.isBowlDisabled = false;
-              this.isEntreeDisabled = false;
-              this.isSideDisabled = false;
-              this.isAppDisabled = false;
-              this.isDrinkDisabled = false;
-              this.sideCounter = 0;
-              this.entreeCounter = 0;
-          },
-          capitalize(x) { // why is this not in standard lib???
-              return x.charAt(0).toUpperCase() + x.slice(1);
-          }
-      },
-      async created() {
-          this.entrees = await this.fetchItems("entree");
-          this.appetizers = await this.fetchItems("appetizer");
-          this.drinks = await this.fetchItems("drink");
-          this.sides = await this.fetchItems("side");
-          this.bowls = await this.fetchCombos();
-      }
-  }
-  </script>
-  
-  <style scoped>
-      .btn {
-          width: 20%;
-          border-radius: 0%;
-          border-color: aliceblue;
-          color: aliceblue;
-      }
-  
-  </style>
+<style scoped>
+    .btn {
+        width: 20%;
+        border-radius: 0%;
+        border-color: aliceblue;
+        color: aliceblue;
+    }
+</style>

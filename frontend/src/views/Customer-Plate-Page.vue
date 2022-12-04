@@ -1,19 +1,19 @@
 <template>
     <div>
-        <UserMenuItems/>
+        <MenuItems/>
         <footer><router-link to="../">Main Menu</router-link></footer>
     </div>
 </template>
 
 <script>
-import UserMenuItems from '../components/UserMenuItems.vue';
+import MenuItems from '../components/PlateItems.vue';
 
 
 export default {
   name: 'App',
 
   components: {
-    UserMenuItems,
+    MenuItems,
   },
 }
 </script>

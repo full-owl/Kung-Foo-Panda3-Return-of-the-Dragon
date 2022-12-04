@@ -55,7 +55,6 @@ export default {
     propOrderItems: Array,
     propOrderPrice: Number
   },
-
   data() {
     return {
       items: [
@@ -84,7 +83,6 @@ export default {
     clear() {
       // TODO: confirmation modal
       this.items = [];
-
     },
     async checkout() {
       // TODO: show price/total modal
@@ -102,10 +100,8 @@ export default {
         console.error(res);
       }
       console.log(this.items);
-
       // clear items
       this.items = [];
-
     },
     addToOrder(type, items) {
       // Javascript Woes
@@ -128,4 +124,4 @@ export default {
         border-color: aliceblue;
         color: aliceblue;
     }
-</style>
+</style>  
