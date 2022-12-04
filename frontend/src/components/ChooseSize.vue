@@ -1,11 +1,11 @@
 <template>
   <!-- TODO: style like bootstrap -->
-  <v-dialog max-width="500" v-model="dialog">
+  <v-dialog max-width="650" v-model="dialog">
     <v-card :title="'Choose Size for ' + item.name">
       <v-card-text>
         <v-btn-toggle v-model="selected" shaped mandatory>
           <v-btn v-for="size in mealsizes[item.foodtype]" :key="size.name">
-            {{ size.name }}
+            {{ size.name }} | Price: ${{size.price}}
           </v-btn>
         </v-btn-toggle>
       </v-card-text>

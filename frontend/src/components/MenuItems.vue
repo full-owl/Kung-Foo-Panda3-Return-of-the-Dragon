@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+    <div class="container-fluid">
         <div class="row">
             <div class="col d-flex flex-column">
                 <div>
@@ -7,7 +7,8 @@
 
                     <div class="d-flex flex-wrap">
                         <button v-for="item in bowls" :key="item.id" :disabled="isBowlDisabled"
-                        type="button" class="btn btn-primary" @click="addType(item)">{{ capitalize(item.name) }}</button>
+                        type="button" class="btn btn-primary" @click="addType(item)">{{ capitalize(item.name) }}
+                        <p>Price: ${{(item.price)}}</p></button>
                     </div>
                 </div>
                 <div>
@@ -171,7 +172,6 @@ export default {
             this.$refs.recieptTable.addToOrder(this.OrderType, this.OrderItems);
             this.clearSelected();
         },
-
         clearSelected() {
             this.OrderType = "";
             this.OrderItems = [];
@@ -204,6 +204,7 @@ export default {
         border-radius: 0%;
         border-color: aliceblue;
         color: aliceblue;
+        font-weight: bold;
     }
 
 </style>
