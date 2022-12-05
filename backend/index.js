@@ -213,11 +213,17 @@ app.get("/orders", async (req, res) => {
 app.get("/sales", async (req, res) => {
     try {
         console.log(req.params);
-        const d = new Date();
-        const sdate = (d.getFullYear() + "-"+ (d.getMonth()+1) + "-" +(d.getDate()));
-        const edate = (d.getFullYear() + "-"+ (d.getMonth()+1) + "-" +(d.getDate()));
+        const sd = new Date(); 
+        const ed = new Date();
         
-        const table = await pool.query("SELECT SUM(total) FROM orders WHERE date=$1;", [date]);
+        sd.setDate(ed.getDate() - 7)
+        const sdate = (sd.getFullYear() + "-"+ (sd.getMonth()+1) + "-" +(sd.getDate()));
+        console.log("Start:"+sdate)
+        const edate = (ed.getFullYear() + "-"+ (ed.getMonth()+1) + "-" +(ed.getDate()));
+        console.log("End:"+edate)
+
+        
+        const table = await pool.query("SELECT SUM(total) FROM orders WHERE date>=$1;", [sdate]);
         //console.log(table.rows);
         // table has a lot of extra parameters
         let revenue = parseFloat(table.rows[0].sum);
@@ -229,7 +235,27 @@ app.get("/sales", async (req, res) => {
         console.error(error.message);
     }
 });
-
+// get sales of today
+app.get("/salestoday", async (req, res) => {
+    try {
+        console.log(req.params);
+        const ed = new Date(); 
+        
+        const edate = (ed.getFullYear() + "-"+ (ed.getMonth()+1) + "-" +(ed.getDate()));
+        console.log("End:"+edate);
+        
+        const table = await pool.query("SELECT SUM(total) FROM orders WHERE date=$1;", [edate]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        let revenue = parseFloat(table.rows[0].sum);
+        if (!revenue) {
+            revenue = 0.00;
+        }
+        res.json(revenue); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
 // get table of menu items
 app.get("/menuitems", async (req, res) => {
     try {
