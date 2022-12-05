@@ -192,6 +192,33 @@ app.post("/order", async(req, res) => {
         console.log("Error generated");
     }
 });
+
+// TODO
+// manager view functions
+
+// get table of orders
+
+// get table of menu items
+
+// get table of inventory items
+
+
+// add inventory item
+
+// edit inventory item
+
+// remove inventory item
+
+
+// add menu item
+
+// edit menu item
+
+// remove menu item
+
+
+
+
 // // get a todo
 // app.get("/todos/:id", async(req,res)=> {
 //     try {
