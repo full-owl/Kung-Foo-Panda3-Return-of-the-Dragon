@@ -197,11 +197,62 @@ app.post("/order", async(req, res) => {
 // manager view functions
 
 // get table of orders
+app.get("/orders", async (req, res) => {
+    try {
+        console.log(req.params);
+        const table = await pool.query("SELECT * FROM orders;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// get revenue over past week
+app.get("/sales", async (req, res) => {
+    try {
+        console.log(req.params);
+        const d = new Date();
+        const sdate = (d.getFullYear() + "-"+ (d.getMonth()+1) + "-" +(d.getDate()));
+        const edate = (d.getFullYear() + "-"+ (d.getMonth()+1) + "-" +(d.getDate()));
+        
+        const table = await pool.query("SELECT SUM(total) FROM orders WHERE date=$1;", [date]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        let revenue = parseFloat(table.rows[0].sum);
+        if (!revenue) {
+            revenue = 0.00;
+        }
+        res.json(revenue); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
 
 // get table of menu items
-
+app.get("/menuitems", async (req, res) => {
+    try {
+        const table = await pool.query("SELECT * FROM menuitems;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
 // get table of inventory items
-
+app.get("/inventory", async (req, res) => {
+    try {
+        console.log(req.params);
+        const table = await pool.query("SELECT * FROM inventory;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
 
 // add inventory item
 
