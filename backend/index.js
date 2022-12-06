@@ -235,6 +235,7 @@ app.get("/sales", async (req, res) => {
         console.error(error.message);
     }
 });
+
 // get sales of today
 app.get("/salestoday", async (req, res) => {
     try {
@@ -335,26 +336,31 @@ app.delete("/inventoryitem/:ingredient", async (req, res) => {
 // menu items
 
 // add menu item
-app.post("/menuitem", async (req, res) => {
+app.post("/menuitem/name=:name/foodtype=:foodtype", async (req, res) => {
     try {
         console.log(req.params);
-        const table = await pool.query("DELETE FROM todo WHERE tid = $1");
+        const {name} =req.params;
+        const {foodtype} =req.params;
+        const table = await pool.query("INSERT INTO menuitems (name, foodtype, description) VALUES ($1, $2, 'Not Available') RETURNING *",[name, foodtype]);
         //console.log(table.rows);
         // table has a lot of extra parameters
-        res.json(table.rows); // response
+        res.json(table.rows[0]); // response
     } catch (error) {
         console.error(error.message);
     }
 });
 
 // edit menu item
-app.put("/menuitem/:menuid", async (req, res) => {
+app.put("/menuitem/:id/name=:name/foodtype=:foodtype", async (req, res) => {
     try {
         console.log(req.params);
-        const table = await pool.query("SELECT * FROM inventory;");
+        const {id} = req.params;
+        const {name} = req.params;
+        const{foodtype} = req.params;
+        const table = await pool.query("UPDATE menuitems SET name=$1, foodtype=$2 WHERE id=$3 RETURNING *;",[name,foodtype,id]);
         //console.log(table.rows);
         // table has a lot of extra parameters
-        res.json(table.rows); // response
+        res.json(table.rows[0]); // response
     } catch (error) {
         console.error(error.message);
     }
@@ -364,10 +370,16 @@ app.put("/menuitem/:menuid", async (req, res) => {
 app.delete("/menuitem/:menuid", async (req, res) => {
     try {
         console.log(req.params);
-        const table = await pool.query("SELECT * FROM inventory;");
+        const id = req.params["menuid"];
+        const table = await pool.query("DELETE FROM menuitems WHERE id=$1 RETURNING *", [id]);
         //console.log(table.rows);
         // table has a lot of extra parameters
-        res.json(table.rows); // response
+        if (table.rows.length === 0) {
+            res.json("Menu Item Error: item does not exist");
+        }
+        else {
+            res.json(table.rows[0]); // response
+        }
     } catch (error) {
         console.error(error.message);
     }
