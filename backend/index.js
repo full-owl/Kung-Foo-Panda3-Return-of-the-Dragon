@@ -46,7 +46,7 @@ app.get("/items/:type", async (req, res) => {
     try {
         console.log(req.params);
         const item_type = req.params["type"];
-        const table = await pool.query("SELECT * FROM menuitems WHERE foodtype=$1;", [item_type]);
+        const table = await pool.query("SELECT * FROM menuitems WHERE foodtype=$1 ORDER BY name;", [item_type]);
         //console.log(table.rows);
         // table has a lot of extra parameters
         res.json(table.rows); // response
@@ -281,18 +281,83 @@ app.get("/inventory", async (req, res) => {
 });
 
 // add inventory item
+app.post("/inventoryitem/:type/:name/:amount", async (req, res) => {
+    try {
+        console.log(req.params);
+        const table = await pool.query("SELECT * FROM inventory;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
 
 // edit inventory item
-
+app.put("/inventoryitem/:id/:amount", async (req, res) => {
+    try {
+        console.log(req.params);
+        const table = await pool.query("SELECT * FROM inventory;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
 // remove inventory item
+app.delete("/inventoryitem", async (req, res) => {
+    try {
+        console.log(req.params);
+        const table = await pool.query("SELECT * FROM inventory;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
 
+// menu items
 
 // add menu item
+app.post("/menuitem", async (req, res) => {
+    try {
+        console.log(req.params);
+        const table = await pool.query("SELECT * FROM inventory;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
 
 // edit menu item
+app.put("/menuitem/:menuid", async (req, res) => {
+    try {
+        console.log(req.params);
+        const table = await pool.query("SELECT * FROM inventory;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
 
 // remove menu item
-
+app.delete("/menuitem/:menuid", async (req, res) => {
+    try {
+        console.log(req.params);
+        const table = await pool.query("SELECT * FROM inventory;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
 
 
 
