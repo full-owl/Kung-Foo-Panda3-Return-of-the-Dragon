@@ -10,7 +10,8 @@
             <router-link to="/menu-items">Menu Items</router-link>
         </div>
 
-        <table class="table">
+        <CRUDTable />
+        <!-- <table class="table">
             <thead>
                 <tr>
                 <th scope="col">id</th>
@@ -99,13 +100,24 @@
                 <td>oz</td>
                 </tr>
             </tbody>
-        </table>
+        </table> -->
 
         <footer><router-link to="../">Main Menu</router-link></footer>
 
     </div>
     
 </template>
+
+<script>
+import CRUDTable from '../components/CRUDTable.vue';
+// import consts from '../consts.js';
+
+export default {
+    components: {
+        CRUDTable,
+    },
+}
+</script>
 
 <style scoped>
 .navButtons {

@@ -10,9 +10,9 @@ import router from './router'
 // loadFonts()
 
 createApp(App)
+  .use(router)
   .use(vuetify)
   // .use('MyModal', MyModal)
   // .use('MenuItems',MenuItems)
   // .use('RecieptTable', RecieptTable)
-  .use(router)
   .mount('#app')
