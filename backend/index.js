@@ -8,6 +8,28 @@ const e = require("express");
 
 const port = 8800;
 
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
+
+// doc options
+
+const swaggerOptions = {
+    swaggerDefinition: {
+        info : {
+            title: 'Panda Express API',
+            version: '1.0.0'
+        }
+    },
+    apis: ['index.js'],
+}
+
+const options = {
+    swaggerOptions: {
+        supportedSubmitMethods:['get']
+    }
+}
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerDocs, options));
 //middle ware
 
 app.use(cors());
@@ -42,6 +64,22 @@ app.listen(port, () => {
 
 // get all items of type
 
+/**
+ * @swagger
+ * /items/{type}:
+ *  get:
+ *      parameters: 
+ *          - name: type
+ *            type: string
+ *            description: string that is type of meal item. Could be drink, appetizer, premium entree, entree, or side
+ *            in: path
+ *            required: true
+ *            minimum: 1
+ *      description: Gets all menuitems of type
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
 app.get("/items/:type", async (req, res) => {
     try {
         console.log(req.params);
@@ -52,9 +90,19 @@ app.get("/items/:type", async (req, res) => {
         res.json(table.rows); // response
     } catch (error) {
         console.error(error.message);
+        res.sendStatus(404).send(Error);
     }
 });
 
+/**
+ * @swagger
+ * /combosizes:
+ *  get:
+ *      description: Gets all combo meal sizes
+ *      responses: 
+ *          201:
+ *              description: Success
+ */
 app.get("/combosizes", async (req, res) => {
     try {
         console.log(req.params);
@@ -68,6 +116,15 @@ app.get("/combosizes", async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /mealsizes:
+ *  get:
+ *      description: Gets all meal sizes and meal types
+ *      responses: 
+ *          202:
+ *              description: Success
+ */
 app.get("/mealsizes", async (req,res) => {
     try {
         console.log(req.params);
@@ -78,7 +135,28 @@ app.get("/mealsizes", async (req,res) => {
     }
 });
 
-// get price of foodtype and name(size)
+/**
+ * @swagger
+ * /prices/{foodtype}/{size}:
+ *  get:
+ *      description: Gets mealsizes item object needed for pricing
+ *      parameters:
+ *          - name: foodtype
+ *            type: String
+ *            required: true
+ *            in: path
+ *            description: string type of food, could be entree, premium entree, drink, combo, side
+ *            minimum: 1
+ *          - name: size
+ *            type: String
+ *            required: true
+ *            in: path
+ *            description: name of mealitem of foodtype
+ *            minimum: 1
+ *      responses: 
+ *          202:
+ *              description: Success
+ */
 app.get("/prices/:foodtype/:size", async (req, res) => {
     try {
         const food_type = req.params["foodtype"];
