@@ -168,6 +168,15 @@ app.get("/prices/:foodtype/:size", async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /order:
+ *  post:
+ *      description: Submits order items in request body to order and order items database. Body has order items, total price, etc
+ *      responses: 
+ *          201:
+ *              description: Success
+ */
 app.post("/order", async(req, res) => {
     try {
         // orders query
@@ -275,6 +284,16 @@ app.post("/order", async(req, res) => {
 // manager view functions
 
 // get table of orders
+
+/**
+ * @swagger
+ * /orders:
+ *  get:
+ *      description: gives all orders from order database
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
 app.get("/orders", async (req, res) => {
     try {
         console.log(req.params);
@@ -288,6 +307,16 @@ app.get("/orders", async (req, res) => {
 });
 
 // get revenue over past week
+
+/**
+ * @swagger
+ * /sales:
+ *  get:
+ *      description: gives float of total revenue (including tax) over the past week
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
 app.get("/sales", async (req, res) => {
     try {
         console.log(req.params);
@@ -315,6 +344,16 @@ app.get("/sales", async (req, res) => {
 });
 
 // get sales of today
+
+/**
+ * @swagger
+ * /salestoday:
+ *  get:
+ *      description: gives float of total revenue (including tax) during the current day
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
 app.get("/salestoday", async (req, res) => {
     try {
         console.log(req.params);
@@ -335,7 +374,18 @@ app.get("/salestoday", async (req, res) => {
         console.error(error.message);
     }
 });
+
 // get table of menu items
+
+/**
+ * @swagger
+ * /menuitems:
+ *  get:
+ *      description: gives all menu items in menu items database
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
 app.get("/menuitems", async (req, res) => {
     try {
         const table = await pool.query("SELECT * FROM menuitems;");
@@ -346,7 +396,19 @@ app.get("/menuitems", async (req, res) => {
         console.error(error.message);
     }
 });
+
+
 // get table of inventory items
+
+/**
+ * @swagger
+ * /inventory:
+ *  get:
+ *      description: gives all inventory items in inventory database
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
 app.get("/inventory", async (req, res) => {
     try {
         console.log(req.params);
@@ -359,7 +421,19 @@ app.get("/inventory", async (req, res) => {
     }
 });
 
+// TODO FILL OUT DOCUMENTATION
+
 // add inventory item
+
+/**
+ * @swagger
+ * /inventoryitem/{ingredient}/{unit}/{amount}:
+ *  post:
+ *      description: gives all inventory items in inventory database
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
 app.post("/inventoryitem/:ingredient/:unit/:amount", async (req, res) => {
     try {
         console.log(req.params);
@@ -377,6 +451,16 @@ app.post("/inventoryitem/:ingredient/:unit/:amount", async (req, res) => {
 });
 
 // edit inventory item
+
+/**
+ * @swagger
+ * /inventoryitem/{id}/amount={amount}:
+ *  put:
+ *      description: gives all inventory items in inventory database
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
 app.put("/inventoryitem/:id/amount=:amount", async (req, res) => {
     try {
         console.log(req.params);
@@ -392,6 +476,16 @@ app.put("/inventoryitem/:id/amount=:amount", async (req, res) => {
 });
 
 // remove inventory item
+
+/**
+ * @swagger
+ * /inventoryitem/{ingredient}:
+ *  delete:
+ *      description: gives all inventory items in inventory database
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
 app.delete("/inventoryitem/:ingredient", async (req, res) => {
     try {
         console.log(req.params);
@@ -414,6 +508,16 @@ app.delete("/inventoryitem/:ingredient", async (req, res) => {
 // menu items
 
 // add menu item
+
+/**
+ * @swagger
+ *  /menuitem/name={name}/foodtype={foodtype}:
+ *  post:
+ *      description: gives all inventory items in inventory database
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
 app.post("/menuitem/name=:name/foodtype=:foodtype", async (req, res) => {
     try {
         console.log(req.params);
@@ -429,6 +533,16 @@ app.post("/menuitem/name=:name/foodtype=:foodtype", async (req, res) => {
 });
 
 // edit menu item
+
+/**
+ * @swagger
+ *  /menuitem/name={name}/foodtype={foodtype}:
+ *  put:
+ *      description: gives all inventory items in inventory database
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
 app.put("/menuitem/:id/name=:name/foodtype=:foodtype", async (req, res) => {
     try {
         console.log(req.params);
@@ -445,6 +559,16 @@ app.put("/menuitem/:id/name=:name/foodtype=:foodtype", async (req, res) => {
 });
 
 // remove menu item
+
+/**
+ * @swagger
+ *  /menuitem/{menuid}:
+ *  delete:
+ *      description: gives all inventory items in inventory database
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
 app.delete("/menuitem/:menuid", async (req, res) => {
     try {
         console.log(req.params);
