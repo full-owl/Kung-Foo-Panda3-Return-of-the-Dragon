@@ -26,7 +26,9 @@ const swaggerOptions = {
 const options = {
     swaggerOptions: {
         supportedSubmitMethods:['get']
-    }
+    },
+    customSiteTitle: "Panda Express Team 55 API Documentation",
+    customfavIcon: "peFav.png"
 }
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerDocs, options));
@@ -421,7 +423,6 @@ app.get("/inventory", async (req, res) => {
     }
 });
 
-// TODO FILL OUT DOCUMENTATION
 
 // add inventory item
 
@@ -502,6 +503,7 @@ app.put("/inventoryitem/:id/amount=:amount", async (req, res) => {
     }
 });
 
+// TODO - add to proportions table
 // remove inventory item
 
 /**
