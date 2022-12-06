@@ -46,7 +46,7 @@ app.get("/items/:type", async (req, res) => {
     try {
         console.log(req.params);
         const item_type = req.params["type"];
-        const table = await pool.query("SELECT * FROM menuitems WHERE foodtype=$1;", [item_type]);
+        const table = await pool.query("SELECT * FROM menuitems WHERE foodtype=$1 ORDER BY name;", [item_type]);
         //console.log(table.rows);
         // table has a lot of extra parameters
         res.json(table.rows); // response
@@ -192,6 +192,201 @@ app.post("/order", async(req, res) => {
         console.log("Error generated");
     }
 });
+
+// TODO
+// manager view functions
+
+// get table of orders
+app.get("/orders", async (req, res) => {
+    try {
+        console.log(req.params);
+        const table = await pool.query("SELECT * FROM orders;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// get revenue over past week
+app.get("/sales", async (req, res) => {
+    try {
+        console.log(req.params);
+        const sd = new Date(); 
+        const ed = new Date();
+        
+        sd.setDate(ed.getDate() - 7)
+        const sdate = (sd.getFullYear() + "-"+ (sd.getMonth()+1) + "-" +(sd.getDate()));
+        console.log("Start:"+sdate)
+        const edate = (ed.getFullYear() + "-"+ (ed.getMonth()+1) + "-" +(ed.getDate()));
+        console.log("End:"+edate)
+
+        
+        const table = await pool.query("SELECT SUM(total) FROM orders WHERE date>=$1;", [sdate]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        let revenue = parseFloat(table.rows[0].sum);
+        if (!revenue) {
+            revenue = 0.00;
+        }
+        res.json(revenue); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// get sales of today
+app.get("/salestoday", async (req, res) => {
+    try {
+        console.log(req.params);
+        const ed = new Date(); 
+        
+        const edate = (ed.getFullYear() + "-"+ (ed.getMonth()+1) + "-" +(ed.getDate()));
+        console.log("End:"+edate);
+        
+        const table = await pool.query("SELECT SUM(total) FROM orders WHERE date=$1;", [edate]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        let revenue = parseFloat(table.rows[0].sum);
+        if (!revenue) {
+            revenue = 0.00;
+        }
+        res.json(revenue); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+// get table of menu items
+app.get("/menuitems", async (req, res) => {
+    try {
+        const table = await pool.query("SELECT * FROM menuitems;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+// get table of inventory items
+app.get("/inventory", async (req, res) => {
+    try {
+        console.log(req.params);
+        const table = await pool.query("SELECT * FROM inventory;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// add inventory item
+app.post("/inventoryitem/:ingredient/:unit/:amount", async (req, res) => {
+    try {
+        console.log(req.params);
+        const ingred = req.params["ingredient"];
+        const unit = req.params["unit"];
+        const amount = req.params["amount"];
+        const table = await pool.query("INSERT INTO inventory (ingredient, currentamount, unit) VALUES ($1, $2, $3) RETURNING *", [ingred, amount, unit]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows[0]); // response
+        
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// edit inventory item
+app.put("/inventoryitem/:id/amount=:amount", async (req, res) => {
+    try {
+        console.log(req.params);
+        const amount = req.params["amount"];
+        const id = req.params["id"];
+        const table = await pool.query("UPDATE inventory SET currentamount = $1 WHERE id = $2 RETURNING *", [amount, id]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows[0]); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// remove inventory item
+app.delete("/inventoryitem/:ingredient", async (req, res) => {
+    try {
+        console.log(req.params);
+        const ingred = req.params["ingredient"];
+        const table = await pool.query("DELETE FROM inventory WHERE ingredient=$1 RETURNING *", [ingred]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        if (table.rows.length === 0) {
+            res.json("Error: item does not exist")
+        }
+        else {
+            res.json(table.rows[0]); // response
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.json("item does not exist")
+    }
+});
+
+// menu items
+
+// add menu item
+app.post("/menuitem/name=:name/foodtype=:foodtype", async (req, res) => {
+    try {
+        console.log(req.params);
+        const {name} =req.params;
+        const {foodtype} =req.params;
+        const table = await pool.query("INSERT INTO menuitems (name, foodtype, description) VALUES ($1, $2, 'Not Available') RETURNING *",[name, foodtype]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows[0]); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// edit menu item
+app.put("/menuitem/:id/name=:name/foodtype=:foodtype", async (req, res) => {
+    try {
+        console.log(req.params);
+        const {id} = req.params;
+        const {name} = req.params;
+        const{foodtype} = req.params;
+        const table = await pool.query("UPDATE menuitems SET name=$1, foodtype=$2 WHERE id=$3 RETURNING *;",[name,foodtype,id]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows[0]); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// remove menu item
+app.delete("/menuitem/:menuid", async (req, res) => {
+    try {
+        console.log(req.params);
+        const id = req.params["menuid"];
+        const table = await pool.query("DELETE FROM menuitems WHERE id=$1 RETURNING *", [id]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        if (table.rows.length === 0) {
+            res.json("Menu Item Error: item does not exist");
+        }
+        else {
+            res.json(table.rows[0]); // response
+        }
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+
+
 // // get a todo
 // app.get("/todos/:id", async(req,res)=> {
 //     try {
