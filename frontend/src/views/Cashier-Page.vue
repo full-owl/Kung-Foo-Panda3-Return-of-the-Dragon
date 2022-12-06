@@ -15,5 +15,11 @@ export default {
   components: {
     MenuItems,
   },
-}
+};
 </script>
+<style scoped> 
+  footer {
+    position: relative;
+    margin-top: 15px;
+  }
+</style>

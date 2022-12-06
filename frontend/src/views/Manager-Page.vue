@@ -137,4 +137,8 @@
     border: 2px solid red;
     /* opacity: 0.3; */
 }
+ 
+footer {
+  position: relative;
+}
 </style>
