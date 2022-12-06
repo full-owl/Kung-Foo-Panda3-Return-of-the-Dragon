@@ -59,35 +59,10 @@ export default {
   data: () => ({
     dialog: false,
     dialogDelete: false,
-    // headers: [
-    // {
-    //     text: 'Dessert (100g serving)',
-    //     align: 'start',
-    //     sortable: false,
-    //     value: 'name',
-    // },
-    // { text: 'Calories', value: 'calories' },
-    // { text: 'Fat (g)', value: 'fat' },
-    // { text: 'Carbs (g)', value: 'carbs' },
-    // { text: 'Protein (g)', value: 'protein' },
-    // // { text: 'Actions', value: 'actions', sortable: false },
-    // ],
     items: [],
     editedIndex: -1,
-    editedItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
-    },
-    defaultItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
-    },
+    editedItem: {},
+    defaultItem: {},
   }),
 
   computed: {
@@ -121,14 +96,12 @@ export default {
     },
 
     editItem(item) {
-      // TODO: edit modal
       this.editedIndex = this.items.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      // TODO: delete modal
       this.editedIndex = this.items.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
@@ -157,9 +130,9 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        Object.assign(this.items[this.editedIndex], this.editedItem);
       } else {
-        this.desserts.push(this.editedItem);
+        this.items.push(this.editedItem);
       }
       this.close();
     },
