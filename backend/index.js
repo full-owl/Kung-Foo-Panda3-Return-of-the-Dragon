@@ -281,40 +281,54 @@ app.get("/inventory", async (req, res) => {
 });
 
 // add inventory item
-app.post("/inventoryitem/:type/:name/:amount", async (req, res) => {
+app.post("/inventoryitem/:ingredient/:unit/:amount", async (req, res) => {
     try {
         console.log(req.params);
-        const table = await pool.query("SELECT * FROM inventory;");
+        const ingred = req.params["ingredient"];
+        const unit = req.params["unit"];
+        const amount = req.params["amount"];
+        const table = await pool.query("INSERT INTO inventory (ingredient, currentamount, unit) VALUES ($1, $2, $3) RETURNING *", [ingred, amount, unit]);
         //console.log(table.rows);
         // table has a lot of extra parameters
-        res.json(table.rows); // response
+        res.json(table.rows[0]); // response
+        
     } catch (error) {
         console.error(error.message);
     }
 });
 
 // edit inventory item
-app.put("/inventoryitem/:id/:amount", async (req, res) => {
+app.put("/inventoryitem/:id/amount=:amount", async (req, res) => {
     try {
         console.log(req.params);
-        const table = await pool.query("SELECT * FROM inventory;");
+        const amount = req.params["amount"];
+        const id = req.params["id"];
+        const table = await pool.query("UPDATE inventory SET currentamount = $1 WHERE id = $2 RETURNING *", [amount, id]);
         //console.log(table.rows);
         // table has a lot of extra parameters
-        res.json(table.rows); // response
+        res.json(table.rows[0]); // response
     } catch (error) {
         console.error(error.message);
     }
 });
+
 // remove inventory item
-app.delete("/inventoryitem", async (req, res) => {
+app.delete("/inventoryitem/:ingredient", async (req, res) => {
     try {
         console.log(req.params);
-        const table = await pool.query("SELECT * FROM inventory;");
+        const ingred = req.params["ingredient"];
+        const table = await pool.query("DELETE FROM inventory WHERE ingredient=$1 RETURNING *", [ingred]);
         //console.log(table.rows);
         // table has a lot of extra parameters
-        res.json(table.rows); // response
+        if (table.rows.length === 0) {
+            res.json("Error: item does not exist")
+        }
+        else {
+            res.json(table.rows[0]); // response
+        }
     } catch (error) {
         console.error(error.message);
+        res.json("item does not exist")
     }
 });
 
@@ -324,7 +338,7 @@ app.delete("/inventoryitem", async (req, res) => {
 app.post("/menuitem", async (req, res) => {
     try {
         console.log(req.params);
-        const table = await pool.query("SELECT * FROM inventory;");
+        const table = await pool.query("DELETE FROM todo WHERE tid = $1");
         //console.log(table.rows);
         // table has a lot of extra parameters
         res.json(table.rows); // response
