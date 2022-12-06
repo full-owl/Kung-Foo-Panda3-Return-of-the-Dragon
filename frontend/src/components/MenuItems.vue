@@ -206,5 +206,4 @@ export default {
         color: aliceblue;
         font-weight: bold;
     }
-
 </style>
