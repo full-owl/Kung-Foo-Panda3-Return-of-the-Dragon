@@ -429,7 +429,23 @@ app.get("/inventory", async (req, res) => {
  * @swagger
  * /inventoryitem/{ingredient}/{unit}/{amount}:
  *  post:
- *      description: gives all inventory items in inventory database
+ *      description: creates and submits new inventory item to inventory database of ingredient, unit, and amount
+ *      parameters:
+ *          - name: ingredient
+ *            type: String
+ *            description: name of ingredient
+ *            required: true
+ *            in: path
+ *          - name: unit
+ *            type: String
+ *            description: name of unit (example - oz)
+ *            required: true
+ *            in: path
+ *          - name: amount
+ *            type: float
+ *            description: amount of inventory ingredient in size units
+ *            required: true
+ *            in: path
  *      responses: 
  *          200:
  *              description: Success
@@ -456,7 +472,18 @@ app.post("/inventoryitem/:ingredient/:unit/:amount", async (req, res) => {
  * @swagger
  * /inventoryitem/{id}/amount={amount}:
  *  put:
- *      description: gives all inventory items in inventory database
+ *      description: changes current amount of inventory item of id to amount
+ *      parameters:
+ *          - name: id
+ *            type: int
+ *            description: id of ingredient item
+ *            required: true
+ *            in: path
+ *          - name: amount
+ *            type: float
+ *            description: new amount of ingredient item
+ *            required: true
+ *            in: path
  *      responses: 
  *          200:
  *              description: Success
@@ -481,7 +508,13 @@ app.put("/inventoryitem/:id/amount=:amount", async (req, res) => {
  * @swagger
  * /inventoryitem/{ingredient}:
  *  delete:
- *      description: gives all inventory items in inventory database
+ *      description: deletes inventory item of name inventory from database
+ *      parameters:
+ *          - name: ingredient
+ *            type: String
+ *            description: String name of inventory item to delete
+ *            required: true
+ *            in: path
  *      responses: 
  *          200:
  *              description: Success
@@ -513,7 +546,18 @@ app.delete("/inventoryitem/:ingredient", async (req, res) => {
  * @swagger
  *  /menuitem/name={name}/foodtype={foodtype}:
  *  post:
- *      description: gives all inventory items in inventory database
+ *      description: Inserts menu item of name and foodtype into database
+ *      parameters:
+ *          - name: name
+ *            type: String
+ *            description: String name of new menu item
+ *            required: true
+ *            in: path      
+ *          - name: foodtype
+ *            type: String
+ *            description: String foodtype in which the new menu item belongs in
+ *            required: true
+ *            in: path      
  *      responses: 
  *          200:
  *              description: Success
@@ -536,9 +580,25 @@ app.post("/menuitem/name=:name/foodtype=:foodtype", async (req, res) => {
 
 /**
  * @swagger
- *  /menuitem/name={name}/foodtype={foodtype}:
+ *  /menuitem/{id}/name={name}/foodtype={foodtype}:
  *  put:
- *      description: gives all inventory items in inventory database
+ *      description: edits menu item of id to a new name and/or foodtype
+ *      parameters:
+ *          - name: id
+ *            type: int
+ *            description: int id of menu item to be edited
+ *            required: true
+ *            in: path  
+ *          - name: name
+ *            type: String
+ *            description: String new name of menu item to be edited
+ *            required: true
+ *            in: path      
+ *          - name: foodtype
+ *            type: String
+ *            description: String new foodtype in which the edited menu item belongs in
+ *            required: true
+ *            in: path     
  *      responses: 
  *          200:
  *              description: Success
@@ -564,7 +624,13 @@ app.put("/menuitem/:id/name=:name/foodtype=:foodtype", async (req, res) => {
  * @swagger
  *  /menuitem/{menuid}:
  *  delete:
- *      description: gives all inventory items in inventory database
+ *      description: removes menu item of menu id from menuitems database
+ *      parameters:
+ *          - name: menuid
+ *            type: int
+ *            description: int id of menu item to be deleted
+ *            required: true
+ *            in: path  
  *      responses: 
  *          200:
  *              description: Success
@@ -587,7 +653,7 @@ app.delete("/menuitem/:menuid", async (req, res) => {
     }
 });
 
-
+// helpful stuff to make the functinos
 
 // // get a todo
 // app.get("/todos/:id", async(req,res)=> {
