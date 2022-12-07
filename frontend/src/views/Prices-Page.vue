@@ -50,7 +50,7 @@ export default {
     },
     methods: {
         async addms() {
-            //console.log("clicked");
+            //fixed;
             let res = await fetch(`${consts.backend_url}/mealsizeitem/${this.msType}/${this.msName}/${this.msPrice}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json"},
