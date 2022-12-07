@@ -1,42 +1,48 @@
 <template>
   <div>
     <div class="container container-fluid">
-        <div class="row">
-            <h3 class="col">{{ title }}</h3>
-            <v-dialog v-model="dialog" max-width="500">
-                <template v-slot:activator="{ props }">
-                    <button class="col btn btn-primary" v-bind="props">
-                    New Item
-                    </button>
-                </template>
-                <v-card :title="formTitle">
-                    <v-card-text>
-                        <slot name="form" />
-                    </v-card-text>
+      <div class="row">
+        <h3 class="col">{{ title }}</h3>
+        <v-dialog v-model="dialog" max-width="500">
+          <template v-slot:activator="{ props }">
+            <button class="col btn btn-primary" v-bind="props">New Item</button>
+          </template>
+          <v-card :title="formTitle">
+            <v-card-text>
+              <slot name="form" />
+            </v-card-text>
 
-                    <v-card-actions>
-                        <button type="button" class="btn btn-secondary" @click="close">Close</button>
-                        <button type="button" class="btn btn-primary" @click="save">Save</button>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
-            <v-dialog v-model="dialogDelete" max-width="250">
-                <v-card title="Delete Row">
-                <v-card-actions>
-                <button type="button" class="btn btn-secondary" @click="closeDelete">
-                    Cancel
-                </button>
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    @click="deleteItemConfirm"
-                >
-                    Delete
-                </button>
-                </v-card-actions>
-            </v-card>
-            </v-dialog>
-        </div>
+            <v-card-actions>
+              <button type="button" class="btn btn-secondary" @click="close">
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" @click="save">
+                Save
+              </button>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-dialog v-model="dialogDelete" max-width="250">
+          <v-card title="Delete Row">
+            <v-card-actions>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                @click="closeDelete"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                @click="deleteItemConfirm"
+              >
+                Delete
+              </button>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
     </div>
 
     <table class="table">
@@ -79,10 +85,10 @@
 import consts from "../consts";
 
 export default {
-    props:{
-        title: String,
-        endpoint: String,
-    },
+  props: {
+    title: String,
+    endpoint: String,
+  },
   data: () => ({
     dialog: false,
     dialogDelete: false,
