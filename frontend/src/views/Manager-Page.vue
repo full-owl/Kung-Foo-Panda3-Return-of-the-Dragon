@@ -10,7 +10,11 @@
             <router-link to="/menu-items">Menu Items</router-link>
         </div>
 
-        <CRUDTable />
+        <CRUDTable title="Manager" endpoint="/inventory">
+            <template v-slot:form>
+                asdfjkasdflkjas;djf
+            </template>
+        </CRUDTable>
         <!-- <table class="table">
             <thead>
                 <tr>
