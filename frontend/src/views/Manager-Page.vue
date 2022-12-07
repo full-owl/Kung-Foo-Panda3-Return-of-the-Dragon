@@ -1,15 +1,12 @@
 <template>
-
     <div>
-
         <h1>Inventory</h1>
-
         <div class="navButtons">
             <router-link to="/manager">Inventory</router-link>
             <router-link to="/prices">Pricing</router-link>
             <router-link to="/menu-items">Menu Items</router-link>
         </div>
-
+        <ChangeInventory></ChangeInventory>
         <table class="table">
             <thead>
                 <tr>
@@ -106,6 +103,19 @@
     </div>
     
 </template>
+
+<script>
+import ChangeInventory from './ChangeInventory';
+export default {
+    components:
+    {
+        ChangeInventory
+    },
+    methods:
+    {
+    }
+}
+</script>
 
 <style scoped>
 .navButtons {

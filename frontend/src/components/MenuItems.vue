@@ -4,7 +4,6 @@
             <div class="col d-flex flex-column">
                 <div>
                     <h2>Type</h2>
-
                     <div class="d-flex flex-wrap">
                         <button v-for="item in bowls" :key="item.id" :disabled="isBowlDisabled"
                         type="button" class="btn btn-primary" @click="addType(item)">{{ capitalize(item.name) }}
@@ -40,9 +39,9 @@
                         type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
                     </div>
                 </div>
-                <div class>
+                <div class="currentItem">
                     <!-- TODO: make selections look better/more intuative -->
-                    <p>{{OrderType.name}}</p>
+                    <p>Type: {{OrderType.name}}</p>
                     <!-- <p>{{ consts.numInCombo[OrderType.name]}}</p> -->
                     <ul>
                         <li v-for="part in OrderItems" :key="part">
@@ -205,5 +204,13 @@ export default {
         border-color: aliceblue;
         color: aliceblue;
         font-weight: bold;
+    }
+
+    .currentItem {
+        text-indent: 5px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        outline: blue;
+        outline-style: solid;
     }
 </style>
