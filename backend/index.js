@@ -578,6 +578,53 @@ app.post("/menuitem/name=:name/foodtype=:foodtype", async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ *   /menuitem:
+ *   post:
+ *     description: Inserts a new menu item into the database
+ *     requestBody:
+ *          description: asdf
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      additionalProperties:
+ *                          type: string
+ *                          properties:
+ *                              name: 
+ *                                  type: string
+ *                              foodtype: 
+ *                                  type: string
+ *                              description:
+ *                                  type: array
+ *                                  items:
+ *                                      type: string
+ *                              ingredients:
+ *                                  type: array
+ *                                  items:
+ *                                      type: object
+ *                                      additionalProperties: true
+ *     responses:
+ *          200:
+ *              description: Success
+ */
+app.post("/menuitem", async (req, res) => {
+    try {
+        console.log(req.body);
+        const {name, foodtype, description, ingredients} = req.body;
+
+        console.assert(ingredients.reduce((acc,i) => acc + i.porportion, 0) == 1);
+        const table = await pool.query("INSERT INTO menuitems (name, foodtype, description) VALUES ($1, $2, $3) RETURNING *", [name, foodtype, description == "" ? description : "Not Available"]);
+        // TODO: add ingredients
+        // TODO: add error handling
+        res.json(table.rows[0]);
+    } catch (error) {
+        console.error(error);
+    }
+})
+
 // edit menu item
 
 /**
@@ -650,6 +697,49 @@ app.delete("/menuitem/:menuid", async (req, res) => {
         else {
             res.json(table.rows[0]); // response
         }
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// add mealsize
+
+/**
+ * @swagger
+ * /inventoryitem/{ingredient}/{unit}/{amount}:
+ *  post:
+ *      description: creates and submits new inventory item to inventory database of ingredient, unit, and amount
+ *      parameters:
+ *          - name: ingredient
+ *            type: String
+ *            description: name of ingredient
+ *            required: true
+ *            in: path
+ *          - name: unit
+ *            type: String
+ *            description: name of unit (example - oz)
+ *            required: true
+ *            in: path
+ *          - name: amount
+ *            type: float
+ *            description: amount of inventory ingredient in size units
+ *            required: true
+ *            in: path
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
+ app.put("/mealsizeitem/:foodtype/:name/:price", async (req, res) => {
+    try {
+        console.log(req.params);
+        const foodtype = req.params["foodtype"];
+        const name = req.params["name"];
+        const price = Number(req.params["price"]);
+        const table = await pool.query("UPDATE mealsizes SET price = $3 WHERE foodtype = $1 AND name = $2 RETURNING *", [foodtype, name, price]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows[0]); // response
+        
     } catch (error) {
         console.error(error.message);
     }

@@ -1,111 +1,75 @@
 <template>
-
     <div>
-
         <h1>Inventory</h1>
-
         <div class="navButtons">
             <router-link to="/manager">Inventory</router-link>
             <router-link to="/prices">Pricing</router-link>
             <router-link to="/menu-items">Menu Items</router-link>
         </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                <th scope="col">id</th>
-                <th scope="col">ingredient</th>
-                <th scope="col">currentamount</th>
-                <th scope="col">unit</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <th scope="row">1</th>
-                <td>rice</td>
-                <td>72</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>brown rice</td>
-                <td>72</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td>vegetables</td>
-                <td>95</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">4</th>
-                <td>vegetables</td>
-                <td>95</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">5</th>
-                <td>broccoli</td>
-                <td>94</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">6</th>
-                <td>chicken</td>
-                <td>45</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">7</th>
-                <td>orange sauce</td>
-                <td>96</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">8</th>
-                <td>steak</td>
-                <td>100</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">9</th>
-                <td>black pepper sauce</td>
-                <td>100</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">10</th>
-                <td>shrimp</td>
-                <td>100</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">11</th>
-                <td>walnut</td>
-                <td>100</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">12</th>
-                <td>honey walnut shrimp sauce</td>
-                <td>100</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">13</th>
-                <td>black pepper sauce</td>
-                <td>100</td>
-                <td>oz</td>
-                </tr>
-            </tbody>
-        </table>
-
+        <CRUDTable title="Manager" endpoint="/inventory">
+            <template v-slot:form>
+                <form>
+                    <div class="form-group">
+                        <label>Ingredient Name:</label>
+                        <input class="form-control" type="ingName" required v-model="ingName">
+                    </div>
+                    <div class="form-group">
+                        <label>Ingredient Unit:</label>
+                        <input class="form-control" type="ingUnit" required v-model="ingUnit">
+                    </div>
+                    <div class="form-group">
+                        <label>Ingredient Amount:</label>
+                        <input class="form-control" type="ingAmt" required v-model="ingAmt">
+                    </div>
+                </form>
+                <button type="button" class="btn btn-primary" @click="addIng">Add Ingredient</button>
+            </template>
+        </CRUDTable>
         <footer><router-link to="../">Main Menu</router-link></footer>
-
     </div>
     
 </template>
+
+<script>
+import CRUDTable from '../components/CRUDTable.vue';
+import consts from '../consts.js'; 
+export default {
+    components: {
+        CRUDTable,
+    },
+    data()
+    {
+        return {
+            ingName: '',
+            ingUnit: '',
+            ingAmt: 0,
+        }
+    },
+    methods: {
+        async addIng() {
+            //console.log("clicked");
+            let res = await fetch(`${consts.backend_url}/inventoryitem/${this.ingName}/${this.ingUnit}/${this.ingAmt}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json"},
+                body: JSON.stringify({
+                    ingredient: this.ingName,
+                    unit: this.ingUnit,
+                    amount: this.ingAmt,
+                }),
+            }); 
+            // TODO: better error handling
+            if(!res.ok) {
+                console.error(res);
+            }
+            console.log(this.name);
+            this.ingName = '';
+            this.ingUnit = '';
+            this.ingAmt = 0;
+        }
+    }
+}
+</script>
 
 <style scoped>
 .navButtons {
@@ -139,6 +103,7 @@
 }
  
 footer {
-  position: relative;
-}
+    position: relative;
+    margin-top: 15px;
+  }
 </style>

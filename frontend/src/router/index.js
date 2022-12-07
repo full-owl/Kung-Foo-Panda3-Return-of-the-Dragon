@@ -3,6 +3,7 @@ import Manager from '../views/Manager-Page.vue'
 import Home from '../views/Home-Page.vue'
 import Cashier from '../views/Cashier-Page.vue'
 import Prices from '../views/Prices-Page.vue'
+import MenuItems from '../views/Menu-Items.vue';
 
 import UserMenu from '../views/Customer-Page.vue'
 import Bigger from '../views/Customer-Bigger-Page.vue'
@@ -69,6 +70,11 @@ const routes = [
         name: 'Drinks',
         component: Drinks,
     },
+    {
+        path: '/menu-items',
+        name: 'Menu Items',
+        component: MenuItems,
+    }
 
 ]
 

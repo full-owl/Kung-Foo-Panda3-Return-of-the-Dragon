@@ -10,149 +10,67 @@
             <router-link to="/menu-items">Menu Items</router-link>
         </div> 
 
-        <table class="table">
-            <thead>
-                <tr>
-                <th scope="col">id</th>
-                <th scope="col">foodtype</th>
-                <th scope="col">name</th>
-                <th scope="col">amountneeded</th>
-                <th scope="col">price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <th scope="row">1</th>
-                <td>entree</td>
-                <td>small</td>
-                <td>1</td>
-                <td>4.9</td>
-                </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>entree</td>
-                <td>medium</td>
-                <td>2</td>
-                <td>8.9</td>
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td>entree</td>
-                <td>large</td>
-                <td>4</td>
-                <td>10.4</td>
-                </tr>
-                <tr>
-                <th scope="row">4</th>
-                <td>premium entree</td>
-                <td>small</td>
-                <td>1</td>
-                <td>6.15</td>
-                </tr>
-                <tr>
-                <th scope="row">5</th>
-                <td>premium entree</td>
-                <td>medium</td>
-                <td>2</td>
-                <td>10.7</td>
-                </tr>
-                <tr>
-                <th scope="row">6</th>
-                <td>premium entree</td>
-                <td>large</td>
-                <td>4</td>
-                <td>14.65</td>
-                </tr>
-                <tr>
-                <th scope="row">7</th>
-                <td>drink</td>
-                <td>small</td>
-                <td>16</td>
-                <td>2.1</td>
-                </tr>
-                <tr>
-                <th scope="row">8</th>
-                <td>drink</td>
-                <td>medium</td>
-                <td>24</td>
-                <td>2.3</td>
-                </tr>
-                <tr>
-                <th scope="row">9</th>
-                <td>drink</td>
-                <td>large</td>
-                <td>32</td>
-                <td>2.5</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <v-dialog max-width="500" v-model="dialog">
-            <v-card :title="'Choose Size for ' + item.name">
-            <v-card-text>
-                <v-btn-toggle v-model="selected" shaped mandatory>
-                <v-btn v-for="size in mealsizes[item.foodtype]" :key="size.name">
-                    {{ size.name }}
-                </v-btn>
-                </v-btn-toggle>
-            </v-card-text>
-            </v-card>
-        </v-dialog>
-     
-
-
+        <CRUDTable title="Item Prices" endpoint="/mealsizes">
+            <template v-slot:form>
+                <form>
+                    <div class="form-group">
+                        <label>Food Type:</label>
+                        <input class="form-control" type="msType" required v-model="msType">
+                    </div>
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input class="form-control" type="msName" required v-model="msName">
+                    </div>
+                    <div class="form-group">
+                        <label>Price:</label>
+                        <input class="form-control" type="msPrice" required v-model="msPrice">
+                    </div>
+                </form>
+                <button type="button" class="btn btn-primary" @click="addms">Edit Price</button>
+            </template>
+        </CRUDTable>
         <footer><router-link to="../">Main Menu</router-link></footer>
-
     </div>
-    
 </template>
 
 <script>
-import consts from "../consts.js";
-
+import CRUDTable from '../components/CRUDTable.vue';
+import consts from '../consts.js'; 
 export default {
-//   props: {
-//     receiptTable: Object,
-//   },
-  data() {
-    return {
-      dialog: false,
-      item: {},
-      selected: 0,
-      mealsizes: {},
-    };
-  },
-  async created() {
-    // Get sizes from backend
-    const res = await fetch(`${consts.backend_url}/mealsizes`);
-    const mealsizes = await res.json();
-    // Convert from rows to a Map grouped by foodtype like sides, entrees, etc.
-    this.mealsizes = mealsizes;
-    // this.mealsizes = mealsizes.reduce((group, mealsize) => {
-    //   // console.log(mealsize);
-    //   if (mealsize.foodtype == "combo") {
-    //     return group;
-    //   }
-    //   if (["small", "medium", "large"].includes(mealsize.name)) {
-    //     group[mealsize.foodtype] = group[mealsize.foodtype] ?? [];
-    //     group[mealsize.foodtype].push(mealsize);
-    //   }
-    //   return group;
-    // }, {});
-  },
-  methods: {
-    show(item) {
-      this.item = item;
-      this.dialog = true;
-      return this.dialog;
+    components: {
+        CRUDTable,
     },
-    addOrderToReciept() {
-      this.dialog = false;
-      let type = this.mealsizes[this.item.foodtype][this.selected];
-      this.$emit("addOrder", type, [this.item]);
+    data()
+    {
+        return {
+            msType: '',
+            msName: '',
+            msPrice: 0
+        }
     },
-  },
-};
+    methods: {
+        async addms() {
+            //fixed;
+            let res = await fetch(`${consts.backend_url}/mealsizeitem/${this.msType}/${this.msName}/${this.msPrice}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json"},
+                body: JSON.stringify({
+                    foodtype: this.msType,
+                    name: this.msName,
+                    price: this.msPrice,
+                }),
+            }); 
+            // TODO: better error handling
+            if(!res.ok) {
+                console.error(res);
+            }
+            console.log(this.msName);
+            this.msType = '';
+            this.msName = '';
+            this.msPrice = 0;
+        }
+    }    
+}
 </script>
 
 <style scoped>
@@ -185,4 +103,9 @@ export default {
     border: 2px solid red;
     /* opacity: 0.3; */
 }
+
+footer {
+    position: relative;
+    margin-top: 15px;
+  }
 </style>
