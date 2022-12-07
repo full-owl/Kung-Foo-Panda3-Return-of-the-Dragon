@@ -10,12 +10,18 @@
         <CRUDTable title="Manager" endpoint="/inventory">
             <template v-slot:form>
                 <form>
-                    <label>Ingredient Name:</label>
-                    <input type="ingName" required v-model="ingName">
-                    <label>Ingredient Unit:</label>
-                    <input type="ingUnit" required v-model="ingUnit">
-                    <label>Ingredient Amount:</label>
-                    <input type="ingAmt" required v-model="ingAmt">
+                    <div class="form-group">
+                        <label>Ingredient Name:</label>
+                        <input class="form-control" type="ingName" required v-model="ingName">
+                    </div>
+                    <div class="form-group">
+                        <label>Ingredient Unit:</label>
+                        <input class="form-control" type="ingUnit" required v-model="ingUnit">
+                    </div>
+                    <div class="form-group">
+                        <label>Ingredient Amount:</label>
+                        <input class="form-control" type="ingAmt" required v-model="ingAmt">
+                    </div>
                 </form>
                 <button type="button" class="btn btn-primary" @click="addIng">Add Ingredient</button>
             </template>
@@ -27,7 +33,7 @@
 
 <script>
 import CRUDTable from '../components/CRUDTable.vue';
-
+import consts from '../consts.js'; 
 export default {
     components: {
         CRUDTable,
