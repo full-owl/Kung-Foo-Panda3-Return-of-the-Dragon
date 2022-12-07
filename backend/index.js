@@ -8,6 +8,30 @@ const e = require("express");
 
 const port = 8800;
 
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
+
+// doc options
+
+const swaggerOptions = {
+    swaggerDefinition: {
+        info : {
+            title: 'Panda Express API',
+            version: '1.0.0'
+        }
+    },
+    apis: ['index.js'],
+}
+
+const options = {
+    swaggerOptions: {
+        supportedSubmitMethods:['get']
+    },
+    customSiteTitle: "Panda Express Team 55 API Documentation",
+    customfavIcon: "peFav.png"
+}
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerDocs, options));
 //middle ware
 
 app.use(cors());
@@ -42,19 +66,45 @@ app.listen(port, () => {
 
 // get all items of type
 
+/**
+ * @swagger
+ * /items/{type}:
+ *  get:
+ *      parameters: 
+ *          - name: type
+ *            type: string
+ *            description: string that is type of meal item. Could be drink, appetizer, premium entree, entree, or side
+ *            in: path
+ *            required: true
+ *            minimum: 1
+ *      description: Gets all menuitems of type
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
 app.get("/items/:type", async (req, res) => {
     try {
         console.log(req.params);
         const item_type = req.params["type"];
-        const table = await pool.query("SELECT * FROM menuitems WHERE foodtype=$1;", [item_type]);
+        const table = await pool.query("SELECT * FROM menuitems WHERE foodtype=$1 ORDER BY name;", [item_type]);
         //console.log(table.rows);
         // table has a lot of extra parameters
         res.json(table.rows); // response
     } catch (error) {
         console.error(error.message);
+        res.sendStatus(404).send(Error);
     }
 });
 
+/**
+ * @swagger
+ * /combosizes:
+ *  get:
+ *      description: Gets all combo meal sizes
+ *      responses: 
+ *          201:
+ *              description: Success
+ */
 app.get("/combosizes", async (req, res) => {
     try {
         console.log(req.params);
@@ -68,6 +118,15 @@ app.get("/combosizes", async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /mealsizes:
+ *  get:
+ *      description: Gets all meal sizes and meal types
+ *      responses: 
+ *          202:
+ *              description: Success
+ */
 app.get("/mealsizes", async (req,res) => {
     try {
         console.log(req.params);
@@ -78,7 +137,28 @@ app.get("/mealsizes", async (req,res) => {
     }
 });
 
-// get price of foodtype and name(size)
+/**
+ * @swagger
+ * /prices/{foodtype}/{size}:
+ *  get:
+ *      description: Gets mealsizes item object needed for pricing
+ *      parameters:
+ *          - name: foodtype
+ *            type: String
+ *            required: true
+ *            in: path
+ *            description: string type of food, could be entree, premium entree, drink, combo, side
+ *            minimum: 1
+ *          - name: size
+ *            type: String
+ *            required: true
+ *            in: path
+ *            description: name of mealitem of foodtype
+ *            minimum: 1
+ *      responses: 
+ *          202:
+ *              description: Success
+ */
 app.get("/prices/:foodtype/:size", async (req, res) => {
     try {
         const food_type = req.params["foodtype"];
@@ -90,6 +170,15 @@ app.get("/prices/:foodtype/:size", async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /order:
+ *  post:
+ *      description: Submits order items in request body to order and order items database. Body has order items, total price, etc
+ *      responses: 
+ *          201:
+ *              description: Success
+ */
 app.post("/order", async(req, res) => {
     try {
         // orders query
@@ -192,6 +281,382 @@ app.post("/order", async(req, res) => {
         console.log("Error generated");
     }
 });
+
+// TODO
+// manager view functions
+
+// get table of orders
+
+/**
+ * @swagger
+ * /orders:
+ *  get:
+ *      description: gives all orders from order database
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
+app.get("/orders", async (req, res) => {
+    try {
+        console.log(req.params);
+        const table = await pool.query("SELECT * FROM orders;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// get revenue over past week
+
+/**
+ * @swagger
+ * /sales:
+ *  get:
+ *      description: gives float of total revenue (including tax) over the past week
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
+app.get("/sales", async (req, res) => {
+    try {
+        console.log(req.params);
+        const sd = new Date(); 
+        const ed = new Date();
+        
+        sd.setDate(ed.getDate() - 7)
+        const sdate = (sd.getFullYear() + "-"+ (sd.getMonth()+1) + "-" +(sd.getDate()));
+        console.log("Start:"+sdate)
+        const edate = (ed.getFullYear() + "-"+ (ed.getMonth()+1) + "-" +(ed.getDate()));
+        console.log("End:"+edate)
+
+        
+        const table = await pool.query("SELECT SUM(total) FROM orders WHERE date>=$1;", [sdate]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        let revenue = parseFloat(table.rows[0].sum);
+        if (!revenue) {
+            revenue = 0.00;
+        }
+        res.json(revenue); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// get sales of today
+
+/**
+ * @swagger
+ * /salestoday:
+ *  get:
+ *      description: gives float of total revenue (including tax) during the current day
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
+app.get("/salestoday", async (req, res) => {
+    try {
+        console.log(req.params);
+        const ed = new Date(); 
+        
+        const edate = (ed.getFullYear() + "-"+ (ed.getMonth()+1) + "-" +(ed.getDate()));
+        console.log("End:"+edate);
+        
+        const table = await pool.query("SELECT SUM(total) FROM orders WHERE date=$1;", [edate]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        let revenue = parseFloat(table.rows[0].sum);
+        if (!revenue) {
+            revenue = 0.00;
+        }
+        res.json(revenue); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// get table of menu items
+
+/**
+ * @swagger
+ * /menuitems:
+ *  get:
+ *      description: gives all menu items in menu items database
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
+app.get("/menuitems", async (req, res) => {
+    try {
+        const table = await pool.query("SELECT * FROM menuitems;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+
+// get table of inventory items
+
+/**
+ * @swagger
+ * /inventory:
+ *  get:
+ *      description: gives all inventory items in inventory database
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
+app.get("/inventory", async (req, res) => {
+    try {
+        console.log(req.params);
+        const table = await pool.query("SELECT * FROM inventory;");
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+
+// add inventory item
+
+/**
+ * @swagger
+ * /inventoryitem/{ingredient}/{unit}/{amount}:
+ *  post:
+ *      description: creates and submits new inventory item to inventory database of ingredient, unit, and amount
+ *      parameters:
+ *          - name: ingredient
+ *            type: String
+ *            description: name of ingredient
+ *            required: true
+ *            in: path
+ *          - name: unit
+ *            type: String
+ *            description: name of unit (example - oz)
+ *            required: true
+ *            in: path
+ *          - name: amount
+ *            type: float
+ *            description: amount of inventory ingredient in size units
+ *            required: true
+ *            in: path
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
+app.post("/inventoryitem/:ingredient/:unit/:amount", async (req, res) => {
+    try {
+        console.log(req.params);
+        const ingred = req.params["ingredient"];
+        const unit = req.params["unit"];
+        const amount = req.params["amount"];
+        const table = await pool.query("INSERT INTO inventory (ingredient, currentamount, unit) VALUES ($1, $2, $3) RETURNING *", [ingred, amount, unit]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows[0]); // response
+        
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// edit inventory item
+
+/**
+ * @swagger
+ * /inventoryitem/{id}/amount={amount}:
+ *  put:
+ *      description: changes current amount of inventory item of id to amount
+ *      parameters:
+ *          - name: id
+ *            type: int
+ *            description: id of ingredient item
+ *            required: true
+ *            in: path
+ *          - name: amount
+ *            type: float
+ *            description: new amount of ingredient item
+ *            required: true
+ *            in: path
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
+app.put("/inventoryitem/:id/amount=:amount", async (req, res) => {
+    try {
+        console.log(req.params);
+        const amount = req.params["amount"];
+        const id = req.params["id"];
+        const table = await pool.query("UPDATE inventory SET currentamount = $1 WHERE id = $2 RETURNING *", [amount, id]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows[0]); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// TODO - add to proportions table
+// remove inventory item
+
+/**
+ * @swagger
+ * /inventoryitem/{ingredient}:
+ *  delete:
+ *      description: deletes inventory item of name inventory from database
+ *      parameters:
+ *          - name: ingredient
+ *            type: String
+ *            description: String name of inventory item to delete
+ *            required: true
+ *            in: path
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
+app.delete("/inventoryitem/:ingredient", async (req, res) => {
+    try {
+        console.log(req.params);
+        const ingred = req.params["ingredient"];
+        const table = await pool.query("DELETE FROM inventory WHERE ingredient=$1 RETURNING *", [ingred]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        if (table.rows.length === 0) {
+            res.json("Error: item does not exist")
+        }
+        else {
+            res.json(table.rows[0]); // response
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.json("item does not exist")
+    }
+});
+
+// menu items
+
+// add menu item
+
+/**
+ * @swagger
+ *  /menuitem/name={name}/foodtype={foodtype}:
+ *  post:
+ *      description: Inserts menu item of name and foodtype into database
+ *      parameters:
+ *          - name: name
+ *            type: String
+ *            description: String name of new menu item
+ *            required: true
+ *            in: path      
+ *          - name: foodtype
+ *            type: String
+ *            description: String foodtype in which the new menu item belongs in
+ *            required: true
+ *            in: path      
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
+app.post("/menuitem/name=:name/foodtype=:foodtype", async (req, res) => {
+    try {
+        console.log(req.params);
+        const {name} =req.params;
+        const {foodtype} =req.params;
+        const table = await pool.query("INSERT INTO menuitems (name, foodtype, description) VALUES ($1, $2, 'Not Available') RETURNING *",[name, foodtype]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows[0]); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// edit menu item
+
+/**
+ * @swagger
+ *  /menuitem/{id}/name={name}/foodtype={foodtype}:
+ *  put:
+ *      description: edits menu item of id to a new name and/or foodtype
+ *      parameters:
+ *          - name: id
+ *            type: int
+ *            description: int id of menu item to be edited
+ *            required: true
+ *            in: path  
+ *          - name: name
+ *            type: String
+ *            description: String new name of menu item to be edited
+ *            required: true
+ *            in: path      
+ *          - name: foodtype
+ *            type: String
+ *            description: String new foodtype in which the edited menu item belongs in
+ *            required: true
+ *            in: path     
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
+app.put("/menuitem/:id/name=:name/foodtype=:foodtype", async (req, res) => {
+    try {
+        console.log(req.params);
+        const {id} = req.params;
+        const {name} = req.params;
+        const{foodtype} = req.params;
+        const table = await pool.query("UPDATE menuitems SET name=$1, foodtype=$2 WHERE id=$3 RETURNING *;",[name,foodtype,id]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows[0]); // response
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// remove menu item
+
+/**
+ * @swagger
+ *  /menuitem/{menuid}:
+ *  delete:
+ *      description: removes menu item of menu id from menuitems database
+ *      parameters:
+ *          - name: menuid
+ *            type: int
+ *            description: int id of menu item to be deleted
+ *            required: true
+ *            in: path  
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
+app.delete("/menuitem/:menuid", async (req, res) => {
+    try {
+        console.log(req.params);
+        const id = req.params["menuid"];
+        const table = await pool.query("DELETE FROM menuitems WHERE id=$1 RETURNING *", [id]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        if (table.rows.length === 0) {
+            res.json("Menu Item Error: item does not exist");
+        }
+        else {
+            res.json(table.rows[0]); // response
+        }
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// helpful stuff to make the functinos
+
 // // get a todo
 // app.get("/todos/:id", async(req,res)=> {
 //     try {

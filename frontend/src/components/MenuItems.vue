@@ -7,7 +7,8 @@
 
                     <div class="d-flex flex-wrap">
                         <button v-for="item in bowls" :key="item.id" :disabled="isBowlDisabled"
-                        type="button" class="btn btn-primary" @click="addType(item)">{{ capitalize(item.name) }}</button>
+                        type="button" class="btn btn-primary" @click="addType(item)">{{ capitalize(item.name) }}
+                        <p>Price: ${{(item.price)}}</p></button>
                     </div>
                 </div>
                 <div>
@@ -201,5 +202,6 @@
         border-radius: 0%;
         border-color: aliceblue;
         color: aliceblue;
+        font-weight: bold;
     }
 </style>
