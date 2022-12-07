@@ -9,7 +9,15 @@
 
         <CRUDTable title="Manager" endpoint="/inventory">
             <template v-slot:form>
-                <!-- TODO: inventory form -->
+                <form>
+                    <label>Ingredient Name:</label>
+                    <input type="ingName" required v-model="ingName">
+                    <label>Ingredient Unit:</label>
+                    <input type="ingUnit" required v-model="ingUnit">
+                    <label>Ingredient Amount:</label>
+                    <input type="ingAmt" required v-model="ingAmt">
+                </form>
+                <button type="button" class="btn btn-primary" @click="addIng">Add Ingredient</button>
             </template>
         </CRUDTable>
         <footer><router-link to="../">Main Menu</router-link></footer>
@@ -24,6 +32,36 @@ export default {
     components: {
         CRUDTable,
     },
+    data()
+    {
+        return {
+            ingName: '',
+            ingUnit: '',
+            ingAmt: 0,
+        }
+    },
+    methods: {
+        async addIng() {
+            //console.log("clicked");
+            let res = await fetch(`${consts.backend_url}/inventoryitem/${this.ingName}/${this.ingUnit}/${this.ingAmt}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json"},
+                body: JSON.stringify({
+                    ingredient: this.ingName,
+                    unit: this.ingUnit,
+                    amount: this.ingAmt,
+                }),
+            }); 
+            // TODO: better error handling
+            if(!res.ok) {
+                console.error(res);
+            }
+            console.log(this.name);
+            this.ingName = '';
+            this.ingUnit = '';
+            this.ingAmt = 0;
+        }
+    }
 }
 </script>
 
