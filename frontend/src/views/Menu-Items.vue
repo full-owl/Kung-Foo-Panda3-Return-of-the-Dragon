@@ -9,7 +9,7 @@
 
         <CRUDTable title="Menu Items" endpoint="/menuitems">
             <template v-slot:form>
-                <!-- TODO: inventory form -->
+                <menu-items-form />
             </template>
         </CRUDTable>
         <footer><router-link to="../">Main Menu</router-link></footer>
@@ -19,10 +19,12 @@
 
 <script>
 import CRUDTable from '../components/CRUDTable.vue';
+import MenuItemsForm from '../components/MenuItemsForm.vue';
 
 export default {
     components: {
         CRUDTable,
+        MenuItemsForm,
     },
 }
 </script>
