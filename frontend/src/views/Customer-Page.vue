@@ -2,9 +2,7 @@
 
   <div>
 
-    <h1>Panda Menu</h1>
-
-    <div class="grid-container">
+    <!-- <div class="grid-container">
 
     <router-link to="/bowl">
     <div class="card">
@@ -66,15 +64,15 @@
     </div>
   </router-link>
   
-  </div>
+  </div> -->
 
-        
+    <UserMenuItems></UserMenuItems>
     <footer><router-link to="../">Main Menu</router-link></footer>
 
     </div>
 </template>
 
-<!-- <script>
+<script>
 import UserMenuItems from '../components/UserMenuItems.vue';
 
 
@@ -85,9 +83,14 @@ export default {
     UserMenuItems,
   },
 }
-</script> -->
+</script>
 
 <style scoped>
+.headerBreak {
+  background-color: red;
+  width: 100%;
+  height: 36px;
+}
 .grid-container{
   display: grid;
   grid-template-columns: auto auto auto;

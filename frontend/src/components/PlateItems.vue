@@ -4,7 +4,7 @@
             <div class="col d-flex flex-column">
 
                 <div>
-                    <h2>Side</h2>
+                    <h2>Choose 1 Side</h2>
                     <div class="d-flex flex-wrap">
                         <button 
                             v-for="item in sides" :key="item.id" :disabled="isSideDisabled"
@@ -15,7 +15,7 @@
                 </div>
 
                 <div>
-                    <h2>Entree</h2>
+                    <h2>Choose 2 Entrees</h2>
                     <div class="d-flex flex-wrap">
                         <button 
                             v-for="item in entrees" :key="item.id" :disabled="isEntreeDisabled"

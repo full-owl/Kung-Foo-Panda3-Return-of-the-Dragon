@@ -1,7 +1,7 @@
 <template>
     <div>
         <MenuItems/>
-        <footer><router-link to="../">Main Menu</router-link></footer>
+        <footer><router-link to="/usermenu">Back to Full Menu</router-link></footer>
     </div>
 </template>
 

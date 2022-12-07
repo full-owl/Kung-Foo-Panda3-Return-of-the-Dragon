@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pos">
     <table class="table">
       <thead class="table-dark">
         <tr>
@@ -119,6 +119,10 @@ export default {
 </script>
 
 <style scoped>
+.pos{
+  top:0;
+  position: sticky;
+}
     .btn {
         border-radius: 0%;
         border-color: aliceblue;
