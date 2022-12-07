@@ -2,63 +2,35 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col d-flex flex-column">
-                <div>
-                    <h2>Type</h2>
 
+                <div>
+                    <h2>Choose 1 Side</h2>
                     <div class="d-flex flex-wrap">
-                        <button v-for="item in bowls" :key="item.id" :disabled="isBowlDisabled"
-                        type="button" class="btn btn-primary" @click="addType(item)">{{ capitalize(item.name) }}
-                        <p>Price: ${{(item.price)}}</p></button>
+                        <button 
+                            v-for="item in sides" :key="item.id" :disabled="isSideDisabled"
+                            type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
+                            <img height="100" width:auto :src="addImg(item.id)"/>
+                        </button>
                     </div>
                 </div>
-                <div>
-                    <h2>Side</h2>
-                    <div class="d-flex flex-wrap">
-                        <button v-for="item in sides" :key="item.id" :disabled="isSideDisabled"
-                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
-                        
-                    </div>
 
-                </div>
                 <div>
-                    <h2>Entree</h2>
-
+                    <h2>Choose 2 Entrees</h2>
                     <div class="d-flex flex-wrap">
-                        <button v-for="item in entrees" :key="item.id" :disabled="isEntreeDisabled"
-                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
+                        <button 
+                            v-for="item in entrees" :key="item.id" :disabled="isEntreeDisabled"
+                            type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
+                            <img height="100" width:auto :src="addImg(item.id)"/>
+                        </button>
                     </div>
                 </div>
-                <div>
-                    <h2>Appetizer</h2>
-                    <div class="d-flex flex-wrap">
-                        <button v-for="item in appetizers" :key="item.id" :disabled="isAppDisabled"
-                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
-                    </div>
-                </div>
-                <div>
-                    <h2>Drinks</h2>
-                    <div class="d-flex flex-wrap">
-                        <button v-for="item in drinks" :key="item.id" :disabled="isDrinkDisabled"
-                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
-                    </div>
-                </div>
-                <div class>
-                      <!-- TODO: make selections look better/more intuative -->
-                      <p>{{OrderType.name}}</p>
-                      <!-- <p>{{ consts.numInCombo[OrderType.name]}}</p> -->
-                      <ul>
-                          <li v-for="part in OrderItems" :key="part">
-                              {{part.name}}
-                          </li>
-                      </ul>
-                  </div>
                   <div class="btn-group btn-group-lg container-fluid" role="group">
                       <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
                       <button type="button" class="btn btn-primary" @click="addOrderToReciept">Add to Order</button>
                   </div>
                   <choose-size ref="chooseSize" @addOrder="addAlLaCarteToReciept"/>
               </div>
-              <RecieptTable class="col-sm" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
+              <RecieptTable class="col-sm-4" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
           </div>
       </div>
   </template>
@@ -93,6 +65,9 @@
           }
       },
       methods: {
+            addImg(id){   
+                return require('./img/m-' + id + '.png');
+            },
           async fetchItems(foodtype) {
           // connection from backend folder.. made need to change port if doing on web hosting
           
@@ -202,6 +177,5 @@
         border-radius: 0%;
         border-color: aliceblue;
         color: aliceblue;
-        font-weight: bold;
     }
 </style>

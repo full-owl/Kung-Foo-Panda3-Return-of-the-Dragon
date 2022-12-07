@@ -1,65 +1,121 @@
 <template>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col d-flex flex-column">
-                <div>
-                    <h2>Type</h2>
+    <div class="container-fluid" id="mainMenu">
+        <div class ="row">
+        <div class="col d-flex flex-column">
 
-                    <div class="d-flex flex-wrap">
-                        <button v-for="item in bowls" :key="item.id" :disabled="isBowlDisabled"
-                        type="button" class="btn btn-primary" @click="addType(item)">{{ capitalize(item.name) }}
-                        <p>Price: ${{(item.price)}}</p></button>
-                    </div>
-                </div>
-                <div>
-                    <h2>Side</h2>
-                    <div class="d-flex flex-wrap">
-                        <button v-for="item in sides" :key="item.id" :disabled="isSideDisabled"
-                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
-                        
-                    </div>
+        <div class="viewportFull">
 
-                </div>
-                <div>
-                    <h2>Entree</h2>
+            <h1>Panda Menu</h1>
+            <div class="headerBreak"></div>
 
-                    <div class="d-flex flex-wrap">
-                        <button v-for="item in entrees" :key="item.id" :disabled="isEntreeDisabled"
-                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
+            <div class="grid-container">
+                <a href="#combo" class="card">
+                    <img :src="require('./img/bigger-plate.png')"/>
+                    <div class="card-text">
+                        <h4><b>Meals</b></h4> 
+                        <p>Choose a combo</p> 
                     </div>
-                </div>
-                <div>
-                    <h2>Appetizer</h2>
-                    <div class="d-flex flex-wrap">
-                        <button v-for="item in appetizers" :key="item.id" :disabled="isAppDisabled"
-                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
+                </a>
+                <a href="#full-menu" class="card">
+                    <img :src="require('./img/alacarte.png')"/>
+                    <div class="card-text">
+                        <h4><b>A La Carte</b></h4> 
+                        <p>Individual Items</p> 
                     </div>
-                </div>
-                <div>
-                    <h2>Drinks</h2>
-                    <div class="d-flex flex-wrap">
-                        <button v-for="item in drinks" :key="item.id" :disabled="isDrinkDisabled"
-                        type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}</button>
+                </a>
+                <a href="#appetizer" class="card">
+                    <img :src="require('./img/appetizer.png')"/>
+                    <div class="card-text">
+                        <h4><b>Appetizers</b></h4> 
+                        <p>Extras</p> 
                     </div>
-                </div>
-                <div class>
-                      <!-- TODO: make selections look better/more intuative -->
-                      <p>{{OrderType.name}}</p>
-                      <!-- <p>{{ consts.numInCombo[OrderType.name]}}</p> -->
-                      <ul>
-                          <li v-for="part in OrderItems" :key="part">
-                              {{part.name}}
-                          </li>
-                      </ul>
-                  </div>
-                  <div class="btn-group btn-group-lg container-fluid" role="group">
-                      <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
-                      <button type="button" class="btn btn-primary" @click="addOrderToReciept">Add to Order</button>
-                  </div>
-                  <choose-size ref="chooseSize" @addOrder="addAlLaCarteToReciept"/>
+                </a>
+                <a href="#drink" class="card">
+                    <img :src="require('./img/drinks.png')"/>
+                    <div class="card-text">
+                        <h4><b>Drinks</b></h4> 
+                        <p>Add a Refreshing Beverage</p> 
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="viewportFull" id="combo">
+            <h1>Choose your combo</h1>
+            <div class="headerBreak"></div>
+            <div class="grid-container">
+                <a href="#combo-item" class="card" v-for="item in bowls" :key="item.id" :disabled="isBowlDisabled" @click="addType(item)">
+                    <img height="100" width:auto :src="addImg(item.id)"/>
+                    <div class="card-text">
+                        <h4><b>{{ capitalize(item.name)}}</b></h4>
+                        <p>description</p>
+                    </div>
+                </a>
+            </div>
+            <a href="#mainMenu">Return to main menu</a>
+        </div>
+
+        <div class="viewportFull" id="combo-item">
+            <h1>Choose your side</h1>
+            <div class="d-flex flex-wrap">
+                <button 
+                    v-for="item in sides" :key="item.id" :disabled="isSideDisabled"
+                    type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
+                    <img height="50" width:auto :src="addImg(item.id)"/>
+                </button>
+            </div>
+            <h1>Choose your entree</h1>
+            <div class="d-flex flex-wrap">
+                <button 
+                    v-for="item in entrees" :key="item.id" :disabled="isEntreeDisabled"
+                    type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
+                    <img height="50" width:auto :src="addImg(item.id)"/>
+                </button>
+            </div>
+            <div class="btn-group btn-group-lg container-fluid" role="group">
+                <button type="button" class="btn btn-danger" @click="clearSelected"><a href="#top">Back to Main Menu</a></button>
+                <button type="button" class="btn btn-danger" @click="clearSelected">Clear Selected</button>
+                <button type="button" class="btn btn-danger" @click="addOrderToReciept"><a href="#top">Add to Order</a></button>
+             </div>
+        </div>
+
+        <div class="viewportFull" id="appetizer">
+            <h1>Choose you favorite extra item</h1>
+            <div class="d-flex flex-wrap">
+                <button 
+                    v-for="item in appetizers" :key="item.id" :disabled="isAppDisabled"
+                    type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
+                    <img height="50" width:auto :src="addImg(item.id)"/>
+                </button>
+            </div>
+            <div class="btn-group btn-group-lg container-fluid" role="group">
+                <button type="button" class="btn btn-danger" @click="clearSelected"><a href="#top">Back to Main Menu</a></button>
+                <button type="button" class="btn btn-danger" @click="clearSelected">Clear Selected</button>
+                <button type="button" class="btn btn-danger" @click="addOrderToReciept"><a href="#top">Add to Order</a></button>
+             </div>
+        </div>
+      
+        <div class="viewportFull" id="drink">
+            <h1>Choose your drink</h1>
+            <div class="d-flex flex-wrap">
+                <button 
+                    v-for="item in drinks" :key="item.id" :disabled="isDrinkDisabled"
+                    type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
+                    <img height="50" width:auto :src="addImg(item.id)"/>
+                </button>
+            </div>
+            <div class="btn-group btn-group-lg container-fluid" role="group">
+                <button type="button" class="btn btn-danger" @click="clearSelected"><a href="#top">Back to Main Menu</a></button>
+                <button type="button" class="btn btn-danger" @click="clearSelected">Clear Selected</button>
+                <button type="button" class="btn btn-danger" @click="addOrderToReciept"><a href="#top">Add to Order</a></button>
+             </div>
+        </div>
+
+             
+            <choose-size ref="chooseSize" @addOrder="addAlLaCarteToReciept"/>
               </div>
-              <RecieptTable class="col-sm" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
-          </div>
+              <RecieptTable class="col-sm-4" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
+        </div>
       </div>
   </template>
   
@@ -93,6 +149,9 @@
           }
       },
       methods: {
+            addImg(id){   
+                return require('./img/m-' + id + '.png');
+            },
           async fetchItems(foodtype) {
           // connection from backend folder.. made need to change port if doing on web hosting
           
@@ -197,11 +256,56 @@
 </script>
   
 <style scoped>
-    .btn {
-        width: 20%;
-        border-radius: 0%;
-        border-color: aliceblue;
-        color: aliceblue;
-        font-weight: bold;
-    }
+.viewportFull{
+    height:100vh;
+}
+.grid-container{
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 25px;
+  margin: 15;
+}
+
+.card img{
+  width: 60%;
+}
+.card {
+  background-color:red;
+  color:white;
+  width: 300px;
+  height: 200px;
+  margin:20px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+a {
+  color:aliceblue;
+  text-decoration: none;
+}
+
+.card:hover {
+  background-color:white;
+  border-color: red;
+  border-width: 2.5px;
+  color:red;
+  margin: 30px;
+  width:310px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.card-text {
+  padding: 2px 16px;
+}
+.headerBreak {
+  background-color: red;
+  width: 100%;
+  height: 36px;
+}    
+.btn {
+    width: 20%;
+    border-radius: 0%;
+    border-color: aliceblue;
+    color: aliceblue;
+}
 </style>
