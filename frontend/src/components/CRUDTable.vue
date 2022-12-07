@@ -122,7 +122,7 @@ export default {
 
   methods: {
     initialize() {
-      fetch(`${consts.backend_url}/inventory`)
+      fetch(`${consts.backend_url}${this.endpoint}`)
         .then((response) => response.json())
         .then((data) => (this.items = data))
         .catch((error) => console.error(error));

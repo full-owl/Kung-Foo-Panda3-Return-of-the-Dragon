@@ -1,9 +1,6 @@
 <template>
-
     <div>
-
         <h1>Inventory</h1>
-
         <div class="navButtons">
             <router-link to="/manager">Inventory</router-link>
             <router-link to="/prices">Pricing</router-link>
@@ -12,109 +9,16 @@
 
         <CRUDTable title="Manager" endpoint="/inventory">
             <template v-slot:form>
-                asdfjkasdflkjas;djf
+                <!-- TODO: inventory form -->
             </template>
         </CRUDTable>
-        <!-- <table class="table">
-            <thead>
-                <tr>
-                <th scope="col">id</th>
-                <th scope="col">ingredient</th>
-                <th scope="col">currentamount</th>
-                <th scope="col">unit</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <th scope="row">1</th>
-                <td>rice</td>
-                <td>72</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>brown rice</td>
-                <td>72</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td>vegetables</td>
-                <td>95</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">4</th>
-                <td>vegetables</td>
-                <td>95</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">5</th>
-                <td>broccoli</td>
-                <td>94</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">6</th>
-                <td>chicken</td>
-                <td>45</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">7</th>
-                <td>orange sauce</td>
-                <td>96</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">8</th>
-                <td>steak</td>
-                <td>100</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">9</th>
-                <td>black pepper sauce</td>
-                <td>100</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">10</th>
-                <td>shrimp</td>
-                <td>100</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">11</th>
-                <td>walnut</td>
-                <td>100</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">12</th>
-                <td>honey walnut shrimp sauce</td>
-                <td>100</td>
-                <td>oz</td>
-                </tr>
-                <tr>
-                <th scope="row">13</th>
-                <td>black pepper sauce</td>
-                <td>100</td>
-                <td>oz</td>
-                </tr>
-            </tbody>
-        </table> -->
-
         <footer><router-link to="../">Main Menu</router-link></footer>
-
     </div>
     
 </template>
 
 <script>
 import CRUDTable from '../components/CRUDTable.vue';
-// import consts from '../consts.js';
 
 export default {
     components: {
