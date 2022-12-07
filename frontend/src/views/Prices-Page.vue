@@ -12,7 +12,21 @@
 
         <CRUDTable title="Item Prices" endpoint="/mealsizes">
             <template v-slot:form>
-                TODO: menu items form
+                <form>
+                    <div class="form-group">
+                        <label>Food Type:</label>
+                        <input class="form-control" type="msType" required v-model="msType">
+                    </div>
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input class="form-control" type="msName" required v-model="msName">
+                    </div>
+                    <div class="form-group">
+                        <label>Price:</label>
+                        <input class="form-control" type="msPrice" required v-model="msPrice">
+                    </div>
+                </form>
+                <button type="button" class="btn btn-primary" @click="addms">Edit Price</button>
             </template>
         </CRUDTable>
         <footer><router-link to="../">Main Menu</router-link></footer>
@@ -21,10 +35,40 @@
 
 <script>
 import CRUDTable from '../components/CRUDTable.vue';
-
+import consts from '../consts.js'; 
 export default {
     components: {
         CRUDTable,
+    },
+    data()
+    {
+        return {
+            msType: '',
+            msName: '',
+            msPrice: 0
+        }
+    },
+    methods: {
+        async addms() {
+            //console.log("clicked");
+            let res = await fetch(`${consts.backend_url}/mealsizeitem/${this.msType}/${this.msName}/${this.msPrice}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json"},
+                body: JSON.stringify({
+                    foodtype: this.msType,
+                    name: this.msName,
+                    price: this.msPrice,
+                }),
+            }); 
+            // TODO: better error handling
+            if(!res.ok) {
+                console.error(res);
+            }
+            console.log(this.msName);
+            this.msType = '';
+            this.msName = '';
+            this.msPrice = 0;
+        }
     }    
 }
 </script>
@@ -59,4 +103,9 @@ export default {
     border: 2px solid red;
     /* opacity: 0.3; */
 }
+
+footer {
+    position: relative;
+    margin-top: 15px;
+  }
 </style>

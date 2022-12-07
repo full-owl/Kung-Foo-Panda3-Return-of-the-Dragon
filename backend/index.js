@@ -655,6 +655,49 @@ app.delete("/menuitem/:menuid", async (req, res) => {
     }
 });
 
+// add mealsize
+
+/**
+ * @swagger
+ * /inventoryitem/{ingredient}/{unit}/{amount}:
+ *  post:
+ *      description: creates and submits new inventory item to inventory database of ingredient, unit, and amount
+ *      parameters:
+ *          - name: ingredient
+ *            type: String
+ *            description: name of ingredient
+ *            required: true
+ *            in: path
+ *          - name: unit
+ *            type: String
+ *            description: name of unit (example - oz)
+ *            required: true
+ *            in: path
+ *          - name: amount
+ *            type: float
+ *            description: amount of inventory ingredient in size units
+ *            required: true
+ *            in: path
+ *      responses: 
+ *          200:
+ *              description: Success
+ */
+ app.put("/mealsizeitem/:foodtype/:name/:price", async (req, res) => {
+    try {
+        console.log(req.params);
+        const foodtype = req.params["foodtype"];
+        const name = req.params["name"];
+        const price = Number(req.params["price"]);
+        const table = await pool.query("UPDATE mealsizes SET price = $3 WHERE foodtype = $1 AND name = $2 RETURNING *", [foodtype, name, price]);
+        //console.log(table.rows);
+        // table has a lot of extra parameters
+        res.json(table.rows[0]); // response
+        
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
 // helpful stuff to make the functinos
 
 // // get a todo

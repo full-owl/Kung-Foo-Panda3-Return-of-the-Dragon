@@ -103,6 +103,7 @@ export default {
 }
  
 footer {
-  position: relative;
-}
+    position: relative;
+    margin-top: 15px;
+  }
 </style>
