@@ -2,7 +2,7 @@
     <form @submit.prevent="handleSubmit" class="row g-3">
         <label class="col-md-6">Name: <input type="text" class="form-control" v-model="data.name" /></label>
         <label class="col-md-6">Food type:
-            <select class="form-select" v-model="data.foodType">
+            <select class="form-select" v-model="data.foodtype">
                 <option value="" selected>Choose food type</option>
                 <option v-for="food in foodTypes" :key="food">{{ food }}</option>
             </select>
@@ -18,11 +18,11 @@
             <button type="button" class="btn btn-secondary" @click="addIngredient">Add ingredient</button>
         </div>
         <div>
-            <label v-for="(x, index) in data.selectedIngredients" :key="x.id">{{ x.ingredient }}
-                <input v-model.number="data.selectedIngredients[index].porportion" type="number" class="form-control" min="0.1" max="1" step="0.1" />
+            <label v-for="(x, index) in data.ingredients" :key="x.id">{{ x.ingredient }}
+                <input v-model.number="data.ingredients[index].porportion" type="number" class="form-control" min="0.1" max="1" step="0.1" />
             </label>
         </div>
-        <button type="submit" class="btn btn-primary" :disabled="data.selectedIngredients.length == 0">Add</button>
+        <button type="submit" class="btn btn-primary" :disabled="data.ingredients.length == 0">Add</button>
     </form>
 </template>
 
@@ -37,9 +37,9 @@ export default {
             selectedIngredient: null,
             data: {
                 name: "",
-                foodType: "",
+                foodtype: "",
                 description: "",
-                selectedIngredients: [],
+                ingredients: [],
             },
         }
     },
@@ -51,16 +51,27 @@ export default {
     },
     methods: {
         addIngredient() {
-            // console.log(this.selectedIngredients);
-            if(this.selectedIngredient && !this.data.selectedIngredients.includes(this.selectedIngredient)) {
-                this.data.selectedIngredients.push(this.selectedIngredient);
+            // console.log(this.ingredients);
+            if(this.selectedIngredient && !this.data.ingredients.includes(this.selectedIngredient)) {
+                this.data.ingredients.push(this.selectedIngredient);
             } else {
                 console.error("Invalid selected ingredient", this.selectedIngredient);
             }
         },
         handleSubmit() {
             // TODO: error handling, and connecting to backend
-            console.error("handeled");
+            fetch(`${consts.backend_url}/menuitem`, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                method: 'POST',
+                body: JSON.stringify(this.data),
+            })
+            .then(res => res.json())
+            .then(data => console.log("Response: ", data))
+            .catch(err => console.error(err));
+            // console.error("handeled");
         }
     }
 }

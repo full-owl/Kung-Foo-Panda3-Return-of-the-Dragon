@@ -578,6 +578,53 @@ app.post("/menuitem/name=:name/foodtype=:foodtype", async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ *   /menuitem:
+ *   post:
+ *     description: Inserts a new menu item into the database
+ *     requestBody:
+ *          description: asdf
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      additionalProperties:
+ *                          type: string
+ *                          properties:
+ *                              name: 
+ *                                  type: string
+ *                              foodtype: 
+ *                                  type: string
+ *                              description:
+ *                                  type: array
+ *                                  items:
+ *                                      type: string
+ *                              ingredients:
+ *                                  type: array
+ *                                  items:
+ *                                      type: object
+ *                                      additionalProperties: true
+ *     responses:
+ *          200:
+ *              description: Success
+ */
+app.post("/menuitem", async (req, res) => {
+    try {
+        console.log(req.body);
+        const {name, foodtype, description, ingredients} = req.body;
+
+        console.assert(ingredients.reduce((acc,i) => acc + i.porportion, 0) == 1);
+        const table = await pool.query("INSERT INTO menuitems (name, foodtype, description) VALUES ($1, $2, $3) RETURNING *", [name, foodtype, description == "" ? description : "Not Available"]);
+        // TODO: add ingredients
+        // TODO: add error handling
+        res.json(table.rows[0]);
+    } catch (error) {
+        console.error(error);
+    }
+})
+
 // edit menu item
 
 /**
