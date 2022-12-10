@@ -15,8 +15,6 @@ app.use(vuetify);
 
 app.use(gAuthPlugin, {
   clientId: gauthClientId,
-  scope: 'email',
-  prompt: 'consent',
 });
   // .use('MyModal', MyModal)
   // .use('MenuItems',MenuItems)
