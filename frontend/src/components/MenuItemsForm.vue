@@ -83,6 +83,12 @@ export default {
             })
             .then(res => res.json())
             .then(data => console.log("Response: ", data))
+            .then(() => this.data = {
+                name: "",
+                foodtype: "",
+                description: "",
+                ingredients: [],
+            })
             .catch(err => console.error(err));
         },
         removeIngredient(index) {

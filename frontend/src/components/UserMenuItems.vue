@@ -85,7 +85,7 @@
                 <button 
                     v-for="item in appetizers" :key="item.id" :disabled="isAppDisabled"
                     type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
-                    <img height="50" width:auto :src="addImg(item.id)"/>
+                    <img height="50" width:auto :src="addImg(item.id)" on/>
                 </button>
             </div>
             <div class="btn-group btn-group-lg container-fluid" role="group">
@@ -116,8 +116,8 @@
               </div>
               <RecieptTable class="col-sm-4" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
         </div>
-      </div>
-  </template>
+    </div>
+</template>
   
   <script>
   import RecieptTable from './RecieptTable.vue';
@@ -150,6 +150,12 @@
       },
       methods: {
             addImg(id){   
+                // TODO: do actual placeholder imgs
+                // If an item does not have an img, nothing loads
+                // so new menu items with > 42 ids has m-undefined.png for their image
+                if(id > 42) { 
+                    return require('./img/m-undefined.png');
+                }
                 return require('./img/m-' + id + '.png');
             },
           async fetchItems(foodtype) {
