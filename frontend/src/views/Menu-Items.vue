@@ -38,7 +38,7 @@ export default {
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    background-color: red;
+    background-color: #B30000;
 }
 .navButtons a {
     display: inline-block;
@@ -47,16 +47,16 @@ export default {
     margin-top: 15px;
     margin-bottom: 15px;
     border: 2px solid white;
-    background-color: red;
+    background-color: #B30000;
     color: white;
     text-decoration: none;
     font-size: 10px;
 }
 
 .navButtons a:hover {
-    color:red;
+    color:#B30000;
     background-color: white;
-    border: 2px solid red;
+    border: 2px solid #B30000;
     /* opacity: 0.3; */
 }
  

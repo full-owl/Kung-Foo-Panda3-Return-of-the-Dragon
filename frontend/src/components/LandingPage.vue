@@ -55,16 +55,16 @@ export default{
     margin-top: 30px;
     margin-bottom: 30px;
     border: 2px solid white;
-    background-color: red;
+    background-color: #B30000;
     color: white;
     text-decoration: none;
     font-size: 30px;
 }
 
 .navButtons a:hover {
-    color:red;
+    color:#B30000;
     background-color: white;
-    border: 2px solid red;
+    border: 2px solid #B30000;
     /* opacity: 0.3; */
 }
 

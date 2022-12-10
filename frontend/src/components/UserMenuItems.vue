@@ -276,7 +276,7 @@
   width: 60%;
 }
 .card {
-  background-color:red;
+  background-color:#B30000;
   color:white;
   width: 300px;
   height: 200px;
@@ -292,9 +292,9 @@ a {
 
 .card:hover {
   background-color:white;
-  border-color: red;
+  border-color: #B30000;
   border-width: 2.5px;
-  color:red;
+  color:#B30000;
   margin: 30px;
   width:310px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
@@ -304,7 +304,7 @@ a {
   padding: 2px 16px;
 }
 .headerBreak {
-  background-color: red;
+  background-color: #B30000;
   width: 100%;
   height: 36px;
 }    
