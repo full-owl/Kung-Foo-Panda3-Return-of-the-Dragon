@@ -52,7 +52,7 @@
                     </div>
                 </a>
             </div>
-            <a href="#mainMenu">Return to main menu</a>
+            <a class="btn btn-danger" href="#mainMenu">Return to main menu</a>
         </div>
 
         <div class="viewportFull" id="combo-item">
