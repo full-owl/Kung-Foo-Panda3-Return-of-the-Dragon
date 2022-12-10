@@ -87,7 +87,7 @@ export default {
 
 <style scoped>
 .headerBreak {
-  background-color: red;
+  background-color: #B30000;
   width: 100%;
   height: 36px;
 }
@@ -100,7 +100,7 @@ export default {
   width: 60%;
 }
 .card {
-  background-color:red;
+  background-color:#B30000;
   color:white;
   margin: 20px;
   width: 500px;
@@ -114,8 +114,8 @@ a {
 
 .card:hover {
   background-color:white;
-  border-color: red;
-  color:red;
+  border-color: #B30000;
+  color:#B30000;
   margin: 20px;
   width: 500px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
@@ -133,7 +133,7 @@ a {
     margin-top: 10%;
     flex-direction: row;
     display: inline-flex;
-    background-color: red;
+    background-color: #B30000;
     padding: 50px;
 }
 .menuItem a {
@@ -143,16 +143,16 @@ a {
   margin-top: 30px;
   margin-bottom: 30px;
   border: 2px solid white;
-  background-color: red;
+  background-color: #B30000;
   color: white;
   text-decoration: none;
   font-size: 30px;
 }
 
 .menuItem a:hover {
-    color:red;
+    color:#B30000;
     background-color: white;
-    border: 2px solid red;
+    border: 2px solid #B30000;
     /* opacity: 0.3; */
 }
 </style>

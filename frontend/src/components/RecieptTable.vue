@@ -58,16 +58,16 @@ export default {
   data() {
     return {
       items: [
-        {
-          type: { "foodtype": "combo", "name": "bowl", "amountneeded": 0, "price": "7.50" },
-          mealItems: [
-            { "id": 1, "name": "Chow Mein", "foodtype": "side", "description": "Not Available" },
-            { "id": 7, "name": "The Original Orange Chicken", "foodtype": "entree", "description": "Not Available" },
-            { "id": 22, "name": "Veggie Spring Roll", "foodtype": "appetizer", "description": "Not Available" }
-          ],
-          custom_intructions: "",
-          price: 7.50,
-        }
+        // {
+        //   type: { "foodtype": "combo", "name": "bowl", "amountneeded": 0, "price": "7.50" },
+        //   mealItems: [
+        //     { "id": 1, "name": "Chow Mein", "foodtype": "side", "description": "Not Available" },
+        //     { "id": 7, "name": "The Original Orange Chicken", "foodtype": "entree", "description": "Not Available" },
+        //     { "id": 22, "name": "Veggie Spring Roll", "foodtype": "appetizer", "description": "Not Available" }
+        //   ],
+        //   custom_intructions: "",
+        //   price: 7.50,
+        // }
       ]
     }
   },

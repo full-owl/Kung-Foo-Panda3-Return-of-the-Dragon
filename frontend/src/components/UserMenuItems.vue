@@ -10,28 +10,28 @@
 
             <div class="grid-container">
                 <a href="#combo" class="card">
-                    <img :src="require('./img/bigger-plate.png')"/>
+                    <img :src="require('./img/bigger-plate.png')" alt="Large Square plate viewed at an angle with brown rice in the back left corner, broccoli in the back right corner, broccoli beef in the front left corner, and string bean chicken breast in the front right corner."/>
                     <div class="card-text">
                         <h4><b>Meals</b></h4> 
                         <p>Choose a combo</p> 
                     </div>
                 </a>
                 <a href="#full-menu" class="card">
-                    <img :src="require('./img/alacarte.png')"/>
+                    <img :src="require('./img/alacarte.png')" alt="Red takeout box with a Panda Express logo on the front, with the top open to show the original orange chicken." />
                     <div class="card-text">
                         <h4><b>A La Carte</b></h4> 
                         <p>Individual Items</p> 
                     </div>
                 </a>
                 <a href="#appetizer" class="card">
-                    <img :src="require('./img/appetizer.png')"/>
+                    <img :src="require('./img/appetizer.png')" alt="Plate with two veggie rolls" />
                     <div class="card-text">
                         <h4><b>Appetizers</b></h4> 
                         <p>Extras</p> 
                     </div>
                 </a>
                 <a href="#drink" class="card">
-                    <img :src="require('./img/drinks.png')"/>
+                    <img :src="require('./img/drinks.png')" alt="An open top glass of coke-cola" />
                     <div class="card-text">
                         <h4><b>Drinks</b></h4> 
                         <p>Add a Refreshing Beverage</p> 
@@ -45,14 +45,14 @@
             <div class="headerBreak"></div>
             <div class="grid-container">
                 <a href="#combo-item" class="card" v-for="item in bowls" :key="item.id" :disabled="isBowlDisabled" @click="addType(item)">
-                    <img height="100" width:auto :src="addImg(item.id)"/>
+                    <img height="100" width:auto :src="addImg(item.id)" alt="" />
                     <div class="card-text">
                         <h4><b>{{ capitalize(item.name)}}</b></h4>
                         <p>description</p>
                     </div>
                 </a>
             </div>
-            <a href="#mainMenu">Return to main menu</a>
+            <a class="btn btn-danger" href="#mainMenu">Return to main menu</a>
         </div>
 
         <div class="viewportFull" id="combo-item">
@@ -60,8 +60,8 @@
             <div class="d-flex flex-wrap">
                 <button 
                     v-for="item in sides" :key="item.id" :disabled="isSideDisabled"
-                    type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
-                    <img height="50" width:auto :src="addImg(item.id)"/>
+                    type="button" class="btn btn-danger" @click="addItem(item)" alt="" >{{ item.name }}
+                    <img height="50" width:auto :src="addImg(item.id)" alt="" />
                 </button>
             </div>
             <h1>Choose your entree</h1>
@@ -69,7 +69,7 @@
                 <button 
                     v-for="item in entrees" :key="item.id" :disabled="isEntreeDisabled"
                     type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
-                    <img height="50" width:auto :src="addImg(item.id)"/>
+                    <img height="50" width:auto :src="addImg(item.id)" alt="" />
                 </button>
             </div>
             <div class="btn-group btn-group-lg container-fluid" role="group">
@@ -85,7 +85,7 @@
                 <button 
                     v-for="item in appetizers" :key="item.id" :disabled="isAppDisabled"
                     type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
-                    <img height="50" width:auto :src="addImg(item.id)"/>
+                    <img height="50" width:auto :src="addImg(item.id)" alt="" on/>
                 </button>
             </div>
             <div class="btn-group btn-group-lg container-fluid" role="group">
@@ -101,7 +101,7 @@
                 <button 
                     v-for="item in drinks" :key="item.id" :disabled="isDrinkDisabled"
                     type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
-                    <img height="50" width:auto :src="addImg(item.id)"/>
+                    <img height="50" width:auto :src="addImg(item.id)" alt="" />
                 </button>
             </div>
             <div class="btn-group btn-group-lg container-fluid" role="group">
@@ -116,8 +116,8 @@
               </div>
               <RecieptTable class="col-sm-4" ref="recieptTable" :propOrderType="OrderType" :propOrderItems="OrderItems" :propOrderPrice="OrderPrice"/>
         </div>
-      </div>
-  </template>
+    </div>
+</template>
   
   <script>
   import RecieptTable from './RecieptTable.vue';
@@ -150,6 +150,12 @@
       },
       methods: {
             addImg(id){   
+                // TODO: do actual placeholder imgs
+                // If an item does not have an img, nothing loads
+                // so new menu items with > 42 ids has m-undefined.png for their image
+                if(id > 42) { 
+                    return require('./img/m-undefined.png');
+                }
                 return require('./img/m-' + id + '.png');
             },
           async fetchItems(foodtype) {
@@ -270,7 +276,7 @@
   width: 60%;
 }
 .card {
-  background-color:red;
+  background-color:#B30000;
   color:white;
   width: 300px;
   height: 200px;
@@ -286,9 +292,9 @@ a {
 
 .card:hover {
   background-color:white;
-  border-color: red;
+  border-color: #B30000;
   border-width: 2.5px;
-  color:red;
+  color:#B30000;
   margin: 30px;
   width:310px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
@@ -298,7 +304,7 @@ a {
   padding: 2px 16px;
 }
 .headerBreak {
-  background-color: red;
+  background-color: #B30000;
   width: 100%;
   height: 36px;
 }    

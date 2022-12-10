@@ -257,7 +257,7 @@ app.post("/order", async(req, res) => {
             console.log("Side Ids: ", side_ids.toString());
 
 
-            let mealtype = item["type"]["foodtype"];
+            let mealtype = item["type"]["name"];
             if (!mealtype) {
                 mealtype = foodtype;
                 // description = item["type"]["name"];
@@ -274,7 +274,16 @@ app.post("/order", async(req, res) => {
             const order_item = await pool.query(
                 "INSERT INTO orderitems (orderid, mealtype, menuitem1, menuitem2, menuitem3, side1, side2, custominstructions) VALUES ($1, $2, $3, $4, $5, $6,$7,$8) RETURNING *", 
                 [orderid, mealtype, entree_ids[0], entree_ids[1], entree_ids[2], side_ids[0], side_ids[1], description]);
+
         }
+        const update_inventory = await pool.query(`
+            update inventory
+            set currentamount = currentamount - amountneeded
+            from orderingredients
+            where orderingredients.inventoryid = inventory.id and orderingredients.orderid = $1
+            returning inventory.*;`, [orderid]);
+        console.log(`Updated inventory for order ${orderid} : `, update_inventory.rows);
+
         res.json(newOrder.rows); // sending back
     } catch (error) {
         console.error(error.message);
@@ -615,11 +624,18 @@ app.post("/menuitem", async (req, res) => {
         console.log(req.body);
         const {name, foodtype, description, ingredients} = req.body;
 
+        // TODO: return error if not true
         console.assert(ingredients.reduce((acc,i) => acc + i.porportion, 0) == 1);
-        const table = await pool.query("INSERT INTO menuitems (name, foodtype, description) VALUES ($1, $2, $3) RETURNING *", [name, foodtype, description == "" ? description : "Not Available"]);
-        // TODO: add ingredients
-        // TODO: add error handling
-        res.json(table.rows[0]);
+        const table = await pool.query("INSERT INTO menuitems (name, foodtype, description) VALUES ($1, $2, $3) RETURNING *", [name, foodtype, description ? description : "Not Available"]);
+
+        const menuid = table.rows[0].id;
+        let rows = []
+        for(const ingredient of ingredients) {
+            const table = await pool.query("INSERT INTO menuingredients (menuid, inventoryid, proportion) VALUES ($1,$2,$3) RETURNING *", [menuid, ingredient.id,ingredient.porportion]);
+            rows.push(table.rows);
+        }
+
+        res.json({menuitem: table.rows[0], ingredients: rows});
     } catch (error) {
         console.error(error);
     }
