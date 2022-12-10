@@ -9,7 +9,7 @@
                         <button 
                             v-for="item in sides" :key="item.id" :disabled="isSideDisabled"
                             type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
-                            <img height="100" width:auto :src="addImg(item.id)"/>
+                            <img height="100" width:auto :src="addImg(item.id)" alt="" />
                         </button>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
                         <button 
                             v-for="item in entrees" :key="item.id" :disabled="isEntreeDisabled"
                             type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
-                            <img height="100" width:auto :src="addImg(item.id)"/>
+                            <img height="100" width:auto :src="addImg(item.id)" alt="" />
                         </button>
                     </div>
                 </div>
