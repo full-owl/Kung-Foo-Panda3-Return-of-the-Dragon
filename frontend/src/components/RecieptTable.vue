@@ -11,7 +11,7 @@
       </thead>
       <tbody>
         <tr v-for="(item,index) in items" :key="index">
-          <td>{{ index }}</td>
+          <td>{{ index+1 }}</td>
           <td>
             <p>{{item.type.name}}</p>
             <ul>
@@ -58,16 +58,17 @@ export default {
   data() {
     return {
       items: [
-        {
-          type: { "foodtype": "combo", "name": "bowl", "amountneeded": 0, "price": "7.50" },
-          mealItems: [
-            { "id": 1, "name": "Chow Mein", "foodtype": "side", "description": "Not Available" },
-            { "id": 7, "name": "The Original Orange Chicken", "foodtype": "entree", "description": "Not Available" },
-            { "id": 22, "name": "Veggie Spring Roll", "foodtype": "appetizer", "description": "Not Available" }
-          ],
-          custom_intructions: "",
-          price: 7.50,
-        }
+        // boiler plate template order
+        // {
+        //   type: { "foodtype": "combo", "name": "bowl", "amountneeded": 0, "price": "7.50" },
+        //   mealItems: [
+        //     { "id": 1, "name": "Chow Mein", "foodtype": "side", "description": "Not Available" },
+        //     { "id": 7, "name": "The Original Orange Chicken", "foodtype": "entree", "description": "Not Available" },
+        //     { "id": 22, "name": "Veggie Spring Roll", "foodtype": "appetizer", "description": "Not Available" }
+        //   ],
+        //   custom_intructions: "",
+        //   price: 7.50,
+        // }
       ]
     }
   },

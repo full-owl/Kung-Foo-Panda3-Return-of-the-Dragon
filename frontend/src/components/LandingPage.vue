@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="logo"></div>
-        <div class="navButtons">
+        <div class="navButtons" >
             <router-link to="/usermenu">User</router-link>
             <router-link to="/cashier">Cashier</router-link>
             <router-link to="/manager">Manager</router-link>
@@ -10,17 +10,36 @@
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3433.770986512828!2d-96.3435775849168!3d30.612222181679375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86468398ef48705d%3A0xb75709775b0df8b1!2sPanda%20Express%20-%20MSC!5e0!3m2!1sen!2sus!4v1670015412837!5m2!1sen!2sus" width="400" height="300" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> 
         </div>
         <div class="login">
+            <GoogleLogin :callback="callback"> <button class="btn btn-primary" :disabled="this.loggedIn">Log In With Google</button></GoogleLogin> 
+            <button class="btn btn-primary" :disabled="!this.loggedIn" @click="logout">Log Out</button>
+            <!--
             <h1>Is Init: {{Vue3GoogleOauth.isInit}}</h1>
             <h1>Is Authorized: {{Vue3GoogleOauth.isAuthorized}}</h1>
             <button class='btn btn-primary' @click='handleSignIn' :disabled='!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized'>Sign In</button>
             <button class='btn btn-primary' @click='handleSignOut' :disabled='!Vue3GoogleOauth.isAuthorized'>Sign Out</button>
+            -->
+
         </div>
     </div>
     
 </template>
 
 <script>
-import {inject} from 'vue';
+
+// import { onMounted } from "vue";
+// import { googleOneTap } from "vue3-google-login";
+// onMounted(() => {
+//   googleOneTap()
+//     .then((response) => {
+//       // This promise is resolved when user selects an account from the the One Tap prompt
+//       console.log("Handle the response", response)
+//     })
+//     .catch((error) => {
+//       console.log("Handle the error", error)
+//     })
+// })
+
+import { googleLogout } from "vue3-google-login"
 export default{
     name: 'LandingPage',
 
@@ -31,36 +50,44 @@ export default{
 
     },
     methods: {
-        async handleSignIn() {
-            try {
-                const googleUser = await this.$gAuth.signIn();
-                // console.log(this.$gAuth.signIn);
-                if (!googleUser) {
-                    return null;
-                }
-                 this.user = googleUser.getBasicProfile().getEmail();
-            } catch (error) {
-                console.log(error);
-                return null;
-            }
+        callback() {
+            this.loggedIn = true;
         },
-        async handleSignOut() {
-            try {
-                await this.$gAuth.signOut();
-                // console.log(this.$gAuth.signOut);
-                this.user = '';
-            } catch (error) {
-                console.log(error);
-            }
-        },
+        logout () {
+            googleLogout();
+            this.loggedIn = false;
+        }
+        // async handleSignIn() {
+        //     try {
+        //         const googleUser = await this.$gAuth.signIn();
+        //         // console.log(this.$gAuth.signIn);
+        //         if (!googleUser) {
+        //             return null;
+        //         }
+        //          this.user = googleUser.getBasicProfile().getEmail();
+        //     } catch (error) {
+        //         console.log(error);
+        //         return null;
+        //     }
+        // },
+        // async handleSignOut() {
+        //     try {
+        //         await this.$gAuth.signOut();
+        //         // console.log(this.$gAuth.signOut);
+        //         this.user = '';
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // },
   },
-    setup() {
-        const Vue3GoogleOauth = inject('Vue3GoogleOauth');
-        return {
-            Vue3GoogleOauth,
-        };
-  },
+  data() {
+    return {
+        loggedIn: false,
+    }
+  }
+    
 }
+
 </script>
 
 <style scoped>
