@@ -11,7 +11,7 @@
       </thead>
       <tbody>
         <tr v-for="(item,index) in items" :key="index">
-          <td>{{ index+1 }}</td>
+          <td>{{ index }}</td>
           <td>
             <p>{{item.type.name}}</p>
             <ul>
@@ -58,7 +58,6 @@ export default {
   data() {
     return {
       items: [
-        // boiler plate template order
         // {
         //   type: { "foodtype": "combo", "name": "bowl", "amountneeded": 0, "price": "7.50" },
         //   mealItems: [
