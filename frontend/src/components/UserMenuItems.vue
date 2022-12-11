@@ -16,7 +16,7 @@
                         <p>Choose a combo</p> 
                     </div>
                 </a>
-                <a href="#full-menu" class="card">
+                <a href="#combo-item" class="card">
                     <img :src="require('./img/alacarte.png')" alt="Red takeout box with a Panda Express logo on the front, with the top open to show the original orange chicken." />
                     <div class="card-text">
                         <h4><b>A La Carte</b></h4> 
@@ -110,7 +110,6 @@
                 <button type="button" class="btn btn-primary" @click="addOrderToReciept"><a href="#top">Add to Order</a></button>
              </div>
         </div>
-
              
             <choose-size ref="chooseSize" @addOrder="addAlLaCarteToReciept"/>
               </div>
@@ -262,6 +261,11 @@
 </script>
   
 <style scoped>
+body {
+  margin: 0; 
+  height: 100%; 
+  overflow: hidden
+}
 .viewportFull{
     height:100vh;
 }

@@ -26,7 +26,6 @@
 }
 body {
   background: white;
-
   font-family: 'Poppins', sans-serif;
 }
 

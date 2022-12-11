@@ -4,16 +4,9 @@
         <div class="login">
             <button class="btn btn-primary" :disabled="(loggedIn === 'true')" @click="login">Employee Login</button>
             <button class="btn btn-primary" :disabled="(loggedIn === 'false')" @click="logout">Log Out</button>
-            <!--
-            <h1>Is Init: {{Vue3GoogleOauth.isInit}}</h1>
-            <h1>Is Authorized: {{Vue3GoogleOauth.isAuthorized}}</h1>
-            <button class='btn btn-primary' @click='handleSignIn' :disabled='!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized'>Sign In</button>
-            <button class='btn btn-primary' @click='handleSignOut' :disabled='!Vue3GoogleOauth.isAuthorized'>Sign Out</button>
-            -->
-
         </div>
         <div class="navButtons" >
-            <router-link to="/usermenu">User</router-link>
+            <router-link to="/usermenu">Menu</router-link>
             <router-link v-if="loggedIn === 'true'" to="/cashier">Cashier</router-link>
             <router-link v-if="loggedIn === 'true'" to="/manager">Manager</router-link>
         </div>
