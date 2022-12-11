@@ -56,18 +56,18 @@ export default{
             googleTokenLogin().then((response) => {
                 console.log("Handle the response", response)
                 this.loggedIn = 'true';
-                console.log("Log true");
+                localStorage.setItem("loggedIn", this.loggedIn);
             })
-        console.log("this.login = "+this.loggedIn);
-        localStorage.setItem("loggedIn", this.loggedIn);
-        console.log("loggedin: " + localStorage.getItem('loggedIn'));
+        // console.log("this.login = "+this.loggedIn);
+        
+        // console.log("loggedin: " + localStorage.getItem('loggedIn'));
 
         },
         logout () {
             googleLogout();
             this.loggedIn = 'false';
             localStorage.setItem("loggedIn", this.loggedIn);
-            console.log("loggedout: " + localStorage.getItem('loggedIn'));
+            // console.log("loggedout: " + localStorage.getItem('loggedIn'));
 
         }
         // async handleSignIn() {
@@ -94,10 +94,10 @@ export default{
         // },
   },
   data() {
-    console.log(localStorage.getItem("loggedIn"));
-    if (localStorage.getItem("loggedIn")) {
-        console.log("hi: " + localStorage.getItem("loggedIn"));
-    }
+    // console.log(localStorage.getItem("loggedIn"));
+    // if (localStorage.getItem("loggedIn")) {
+    //     console.log("hi: " + localStorage.getItem("loggedIn"));
+    // }
     
     return {
         
