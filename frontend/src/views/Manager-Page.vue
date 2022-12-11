@@ -7,23 +7,23 @@
             <router-link to="/menu-items">Menu Items</router-link>
         </div>
 
-        <CRUDTable title="Manager" endpoint="/inventory">
+        <CRUDTable title="Manager" endpoint="/inventory" @add="addIng" @startUpdate="startUpdateIng" @update="updateIng" @delete="deleteIng">
             <template v-slot:form>
                 <form>
                     <div class="form-group">
                         <label>Ingredient Name:</label>
-                        <input class="form-control" type="ingName" required v-model="ingName">
+                        <input class="form-control" required v-model="item.ingredient">
                     </div>
                     <div class="form-group">
                         <label>Ingredient Unit:</label>
-                        <input class="form-control" type="ingUnit" required v-model="ingUnit">
+                        <input class="form-control" required v-model="item.unit">
                     </div>
                     <div class="form-group">
                         <label>Ingredient Amount:</label>
-                        <input class="form-control" type="ingAmt" required v-model="ingAmt">
+                        <input class="form-control" required v-model="item.currentamount">
                     </div>
                 </form>
-                <button type="button" class="btn btn-primary" @click="addIng">Add Ingredient</button>
+                <!-- <button type="button" class="btn btn-primary" @click="addIng">Add Ingredient</button> -->
             </template>
         </CRUDTable>
         <footer><router-link to="../">Main Menu</router-link></footer>
@@ -41,31 +41,61 @@ export default {
     data()
     {
         return {
-            ingName: '',
-            ingUnit: '',
-            ingAmt: 0,
+            item: {
+                ingredient: '',
+                unit: '',
+                currentamount: 0,
+            }
         }
     },
     methods: {
+        clearForm() {
+            this.item = {
+                ingredient: '',
+                unit: '',
+                currentamount: 0,
+            }
+        },
         async addIng() {
             //console.log("clicked");
-            let res = await fetch(`${consts.backend_url}/inventoryitem/${this.ingName}/${this.ingUnit}/${this.ingAmt}`, {
+            let res = await fetch(`${consts.backend_url}/inventoryitem/${this.item.ingredient}/${this.item.unit}/${this.item.currentamoun}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json"},
                 body: JSON.stringify({
-                    ingredient: this.ingName,
-                    unit: this.ingUnit,
-                    amount: this.ingAmt,
+                    ingredient: this.item.ingredient,
+                    unit: this.item.unit,
+                    currentamount: this.item.currentamount,
                 }),
             }); 
             // TODO: better error handling
             if(!res.ok) {
                 console.error(res);
             }
-            console.log(this.name);
-            this.ingName = '';
-            this.ingUnit = '';
-            this.ingAmt = 0;
+            console.log(this.ingredient);
+            this.clearForm();
+        },
+        startUpdateIng(item) {
+            this.item = item;
+        },
+        async updateIng(item) {
+            let res = await fetch(`${consts.backend_url}/inventoryitem/${item.id}/amount=${item.currentamount}`, {
+                    method: "PUT",
+                    headers: {"Content-Type": "application/json"},
+            });
+            if(!res.ok) {
+                console.error(res);
+            }
+            this.clearForm();
+        },
+        async deleteIng(item) {
+            let res = await fetch(`${consts.backend_url}/inventoryitem/${item.ingredient}`, {
+                method: "DELETE",
+                headers: {"Content-Type": "application/json"},
+            });
+            if(!res.ok) {
+                console.error(res);
+            }
+            this.clearForm();
         }
     }
 }

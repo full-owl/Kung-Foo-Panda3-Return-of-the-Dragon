@@ -423,7 +423,7 @@ app.get("/menuitems", async (req, res) => {
 app.get("/inventory", async (req, res) => {
     try {
         console.log(req.params);
-        const table = await pool.query("SELECT * FROM inventory;");
+        const table = await pool.query("SELECT * FROM inventory ORDER BY id;");
         //console.log(table.rows);
         // table has a lot of extra parameters
         res.json(table.rows); // response
