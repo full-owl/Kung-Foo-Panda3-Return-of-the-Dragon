@@ -52,7 +52,7 @@
                     </div>
                 </a>
             </div>
-            <a class="btn btn-danger" href="#mainMenu">Return to main menu</a>
+            <a class="btn btn-primary" href="#mainMenu">Return to main menu</a>
         </div>
 
         <div class="viewportFull" id="combo-item">
@@ -60,7 +60,7 @@
             <div class="d-flex flex-wrap">
                 <button 
                     v-for="item in sides" :key="item.id" :disabled="isSideDisabled"
-                    type="button" class="btn btn-danger" @click="addItem(item)" alt="" >{{ item.name }}
+                    type="button" class="btn btn-primary" @click="addItem(item)" alt="" >{{ item.name }}
                     <img height="50" width:auto :src="addImg(item.id)" alt="" />
                 </button>
             </div>
@@ -68,14 +68,14 @@
             <div class="d-flex flex-wrap">
                 <button 
                     v-for="item in entrees" :key="item.id" :disabled="isEntreeDisabled"
-                    type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
+                    type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}
                     <img height="50" width:auto :src="addImg(item.id)" alt="" />
                 </button>
             </div>
             <div class="btn-group btn-group-lg container-fluid" role="group">
-                <button type="button" class="btn btn-danger" @click="clearSelected"><a href="#top">Back to Main Menu</a></button>
-                <button type="button" class="btn btn-danger" @click="clearSelected">Clear Selected</button>
-                <button type="button" class="btn btn-danger" @click="addOrderToReciept"><a href="#top">Add to Order</a></button>
+                <button type="button" class="btn btn-primary" @click="clearSelected"><a href="#top">Back to Main Menu</a></button>
+                <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
+                <button type="button" class="btn btn-primary" @click="addOrderToReciept"><a href="#top">Add to Order</a></button>
              </div>
         </div>
 
@@ -84,14 +84,14 @@
             <div class="d-flex flex-wrap">
                 <button 
                     v-for="item in appetizers" :key="item.id" :disabled="isAppDisabled"
-                    type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
+                    type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}
                     <img height="50" width:auto :src="addImg(item.id)" alt="" on/>
                 </button>
             </div>
             <div class="btn-group btn-group-lg container-fluid" role="group">
-                <button type="button" class="btn btn-danger" @click="clearSelected"><a href="#top">Back to Main Menu</a></button>
-                <button type="button" class="btn btn-danger" @click="clearSelected">Clear Selected</button>
-                <button type="button" class="btn btn-danger" @click="addOrderToReciept"><a href="#top">Add to Order</a></button>
+                <button type="button" class="btn btn-primary" @click="clearSelected"><a href="#top">Back to Main Menu</a></button>
+                <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
+                <button type="button" class="btn btn-primary" @click="addOrderToReciept"><a href="#top">Add to Order</a></button>
              </div>
         </div>
       
@@ -100,14 +100,14 @@
             <div class="d-flex flex-wrap">
                 <button 
                     v-for="item in drinks" :key="item.id" :disabled="isDrinkDisabled"
-                    type="button" class="btn btn-danger" @click="addItem(item)">{{ item.name }}
+                    type="button" class="btn btn-primary" @click="addItem(item)">{{ item.name }}
                     <img height="50" width:auto :src="addImg(item.id)" alt="" />
                 </button>
             </div>
             <div class="btn-group btn-group-lg container-fluid" role="group">
-                <button type="button" class="btn btn-danger" @click="clearSelected"><a href="#top">Back to Main Menu</a></button>
-                <button type="button" class="btn btn-danger" @click="clearSelected">Clear Selected</button>
-                <button type="button" class="btn btn-danger" @click="addOrderToReciept"><a href="#top">Add to Order</a></button>
+                <button type="button" class="btn btn-primary" @click="clearSelected"><a href="#top">Back to Main Menu</a></button>
+                <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
+                <button type="button" class="btn btn-primary" @click="addOrderToReciept"><a href="#top">Add to Order</a></button>
              </div>
         </div>
 

@@ -41,7 +41,7 @@
       </tfoot>
     </table>
     <div class="btn-group btn-group-lg container-fluid" role="group">
-      <button type="button" class="btn btn-danger" @click="clear">Cancel</button>
+      <button type="button" class="btn btn-primary" @click="clear">Cancel</button>
       <button type="button" class="btn btn-success" @click="checkout">Checkout</button>
     </div>
   </div>
@@ -127,5 +127,8 @@ export default {
         border-radius: 0%;
         border-color: aliceblue;
         color: aliceblue;
+    }
+    .btn-success {
+      background-color: darkgreen;
     }
 </style>  
