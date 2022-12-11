@@ -704,15 +704,16 @@ app.delete("/menuitem/:menuid", async (req, res) => {
     try {
         console.log(req.params);
         const id = req.params["menuid"];
+        const ingredients_table = await pool.query("DELETE FROM menuingredients WHERE menuid=$1 RETURNING *", [id]);
         const table = await pool.query("DELETE FROM menuitems WHERE id=$1 RETURNING *", [id]);
-        //console.log(table.rows);
-        // table has a lot of extra parameters
         if (table.rows.length === 0) {
             res.json("Menu Item Error: item does not exist");
         }
         else {
-            res.json(table.rows[0]); // response
+            res.json({ menuItem: table.rows[0], ingredients: ingredients_table.rows}); // response
         }
+        //console.log(table.rows);
+        // table has a lot of extra parameters
     } catch (error) {
         console.error(error.message);
     }
