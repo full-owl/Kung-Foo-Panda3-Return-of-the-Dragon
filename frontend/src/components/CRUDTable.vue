@@ -9,7 +9,7 @@
           </template>
           <v-card :title="formTitle">
             <v-card-text>
-              <slot name="form" />
+              <slot name="form"/>
             </v-card-text>
 
             <v-card-actions>
@@ -139,7 +139,7 @@ export default {
         .then((response) => response.json())
         .then((data) => (this.items = data))
         .catch((error) => console.error(error));
-      this.$forceUpdate();
+      // this.$forceUpdate();
     },
 
     editItem(item) {
@@ -159,7 +159,9 @@ export default {
       this.$emit("delete", this.editedItem);
       this.items.splice(this.editedIndex, 1);
       this.closeDelete();
-      this.initialize();
+      this.$nextTick(() => {
+        this.initialize()
+      });
     },
 
     close() {
@@ -190,7 +192,9 @@ export default {
         this.$emit("update", this.editedItem);
       } 
       this.close();
-      this.initialize();
+      this.$nextTick(() => {
+        this.initialize()
+      });
     },
   },
 };

@@ -130,7 +130,7 @@ app.get("/combosizes", async (req, res) => {
 app.get("/mealsizes", async (req,res) => {
     try {
         console.log(req.params);
-        const table = await pool.query("SELECT * FROM mealsizes");
+        const table = await pool.query("SELECT * FROM mealsizes ORDER BY foodtype, name");
         res.json(table.rows);
     } catch (error) {
         console.error(error.message);
