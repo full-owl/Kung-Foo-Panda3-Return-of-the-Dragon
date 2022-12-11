@@ -7,7 +7,7 @@
             <router-link to="/menu-items">Menu Items</router-link>
         </div>
 
-        <CRUDTable title="Manager" endpoint="/inventory" @add="addIng" @startUpdate="startUpdateIng" @update="updateIng" @delete="deleteIng">
+        <CRUDTable title="Manager" endpoint="/inventory" @clearForm="clearForm" @add="addIng" @startUpdate="startUpdateIng" @update="updateIng" @delete="deleteIng">
             <template v-slot:form>
                 <form>
                     <div class="form-group">

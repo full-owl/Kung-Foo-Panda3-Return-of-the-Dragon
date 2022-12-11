@@ -166,6 +166,7 @@ export default {
 
     close() {
       this.dialog = false;
+      this.$emit("clearForm");
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
