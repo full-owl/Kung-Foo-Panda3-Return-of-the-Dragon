@@ -2,8 +2,8 @@
     <div>
         <div class="logo"></div>
         <div class="login">
-            <button class="btn btn-primary" :disabled="(this.loggedIn === 'true')" @click="login">Employee Login</button>
-            <button class="btn btn-primary" :disabled="(this.loggedIn === 'false')" @click="logout">Log Out</button>
+            <button class="btn btn-primary" :disabled="(loggedIn === 'true')" @click="login">Employee Login</button>
+            <button class="btn btn-primary" :disabled="(loggedIn === 'false')" @click="logout">Log Out</button>
             <!--
             <h1>Is Init: {{Vue3GoogleOauth.isInit}}</h1>
             <h1>Is Authorized: {{Vue3GoogleOauth.isAuthorized}}</h1>
@@ -14,8 +14,8 @@
         </div>
         <div class="navButtons" >
             <router-link to="/usermenu">User</router-link>
-            <router-link v-if="this.loggedIn === 'true'" to="/cashier">Cashier</router-link>
-            <router-link v-if="this.loggedIn === 'true'" to="/manager">Manager</router-link>
+            <router-link v-if="loggedIn === 'true'" to="/cashier">Cashier</router-link>
+            <router-link v-if="loggedIn === 'true'" to="/manager">Manager</router-link>
         </div>
         <div class ="map">
             <iframe title="Choose Location" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3433.770986512828!2d-96.3435775849168!3d30.612222181679375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86468398ef48705d%3A0xb75709775b0df8b1!2sPanda%20Express%20-%20MSC!5e0!3m2!1sen!2sus!4v1670015412837!5m2!1sen!2sus" width="400" height="300" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> 
@@ -113,7 +113,6 @@ export default{
     // }
     
     return {
-        
         loggedIn: localStorage.getItem("loggedIn") ? localStorage.getItem("loggedIn") : "false",
     }
   }
