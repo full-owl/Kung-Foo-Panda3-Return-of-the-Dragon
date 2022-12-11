@@ -45,8 +45,8 @@
       </div>
     </div>
 
-    <table class="table">
-      <thead class="table-dark">
+    <table class="table table-dark">
+      <thead>
         <tr>
           <th scope="col" v-for="heading in headers" :key="heading.value">
             {{ heading }}
