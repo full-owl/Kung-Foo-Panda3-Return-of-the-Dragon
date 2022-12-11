@@ -1,7 +1,7 @@
 <template>
   <div class="pos">
-    <table class="table">
-      <thead class="table-dark">
+    <table class="table table-dark">
+      <thead>
         <tr>
           <th class="w-5" scope="col">Id</th>
           <th class="w-55" scope="col">Item</th>

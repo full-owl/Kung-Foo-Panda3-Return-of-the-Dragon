@@ -20,9 +20,23 @@
             -->
 
         </div>
+        <p>Dark theme: {{isDark}}</p>
+        <button class="btn btn-primary" @click="toggleDark()">
+            Toggle Color Mode
+        </button>
     </div>
-    
 </template>
+
+<script setup>
+    import { useDark, useToggle } from "@vueuse/core";
+    const isDark = useDark({
+    selector: "body", //element to add attribute to
+    attribute: "theme", // attribute name
+    valueDark: "custom-dark", // attribute value for dark mode
+    valueLight: "custom-light", // attribute value for light mode
+    });
+    const toggleDark = useToggle(isDark);
+</script>
 
 <script>
 
@@ -109,16 +123,23 @@ export default{
 
 </script>
 
-<style scoped>
+<style>
+    [theme="custom-dark"] {
+    background: #16171d;
+    color: #fff;
+    }
+
+    [theme="custom-light"] {
+    background: #fff;
+    color: #16171d;
+    }
 
 .logo {
-  background: white;
   background-image: url('./img/panda-logo.png');
   background-size: cover;
   max-width: 550px;
   margin: 30px auto;
   min-height: 310px;
-  border: 4px solid white;
   padding: 5px;
   border-radius: 5px;
 }
@@ -131,7 +152,6 @@ export default{
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    background-color: rgb(255, 255, 255);
 }
 .navButtons a {
     display: inline-block;
@@ -156,6 +176,5 @@ export default{
 .map {
     margin:auto;
     align-content: center;
-
 }
 </style>
