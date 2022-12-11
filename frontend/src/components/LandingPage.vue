@@ -189,6 +189,8 @@ export default{
 
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:disabled {
     background-color: #B30000;
+    border-color: #fff;
+    border-radius: 0;
 }
 
 
