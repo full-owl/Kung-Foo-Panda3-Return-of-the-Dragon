@@ -54,7 +54,7 @@
                   </div>
                   <div class="btn-group btn-group-lg container-fluid" role="group">
                       <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
-                      <button type="button" class="btn btn-primary" @click="addOrderToReciept">Add to Order</button>
+                      <button type="button" class="btn btn-primary" @click="addOrderToReciept" :disabled="this.OrderItems.length === 0">Add to Order</button>
                   </div>
                   <choose-size ref="chooseSize" @addOrder="addAlLaCarteToReciept"/>
               </div>
@@ -131,7 +131,6 @@
               this.isEntreeDisabled = true;
         },
         addItem(item) {
-            console.log("sadfasfs");
             if(item.foodtype == "side") {
                 if(this.OrderType == "") { // Type not selected
                     this.$refs.chooseSize.show(item);
