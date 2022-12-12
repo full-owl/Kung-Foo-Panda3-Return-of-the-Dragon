@@ -71,7 +71,10 @@ export default {
         this.item = item;
     },
     async update(item) {
-      //fixed;
+      if (this.item.price < 0) {
+        this.item.price = 0.00;
+      }
+
       let res = await fetch(
         `${consts.backend_url}/mealsizeitem/${item.foodtype}/${item.name}/${item.price}`,
         {
