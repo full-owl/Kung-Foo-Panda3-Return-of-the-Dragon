@@ -1,6 +1,10 @@
 <template>
     <div>
         <h1>Inventory</h1>
+        <div class="revenue">
+            <h2>Today's Revenue: ${{this.sales_today}}</h2>
+            <h2>Last 7 Days' Revenue: ${{this.sales_last}}</h2>
+        </div>
         <div class="navButtons">
             <router-link to="/manager">Inventory</router-link>
             <router-link to="/prices">Pricing</router-link>
@@ -41,6 +45,8 @@ export default {
     data()
     {
         return {
+            sales_today: 0.00,
+            sales_last: 0.00,
             item: {
                 ingredient: 'Untitled',
                 unit: 'Untitled',
@@ -101,7 +107,17 @@ export default {
             }
             this.clearForm();
             this.$router.go();
+        },
+        async getSalesToday() {
+            this.sales_today = await fetch(`${consts.backend_url}/salestoday`).then(data => data.json());
+        },
+        async getSalesWeek() {
+            this.sales_last = await fetch(`${consts.backend_url}/sales`).then(data => data.json());
         }
+    },
+    async mounted() {
+        await this.getSalesToday();
+        await this.getSalesWeek();
     }
 }
 </script>
@@ -135,6 +151,10 @@ export default {
     background-color: white;
     border: 2px solid #B30000;
     /* opacity: 0.3; */
+}
+
+.revenue {
+    color:green;
 }
  
 footer {
