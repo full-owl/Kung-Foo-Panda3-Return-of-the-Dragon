@@ -57,11 +57,7 @@ export default {
             }
         },
         async addIng() {
-            if(this.ingredient == 'Untitled' || this.unit == 'Untitled' || this.currentamount < 0)
-            {
-                this.ingredient = 'Error detected';
-            }
-            else
+            if(this.item.ingredient != '' && this.item.unit != '' && this.item.currentamount >= 0)
             {
                 console.log("clicked", this.item);
                 let res = await fetch(`${consts.backend_url}/inventoryitem/${this.item.ingredient}/${this.item.unit}/${this.item.currentamount}`, {
