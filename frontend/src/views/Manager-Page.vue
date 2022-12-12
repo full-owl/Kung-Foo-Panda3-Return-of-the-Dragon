@@ -42,8 +42,8 @@ export default {
     {
         return {
             item: {
-                ingredient: '',
-                unit: '',
+                ingredient: 'Untitled',
+                unit: 'Untitled',
                 currentamount: 0,
             }
         }
@@ -51,8 +51,8 @@ export default {
     methods: {
         clearForm() {
             this.item = {
-                ingredient: '',
-                unit: '',
+                ingredient: 'Untitled',
+                unit: 'Untitled',
                 currentamount: 0,
             }
         },
@@ -67,7 +67,6 @@ export default {
                     currentamount: this.item.currentamount,
                 }),
             }); 
-            // TODO: better error handling
             if(!res.ok) {
                 console.error(res);
             }
