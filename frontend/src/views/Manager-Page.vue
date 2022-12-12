@@ -1,10 +1,11 @@
 <template>
+    <h1>Manager</h1>
     <div>
-        <h1>Inventory</h1>
         <div class="revenue">
             <h2>Today's Revenue: ${{this.sales_today}}</h2>
             <h2>Last 7 Days' Revenue: ${{this.sales_last}}</h2>
         </div>
+        <h1>Inventory</h1>
         <div class="navButtons">
             <router-link to="/manager">Inventory</router-link>
             <router-link to="/prices">Pricing</router-link>

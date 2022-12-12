@@ -1,7 +1,11 @@
 <template>
   <div>
+    <div class="revenue">
+            <h2>Today's Revenue: ${{this.sales_today}}</h2>
+            <h2>Last 7 Days' Revenue: ${{this.sales_last}}</h2>
+        </div>
     <h1>Item Prices</h1>
-
+    
     <div class="navButtons">
       <router-link to="/manager">Inventory</router-link>
       <router-link to="/prices">Pricing</router-link>
@@ -52,6 +56,8 @@ export default {
   },
   data() {
     return {
+      sales_today: 0.00,
+      sales_last: 0.00,
       item: {
         foodtype: "",
         name: "",
@@ -91,6 +97,10 @@ export default {
       this.$router.go();
     },
   },
+  async mounted() {
+    this.sales_today = await fetch(`${consts.backend_url}/salestoday`).then(data => data.json());
+    this.sales_last =  await fetch(`${consts.backend_url}/sales`).then(data => data.json());
+  }
 };
 </script>
 
