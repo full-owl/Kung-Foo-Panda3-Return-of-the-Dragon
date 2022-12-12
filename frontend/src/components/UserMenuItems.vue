@@ -73,9 +73,9 @@
                 </button>
             </div>
             <div class="btn-group btn-group-lg container-fluid" role="group">
-                <button type="button" class="btn btn-primary" @click="clearSelected"><a href="#top">Back to Main Menu</a></button>
+                <a class="btn btn-primary" href="#top"><button type="button" @click="clearSelected">Back to Main Menu</button></a>
                 <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
-                <button type="button" class="btn btn-primary" @click="addOrderToReciept"><a href="#top">Add to Order</a></button>
+                <a class="btn btn-primary" href="#top"><button type="button" @click="addOrderToReciept">Add to Order</button></a>
              </div>
         </div>
 
@@ -89,9 +89,8 @@
                 </button>
             </div>
             <div class="btn-group btn-group-lg container-fluid" role="group">
-                <button type="button" class="btn btn-primary" @click="clearSelected"><a href="#top">Back to Main Menu</a></button>
+                <a class="btn btn-primary" href="#top"><button type="button" @click="clearSelected">Back to Main Menu</button></a>
                 <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
-                <button type="button" class="btn btn-primary" @click="addOrderToReciept"><a href="#top">Add to Order</a></button>
              </div>
         </div>
       
@@ -105,9 +104,8 @@
                 </button>
             </div>
             <div class="btn-group btn-group-lg container-fluid" role="group">
-                <button type="button" class="btn btn-primary" @click="clearSelected"><a href="#top">Back to Main Menu</a></button>
+                <a class="btn btn-primary" href="#top"><button type="button" @click="clearSelected">Back to Main Menu</button></a>
                 <button type="button" class="btn btn-primary" @click="clearSelected">Clear Selected</button>
-                <button type="button" class="btn btn-primary" @click="addOrderToReciept"><a href="#top">Add to Order</a></button>
              </div>
         </div>
              
@@ -195,7 +193,6 @@
               this.isEntreeDisabled = true;
         },
         addItem(item) {
-            console.log("sadfasfs");
             if(item.foodtype == "side") {
                 if(this.OrderType == "") { // Type not selected
                     this.$refs.chooseSize.show(item);
@@ -231,7 +228,9 @@
             this.$refs.recieptTable.addToOrder(type, item);
         },
         addOrderToReciept() {
-            this.$refs.recieptTable.addToOrder(this.OrderType, this.OrderItems);
+            if (this.OrderItems.length != 0) {
+                this.$refs.recieptTable.addToOrder(this.OrderType, this.OrderItems);
+            }
             this.clearSelected();
         },
         clearSelected() {
