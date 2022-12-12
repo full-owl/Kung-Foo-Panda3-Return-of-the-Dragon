@@ -57,22 +57,29 @@ export default {
             }
         },
         async addIng() {
-            console.log("clicked", this.item);
-            let res = await fetch(`${consts.backend_url}/inventoryitem/${this.item.ingredient}/${this.item.unit}/${this.item.currentamount}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json"},
-                body: JSON.stringify({
-                    ingredient: this.item.ingredient,
-                    unit: this.item.unit,
-                    currentamount: this.item.currentamount,
-                }),
-            }); 
-            if(!res.ok) {
-                console.error(res);
+            if(this.ingredient == 'Untitled' || this.unit == 'Untitled' || this.currentamount < 0)
+            {
+                this.ingredient = 'Error detected';
             }
-            console.log(this.ingredient);
-            this.clearForm();
-            this.$router.go();
+            else
+            {
+                console.log("clicked", this.item);
+                let res = await fetch(`${consts.backend_url}/inventoryitem/${this.item.ingredient}/${this.item.unit}/${this.item.currentamount}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        ingredient: this.item.ingredient,
+                        unit: this.item.unit,
+                        currentamount: this.item.currentamount,
+                    }),
+                }); 
+                if(!res.ok) {
+                    console.error(res);
+                }
+                console.log(this.ingredient);
+                this.clearForm();
+                this.$router.go();
+            }
         },
         startUpdateIng(item) {
             this.item = item;
