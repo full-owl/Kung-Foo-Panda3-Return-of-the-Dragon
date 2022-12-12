@@ -73,6 +73,7 @@ export default {
             }
             console.log(this.ingredient);
             this.clearForm();
+            this.$router.go();
         },
         startUpdateIng(item) {
             this.item = item;
@@ -86,6 +87,7 @@ export default {
                 console.error(res);
             }
             this.clearForm();
+            this.$router.go();
         },
         async deleteIng(item) {
             let res = await fetch(`${consts.backend_url}/inventoryitem/${item.ingredient}`, {
@@ -96,6 +98,7 @@ export default {
                 console.error(res);
             }
             this.clearForm();
+            this.$router.go();
         }
     }
 }

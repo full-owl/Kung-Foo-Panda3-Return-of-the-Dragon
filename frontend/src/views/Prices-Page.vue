@@ -80,12 +80,12 @@ export default {
           body: JSON.stringify(item),
         }
       );
-      // TODO: better error handling
       if (!res.ok) {
         console.error(res);
       }
       console.log(item.name);
       this.clearForm();
+      this.$router.go();
     },
   },
 };

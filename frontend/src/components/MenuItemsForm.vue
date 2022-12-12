@@ -90,6 +90,7 @@ export default {
                 ingredients: [],
             })
             .catch(err => console.error(err));
+            this.$router.go();
         },
         removeIngredient(index) {
             this.data.ingredients.splice(index, 1);
