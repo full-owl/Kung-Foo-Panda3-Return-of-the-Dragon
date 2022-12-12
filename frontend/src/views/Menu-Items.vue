@@ -7,7 +7,7 @@
             <router-link to="/menu-items">Menu Items</router-link>
         </div>
 
-        <CRUDTable title="Menu Items" endpoint="/menuitems">
+        <CRUDTable title="Menu Items" crud="C" endpoint="/menuitems" @delete="deleteItem">
             <template v-slot:form>
                 <menu-items-form />
             </template>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import consts from "../consts";
 import CRUDTable from '../components/CRUDTable.vue';
 import MenuItemsForm from '../components/MenuItemsForm.vue';
 
@@ -26,6 +27,19 @@ export default {
         CRUDTable,
         MenuItemsForm,
     },
+    methods: {
+        async deleteItem(item) {
+            let res = await fetch(`${consts.backend_url}/menuitem/${item.id}`, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                method: 'DELETE',
+            }).catch(err => console.error(err));
+            console.log(res);
+
+        }
+    }
 }
 </script>
 
