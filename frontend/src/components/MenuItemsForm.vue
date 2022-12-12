@@ -1,6 +1,7 @@
 <template>
     <form @submit.prevent="handleSubmit" class="container g-3">
-        <label class="col-md-6">Name: <input type="text" class="form-control" v-model="data.name" /></label>
+        <p>Click "Add" instead of "Save" to Submit menu item. Requires at least one ingredient to be added as well.</p>
+        <label class="col-md-6">Name: <input type="text" class="form-control" v-model="data.name" required/></label>
         <label class="col-md-6">Food type:
             <select class="form-select" v-model="data.foodtype">
                 <option value="" selected>Choose food type</option>
@@ -16,7 +17,7 @@
                 </select>
             </label>
             <label class="col-sm">Porportion:
-                <input v-model.number="ingredientProportion" type="number" class="form-control" min="0.1" max="1" />
+                <input v-model.number="ingredientProportion" type="number" class="form-control" min="0.1" max="1" required/>
             </label>
             <div class="col-sm">
                 <button type="button" class="btn btn-secondary" @click="addIngredient">Add ingredient</button>
@@ -25,7 +26,7 @@
         <div>
             <div v-for="(x, index) in data.ingredients" :key="x.id">
                 <label>{{ x.ingredient }}
-                    <input v-model.number="data.ingredients[index].porportion" type="number" class="form-control" min="0.1" max="1" step="0.1" />
+                    <input v-model.number="data.ingredients[index].porportion" type="number" class="form-control" min="0.1" max="1" step="0.1" required/>
                 </label>
                 <button type="button" class="btn btn-secondary" @click="removeIngredient(index)">X</button>
             </div >
