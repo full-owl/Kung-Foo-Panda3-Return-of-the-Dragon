@@ -57,8 +57,8 @@ export default {
             }
         },
         async addIng() {
-            //console.log("clicked");
-            let res = await fetch(`${consts.backend_url}/inventoryitem/${this.item.ingredient}/${this.item.unit}/${this.item.currentamoun}`, {
+            console.log("clicked", this.item);
+            let res = await fetch(`${consts.backend_url}/inventoryitem/${this.item.ingredient}/${this.item.unit}/${this.item.currentamount}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json"},
                 body: JSON.stringify({

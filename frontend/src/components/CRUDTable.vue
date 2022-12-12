@@ -182,16 +182,14 @@ export default {
     },
 
     save() {
+      console.log(this.editedItem);
       if (this.editedIndex > -1) {
+        this.$emit("update", this.editedItem);
         Object.assign(this.items[this.editedIndex], this.editedItem);
       } else {
+        this.$emit("add", this.editedItem);
         this.items.push(this.editedItem);
       }
-      if (this.editedIndex === -1) {
-        this.$emit("add", this.editedItem);
-      } else {
-        this.$emit("update", this.editedItem);
-      } 
       this.close();
       this.$nextTick(() => {
         this.initialize()
